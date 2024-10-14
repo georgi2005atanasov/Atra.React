@@ -1,15 +1,18 @@
 import { useEffect } from "react";
-import Login from "../Login/Login.jsx";
+import { Outlet, useSubmit } from "react-router-dom";
 
 const Splash = () => {
-  useEffect(() => {}, []);
-  
+  const submit = useSubmit();
+
+  useEffect(() => {
+    submit(null, { action: "onboarding", method: "get" });
+  }, [submit]);
+
   console.log(window.secureStorage);
-  
+
   return (
     <>
-      <Login />
-      {/* <Outlet /> */}
+      <Outlet />
     </>
   );
 };

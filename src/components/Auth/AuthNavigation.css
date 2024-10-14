@@ -1,0 +1,27 @@
+.auth-nav-btn {
+  font-size: 24px !important;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: white !important;
+  font-weight: 500 !important;
+  background-color: #f8f9fa !important;
+  transition: background-color 0.3s ease !important;
+  white-space: nowrap;
+  color: #000 !important;
+}
+
+.auth-navbar-nav {
+  justify-content: space-evenly;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.auth-nav-btn:hover {
+  background-color: lightgray !important;
+  color: #333 !important;
+}
+
+.selected {
+  background-color: #007bff !important;
+  color: white !important;
+}
