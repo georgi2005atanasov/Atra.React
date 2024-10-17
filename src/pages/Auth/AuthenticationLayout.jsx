@@ -1,5 +1,4 @@
 import logo from "../../assets/atraLogo.png";
-import AuthNavigation from "../../components/Auth/AuthNavigation";
 
 // eslint-disable-next-line react/prop-types
 const AuthenticationLayout = ({ header, children }) => {
@@ -7,7 +6,7 @@ const AuthenticationLayout = ({ header, children }) => {
     <div className="container-fluid m-md-0 m-3 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
       <div className="row w-lg-25 flex-column">
         <div className="col-lg-6 w-100 px-0">
-          <header className="non-selectable text-center card d-flex justify-content-center align-items-center">
+          <header className="p-2 non-selectable text-center card d-flex justify-content-center align-items-center">
             <h1>{header}</h1>
           </header>
         </div>
@@ -24,7 +23,7 @@ const AuthenticationLayout = ({ header, children }) => {
           {children}
         </div>
 
-        <AuthNavigation />
+        {/* <AuthNavigation /> */}
       </div>
     </div>
   );

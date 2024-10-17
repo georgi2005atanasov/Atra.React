@@ -26,10 +26,13 @@ class ApiAbstract {
         };
 
         if (isAuthorized) {
-            const accessToken = await SecureStorage.getAccessToken();
-            if (accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
+            const accessToken = await Storage.getAccessToken();
+
+            if (!accessToken) {
+                throw new Error("Невалидни данни за оторизация!");
             }
+            
+            headers['Authorization'] = `Bearer ${accessToken}`;
         }
 
         const options = {
@@ -39,12 +42,12 @@ class ApiAbstract {
         };
 
         const response = await fetch(url, options);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        if (data.error) {
+            throw new Error(data.error);
         }
         
-        return await response.json();
+        return data;
     }
 }
 

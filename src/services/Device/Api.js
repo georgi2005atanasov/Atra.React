@@ -5,12 +5,20 @@ class Api extends ApiAbstract {
 
   static get = () => new Api();
 
-  pair = async () =>
+  pair = async (data) =>
     this.execute({
       endpoint: "Pair",
       method: METHOD.POST,
       isAuthorized: false,
-      body: JSON.stringify(data),
+      body: data,
+    });
+
+  requireAuth = async (data) =>
+    this.execute({
+      endpoint: "RequireAuth",
+      method: METHOD.POST,
+      isAuthorized: false,
+      body: data,
     });
 }
 

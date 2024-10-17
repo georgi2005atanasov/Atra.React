@@ -1,5 +1,5 @@
 import ApiAbstract, { METHOD } from "../ApiAbstract.js";
-import SecureStorage from "../../utils/storage/SecureStorage.js";
+import SecureStorage from "../../utils/storage/Storage.js";
 
 class Api extends ApiAbstract {
   controllerName = "Identity";
@@ -14,9 +14,11 @@ class Api extends ApiAbstract {
       body: data,
     });
 
-    if (response.accessToken) {
-      await SecureStorage.setAccessToken(response.accessToken);
+    if (!response.accessToken) {
+      throw new Error("Невалиден потребител!");
     }
+
+    SecureStorage.setAccessToken(response.accessToken);
 
     return response;
   };
