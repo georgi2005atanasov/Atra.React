@@ -12,7 +12,7 @@ const AuthenticationLayout = ({ header, children }) => {
         </div>
 
         <div className="card p-4 shadow-lg mt-3">
-          <div className="text-center mb-4">
+          <div className="text-center mb-2">
             <img
               src={logo}
               alt="Company Logo"

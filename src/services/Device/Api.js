@@ -5,6 +5,14 @@ class Api extends ApiAbstract {
 
   static get = () => new Api();
 
+  requireAuth = async (data) =>
+    this.execute({
+      endpoint: "RequireAuth",
+      method: METHOD.POST,
+      isAuthorized: false,
+      body: data,
+    });
+
   pair = async (data) =>
     this.execute({
       endpoint: "Pair",
@@ -13,9 +21,9 @@ class Api extends ApiAbstract {
       body: data,
     });
 
-  requireAuth = async (data) =>
+  sendTOTP = async (data) =>
     this.execute({
-      endpoint: "RequireAuth",
+      endpoint: "SendTOTP",
       method: METHOD.POST,
       isAuthorized: false,
       body: data,

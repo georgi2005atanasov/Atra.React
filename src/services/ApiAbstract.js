@@ -1,4 +1,6 @@
+import AtraError from "../AtraError.js";
 import { API_BASE_URL } from "../utils/appConstants.js";
+import Storage from "../utils/storage/Storage.js";
 
 export const METHOD = {
     GET: 'GET',
@@ -42,7 +44,14 @@ class ApiAbstract {
         };
 
         const response = await fetch(url, options);
+
+        if (response.status === 401) {
+            Storage.setAccessToken("");
+            throw new AtraError(response.text, response.status);
+        }
+
         const data = await response.json();
+        
         if (data.error) {
             throw new Error(data.error);
         }

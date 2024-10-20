@@ -1,17 +1,21 @@
 import Login from "./pages/Auth/Login/Login.jsx";
-import Onboarding from "./pages/Auth/Onboarding/Onboarding.jsx";
-import Splash from "./pages/Splash/Splash.jsx";
+import Start from "./pages/Auth/Start/Start.jsx";
+import Root from "./pages/Root/Root.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './App.css';
+import "./App.css";
+import Verify from "./pages/Auth/Verify/Verify.jsx";
+import Onboarding from "./pages/Auth/Onboarding/Onboarding.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Splash />,
+    element: <Root />,
     children: [
-      { path: "login", element: <Login />},
-      { path: "onboarding", element: <Onboarding />},
+      { index: true, element: <Start /> },
+      { path: "login", element: <Login /> },
+      { path: "verify", element: <Verify /> },
+      { path: "onboarding", element: <Onboarding /> },
     ],
   },
 ]);
