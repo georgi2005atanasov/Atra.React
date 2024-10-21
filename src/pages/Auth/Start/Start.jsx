@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, useSubmit } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLoading, useTotp } from "../../../utils/hooks.js";
 import { DeviceApi } from "../../../services/Device/Api.js";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
@@ -8,7 +8,7 @@ import InputGA from "../../../components/Common/InputGA.jsx";
 import "../Login/Login.jsx";
 
 const Start = () => {
-  const submit = useSubmit();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const { loading, setLoading } = useLoading();
   const { isTotpSent, setIsTotpSent, error, setError } = useTotp();
@@ -19,21 +19,22 @@ const Start = () => {
     try {
       setLoading(true);
 
-      const { hasProfile, isVerified } = await DeviceApi.get().requireAuth({
-        email,
-      });
+      // const { hasProfile, isVerified } = await DeviceApi.get().requireAuth({
+      //   email,
+      // });
+      const {hasProfile, isVerified} = {hasProfile: false}
 
       setIsTotpSent(true);
       setError("");
       setLoading(false);
 
       if (hasProfile && isVerified)
-        submit(null, { method: "GET", action: "/login" });
+        navigate('/login', { replace: true });
+      else if (!hasProfile)
+        navigate('/onboarding', { replace: true });
+      else if (hasProfile && !isVerified)
+        navigate('/verify', { replace: true });
 
-      if (hasProfile && !isVerified)
-        submit(null, { method: "GET", action: "/verify" });
-
-      if (!hasProfile) submit(null, { method: "GET", action: "/onboarding" });
     } catch (ex) {
       setLoading(false);
       setError("Възникна грешка. Моля, проверете имейла си.");
