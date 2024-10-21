@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useSubmit } from "react-router-dom";
+import { useLoaderData, useSubmit } from "react-router-dom";
 import { useLoading, useTotp } from "../../../utils/hooks.js";
 import { DeviceApi } from "../../../services/Device/Api.js";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
@@ -26,15 +26,14 @@ const Start = () => {
       setIsTotpSent(true);
       setError("");
       setLoading(false);
-      
+
       if (hasProfile && isVerified)
         submit(null, { method: "GET", action: "/login" });
 
       if (hasProfile && !isVerified)
         submit(null, { method: "GET", action: "/verify" });
 
-      if (!hasProfile)
-        submit(null, { method: "GET", action: "/onboarding" });
+      if (!hasProfile) submit(null, { method: "GET", action: "/onboarding" });
     } catch (ex) {
       setLoading(false);
       setError("Възникна грешка. Моля, проверете имейла си.");

@@ -4,12 +4,15 @@ import InputGA from "../../../components/Common/InputGA";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 import { DeviceApi } from "../../../services/Device/Api";
 import { useLoading, useTotp } from "../../../utils/hooks";
+import { redirect, useLoaderData } from "react-router-dom";
 
+// todo: load email from start
 const Onboarding = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const { email: passedEmail } = useLoaderData();
+  const [email, setEmail] = useState(passedEmail);
   const [error, setError] = useState();
   const { loading, setLoading } = useLoading();
   const { totp, setTotp } = useTotp();
@@ -45,7 +48,7 @@ const Onboarding = () => {
         <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
           Проверете имейла си за получено TOTP.
         </h5>
-        
+
         <form method="post" onSubmit={pair}>
           <InputGA
             name="TOTP за Активация"
@@ -105,5 +108,18 @@ const Onboarding = () => {
     </>
   );
 };
+
+export async function loader({ request, response }) {
+  try {
+    const url = new URL(request.url);
+    const email = url.searchParams.get("email");
+
+    return {
+      email,
+    };
+  } catch {
+    return redirect("/");
+  }
+}
 
 export default Onboarding;

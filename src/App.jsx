@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Verify from "./pages/Auth/Verify/Verify.jsx";
-import Onboarding from "./pages/Auth/Onboarding/Onboarding.jsx";
+import Onboarding, {loader as loadEmail} from "./pages/Auth/Onboarding/Onboarding.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
       { index: true, element: <Start /> },
       { path: "login", element: <Login /> },
       { path: "verify", element: <Verify /> },
-      { path: "onboarding", element: <Onboarding /> },
+      { path: "onboarding", element: <Onboarding />, loader: loadEmail },
     ],
   },
 ]);
