@@ -4,7 +4,7 @@ import InputGA from "../../../components/Common/InputGA";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 import { DeviceApi } from "../../../services/Device/Api";
 import { useLoading, useTotp } from "../../../utils/hooks";
-import { redirect, useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 
 // todo: load email from start
 const Onboarding = () => {
@@ -16,6 +16,7 @@ const Onboarding = () => {
   const [error, setError] = useState();
   const { loading, setLoading } = useLoading();
   const { totp, setTotp } = useTotp();
+  const navigate = useNavigate();
 
   const pair = async (event) => {
     event.preventDefault();
@@ -27,12 +28,15 @@ const Onboarding = () => {
 
     try {
       setLoading(true);
+
       await DeviceApi.get().pair({
         totp: totp,
         email,
         password,
         userName,
       });
+
+      navigate("/verify", { replace: true });
     } catch (ex) {
       console.log(ex);
       setError(ex.message);
@@ -91,7 +95,7 @@ const Onboarding = () => {
             value={repeatPassword}
             setValue={setRepeatPassword}
             placeholder="Въведете вашата парола"
-            id="password"
+            id="confirmPassword"
             type="password"
           />
 
@@ -109,10 +113,16 @@ const Onboarding = () => {
   );
 };
 
-export async function loader({ request, response }) {
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ request }) {
   try {
     const url = new URL(request.url);
     const email = url.searchParams.get("email");
+
+    if (!email)
+      return {
+        error: "Невалиден имейл!",
+      };
 
     return {
       email,

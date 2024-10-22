@@ -4,28 +4,53 @@ import InputGA from "../../../components/Common/InputGA";
 import { DeviceApi } from "../../../services/Device/Api";
 import { useTotp } from "../../../utils/hooks";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner";
+import Storage from "../../../utils/storage/Storage";
+import { useNavigate } from "react-router-dom";
+import { DeviceAlreadyVerified } from "../../../utils/appConstants";
 
-// eslint-disable-next-line react/prop-types
-const Verify = ({ deviceId }) => {
+const Verify = () => {
   const { totp, setTotp, isTotpSent, setIsTotpSent, error, setError } =
     useTotp();
+  const navigate = useNavigate();
 
-  const verifyDevice = async () => {};
+  const verifyDevice = async (event) => {
+    try {
+      event.preventDefault();
+
+      await DeviceApi.get().verifyDevice({
+        deviceId: "73a6c649-828c-4656-9fca-66e2540cfb37",
+        // deviceId: Storage.getDeviceId(),
+        totp: totp,
+      });
+
+      navigate("/login", { replace: true });
+    } catch (ex) {
+      console.log(ex);
+      setError("Възникна грешка!");
+    }
+  };
 
   useEffect(() => {
     const sendTOTPVerification = async () => {
       try {
         await DeviceApi.get().sendTOTP({
-          deviceId,
+          // deviceId: Storage.getDeviceId(),
+          deviceId: "73a6c649-828c-4656-9fca-66e2540cfb37",
         });
+
         setIsTotpSent(true);
       } catch (ex) {
+        if (ex.message === DeviceAlreadyVerified) {
+          navigate(`/?message=${DeviceAlreadyVerified}`, { replace: true });
+          return;
+        }
+
         setError(ex.message);
       }
     };
 
     sendTOTPVerification();
-  }, [deviceId, setIsTotpSent, setError]);
+  }, [setIsTotpSent]);
 
   if (!isTotpSent) return <LoadingSpinner />;
 
@@ -45,6 +70,14 @@ const Verify = ({ deviceId }) => {
             type="text"
             error={error}
           />
+
+          <button
+            type="submit"
+            className="btn btn-danger w-100"
+            style={{ fontWeight: "bold" }}
+          >
+            Верифицирай
+          </button>
         </form>
       </AuthenticationLayout>
     </>

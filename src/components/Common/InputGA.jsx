@@ -24,7 +24,7 @@ const InputGA = ({
         required
         {...props}
       />
-      {error && <h6 className="text-danger">{error}</h6>}
+      {error && <h6 className="text-danger mt-2">{error}</h6>}
     </div>
   );
 };

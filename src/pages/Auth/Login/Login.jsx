@@ -4,6 +4,7 @@ import { CryptographyApi } from "../../../services/Cryptography/Api.js";
 import { useTotp } from "../../../utils/hooks.js";
 import InputGA from "../../../components/Common/InputGA.jsx";
 import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout.jsx";
+import { generateUID } from "../../../utils/commonUtils.js";
 import "./Login.css";
 
 const Login = () => {
@@ -16,16 +17,16 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const payload = new Date().toISOString();
-      const { signature } = await CryptographyApi.get().sign({
-        payload,
+      const payload = generateUID();
+      const r = await CryptographyApi.get().sign({
+        payload: payload,
         email,
       });
 
       await IdentityApi.get().login({
         email,
         password,
-        signature,
+        signature: r.data.signature,
         payload,
       });
     } catch (ex) {
@@ -36,9 +37,11 @@ const Login = () => {
 
   return (
     <AuthenticationLayout header={"Вход"}>
-      <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
-        Проверете имейла си за получено TOTP.
-      </h5>
+      {!error && (
+        <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
+          Проверете имейла си за получено TOTP.
+        </h5>
+      )}
 
       <form method="post" onSubmit={login}>
         <InputGA
@@ -74,6 +77,8 @@ const Login = () => {
         >
           Влез
         </button>
+
+        {error && <h6 className="text-danger mt-2">{error}</h6>}
       </form>
     </AuthenticationLayout>
   );
