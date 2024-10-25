@@ -1,7 +1,11 @@
 import logo from "../../assets/atraLogo.png";
+import { useResendTotp } from "../../utils/hooks";
 
 // eslint-disable-next-line react/prop-types
-const AuthenticationLayout = ({ header, children }) => {
+const AuthenticationLayout = ({ header, error, children }) => {
+  const { resendTotp, showResendButton, isResending, countdown } =
+  useResendTotp();
+
   return (
     <div className="container-fluid m-md-0 m-3 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
       <div className="row w-lg-25 flex-column">
@@ -21,8 +25,23 @@ const AuthenticationLayout = ({ header, children }) => {
             />
           </div>
           {children}
+          {showResendButton && (
+            <button
+              type="button"
+              className="btn text-danger text-decoration-underline btn-sm pt-3 border-0"
+              onClick={resendTotp}
+              disabled={isResending}
+            >
+              {isResending ? "Изпращане..." : "Изпрати нов код"}
+            </button>
+          )}
+          {countdown > 0 && (
+            <small className="text-muted pt-3 text-center">
+              Нов код може да бъде изпратен след: {countdown} сек.
+            </small>
+          )}
+          {error && <h5 className="mt-3 text-center text-danger">{error}</h5>}
         </div>
-
         {/* <AuthNavigation /> */}
       </div>
     </div>

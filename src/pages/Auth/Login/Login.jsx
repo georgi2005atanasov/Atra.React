@@ -1,54 +1,34 @@
-import { useState } from "react";
-import { IdentityApi } from "../../../services/Identity/Api.js";
-import { CryptographyApi } from "../../../services/Cryptography/Api.js";
-import { useTotp } from "../../../utils/hooks.js";
 import InputGA from "../../../components/Common/InputGA.jsx";
 import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout.jsx";
-import { generateUID } from "../../../utils/commonUtils.js";
+import { redirect } from "react-router-dom";
+import { useHandlers } from "./hooks.jsx";
 import "./Login.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const { totp, setTotp } = useTotp();
-
-  const login = async (event) => {
-    event.preventDefault();
-
-    try {
-      const payload = generateUID();
-      const r = await CryptographyApi.get().sign({
-        payload: payload,
-        email,
-      });
-
-      await IdentityApi.get().login({
-        email,
-        password,
-        signature: r.data.signature,
-        payload,
-      });
-    } catch (ex) {
-      console.log(ex);
-      setError(ex.message);
-    }
-  };
+  const {
+    login,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    totp,
+    setTotp,
+    error,
+  } = useHandlers();
 
   return (
-    <AuthenticationLayout header={"Вход"}>
+    <AuthenticationLayout header={"Вход"} error={error}>
       {!error && (
         <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
           Проверете имейла си за получено TOTP.
         </h5>
       )}
-
       <form method="post" onSubmit={login}>
         <InputGA
           name="TOTP за Активация"
           value={totp}
           setValue={setTotp}
-          placeholder="OTP"
+          placeholder="TOTP"
           type="text"
         />
 
@@ -77,11 +57,28 @@ const Login = () => {
         >
           Влез
         </button>
-
-        {error && <h6 className="text-danger mt-2">{error}</h6>}
       </form>
     </AuthenticationLayout>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ request }) {
+  try {
+    const url = new URL(request.url);
+    const email = url.searchParams.get("email");
+
+    if (!email)
+      return {
+        error: "Невалиден имейл!",
+      };
+
+    return {
+      email,
+    };
+  } catch {
+    return redirect("/");
+  }
+}
 
 export default Login;

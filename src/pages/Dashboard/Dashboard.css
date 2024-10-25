@@ -1,0 +1,11 @@
+.dashboard-searchBar {
+    border-radius: 25px;
+    height: 40px;
+}
+
+.exit {
+    max-height: 30px !important;
+    max-height: 30px !important;
+    background-size: contain;
+    cursor: pointer;
+}

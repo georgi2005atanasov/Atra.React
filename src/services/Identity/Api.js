@@ -14,13 +14,25 @@ class Api extends ApiAbstract {
       body: data,
     });
 
-    if (!response.accessToken) {
+    if (!response.data || !response.data.accessToken) {
+      if (response.error)
+        throw new Error(response.error);
       throw new Error("Невалиден потребител!");
     }
 
-    Storage.setAccessToken(response.accessToken);
+    Storage.setAccessToken(response.data.accessToken);
 
-    return response;
+    return response.data.userName;
+  };
+
+  logout = async (data) => {
+    await this.execute({
+      endpoint: "Logout",
+      method: METHOD.POST,
+      body: data,
+    });
+
+    Storage.setAccessToken("");
   };
 }
 

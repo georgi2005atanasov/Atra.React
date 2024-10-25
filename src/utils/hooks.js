@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import { DeviceApi } from "../services/Device/Api";
 
 export const useLoading = () => {
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,52 @@ export const useTotp = () => {
     setError,
   };
 };
+
+export const useResendTotp = (email, setError) => {
+  const [countdown, setCountdown] = useState(15);
+  const [showResendButton, setShowResendButton] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prev) => prev - 1);
+      }, 1000);
+    } else {
+      setShowResendButton(true);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [countdown]);
+
+  const resendTotp = async () => {
+    try {
+      setIsResending(true);
+      setError("");
+
+      await DeviceApi.get().requireAuth({
+        email,
+      });
+
+      setCountdown(15);
+      setShowResendButton(false);
+    } catch (ex) {
+      setError(ex.message);
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  return {
+    resendTotp,
+    showResendButton,
+    isResending,
+    countdown,
+  };
+}
 
 export default function useAuth(token) {
   let isAdmin = false;

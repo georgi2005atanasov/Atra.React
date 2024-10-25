@@ -4,6 +4,7 @@ import { useLoading, useTotp } from "../../../utils/hooks.js";
 import { DeviceApi } from "../../../services/Device/Api.js";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
 import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout.jsx";
+import logo from "../../../assets/atraLogo.png";
 import InputGA from "../../../components/Common/InputGA.jsx";
 import "../Login/Login.jsx";
 
@@ -47,28 +48,46 @@ const Start = () => {
   return (
     <>
       {loading && <LoadingSpinner />}
-      <AuthenticationLayout header={"Имейл за получаване на TOTP"}>
-        <h6 className="text-center text-danger">{message && message}</h6>
-        <form method="post" onSubmit={requirePair}>
-          <InputGA
-            name="E-mail"
-            value={email}
-            setValue={setEmail}
-            placeholder="Въведете вашия имейл"
-            id="email"
-            type="email"
-            error={error}
-            autoComplete="off"
-          />
-          <button
-            type="submit"
-            className="btn btn-danger w-100"
-            style={{ fontWeight: "bold" }}
-          >
-            Изпрати OTP
-          </button>
-        </form>
-      </AuthenticationLayout>
+      <div className="container-fluid m-md-0 m-3 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+        <div className="row w-lg-25 flex-column">
+          <div className="col-lg-6 w-100 px-0">
+            <header className="p-2 non-selectable text-center card d-flex justify-content-center align-items-center">
+              <h1>Имейл за получаване на TOTP</h1>
+            </header>
+          </div>
+
+          <div className="card p-4 shadow-lg mt-3">
+            <div className="text-center mb-2">
+              <img
+                src={logo}
+                alt="Company Logo"
+                className="mb-3 w-50 non-selectable"
+                draggable="false"
+              />
+            </div>
+            <h6 className="text-center text-danger">{message && message}</h6>
+            <form method="post" onSubmit={requirePair}>
+              <InputGA
+                name="E-mail"
+                value={email}
+                setValue={setEmail}
+                placeholder="Въведете вашия имейл"
+                id="email"
+                type="email"
+                autoComplete="off"
+              />
+              <button
+                type="submit"
+                className="btn btn-danger w-100"
+                style={{ fontWeight: "bold" }}
+              >
+                Изпрати TOTP
+              </button>
+            </form>
+            {error && <h5 className="mt-3 text-center text-danger">{error}</h5>}
+          </div>
+        </div>
+      </div>
     </>
   );
 };

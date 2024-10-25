@@ -4,6 +4,8 @@ class Storage {
   static KEYS = {
     DEVICE_ID: `${this.#KEY_PREFIX}_deviceId`,
     ACCESS_TOKEN: `${this.#KEY_PREFIX}_accessToken`,
+    USER_NAME: `${this.#KEY_PREFIX}_userName`,
+    EMAIL: `${this.#KEY_PREFIX}_email`,
   };
 
   static #getItem(key) {
@@ -32,6 +34,22 @@ class Storage {
 
   static setAccessToken(accessToken) {
     this.#setItem(this.KEYS.ACCESS_TOKEN, accessToken);
+  }
+
+  static getUserName() {
+    return this.#getItem(this.KEYS.USER_NAME);
+  }
+
+  static setUserName(userName) {
+    this.#setItem(this.KEYS.USER_NAME, userName);
+  }
+
+  static getEmail() {
+    return this.#getItem(this.KEYS.EMAIL);
+  }
+
+  static setEmail(email) {
+    this.#setItem(this.KEYS.EMAIL, email);
   }
 
   static clearAll() {

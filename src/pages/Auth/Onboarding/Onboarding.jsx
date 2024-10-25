@@ -1,54 +1,34 @@
 import { useState } from "react";
-import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout";
-import InputGA from "../../../components/Common/InputGA";
-import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 import { DeviceApi } from "../../../services/Device/Api";
 import { useLoading, useTotp } from "../../../utils/hooks";
 import { redirect, useLoaderData, useNavigate } from "react-router-dom";
+import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout";
+import InputGA from "../../../components/Common/InputGA";
+import LoadingSpinner from "../../../components/Common/LoadingSpinner";
+import { useHandlers } from "./hooks";
 
 // todo: load email from start
 const Onboarding = () => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const { email: passedEmail } = useLoaderData();
-  const [email, setEmail] = useState(passedEmail);
-  const [error, setError] = useState();
-  const { loading, setLoading } = useLoading();
-  const { totp, setTotp } = useTotp();
-  const navigate = useNavigate();
-
-  const pair = async (event) => {
-    event.preventDefault();
-
-    if (password !== repeatPassword) {
-      setError("Въведените пароли не съвпадат!");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      await DeviceApi.get().pair({
-        totp: totp,
-        email,
-        password,
-        userName,
-      });
-
-      navigate("/verify", { replace: true });
-    } catch (ex) {
-      console.log(ex);
-      setError(ex.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    pair,
+    userName,
+    setUserName,
+    password,
+    setPassword,
+    repeatPassword,
+    setRepeatPassword,
+    email,
+    setEmail,
+    loading,
+    error,
+    totp,
+    setTotp,
+  } = useHandlers();
 
   return (
     <>
       {loading && <LoadingSpinner />}
-      <AuthenticationLayout header={"Активация"}>
+      <AuthenticationLayout header={"Активация"} error={error}>
         <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
           Проверете имейла си за получено TOTP.
         </h5>
@@ -58,7 +38,7 @@ const Onboarding = () => {
             name="TOTP за Активация"
             value={totp}
             setValue={setTotp}
-            placeholder="OTP"
+            placeholder="TOTP"
             type="text"
           />
 
@@ -107,7 +87,6 @@ const Onboarding = () => {
             Активирай
           </button>
         </form>
-        {error && <h5 className="mt-3 text-center text-danger">{error}</h5>}
       </AuthenticationLayout>
     </>
   );
