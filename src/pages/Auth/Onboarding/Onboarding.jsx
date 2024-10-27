@@ -1,7 +1,4 @@
-import { useState } from "react";
-import { DeviceApi } from "../../../services/Device/Api";
-import { useLoading, useTotp } from "../../../utils/hooks";
-import { redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout";
 import InputGA from "../../../components/Common/InputGA";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner";
@@ -23,6 +20,7 @@ const Onboarding = () => {
     setEmail,
     loading,
     error,
+    setError,
     totp,
     setTotp,
   } = useHandlers();
@@ -30,10 +28,11 @@ const Onboarding = () => {
   return (
     <>
       {loading && <LoadingSpinner />}
-      <AuthenticationLayout header={"Активация"} error={error}>
-        <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
-          Проверете имейла си за получено TOTP.
-        </h5>
+      <AuthenticationLayout header={"Активация"} error={error} setError={setError}>
+        {!error &&
+          <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
+            Проверете имейла си за получено TOTP.
+          </h5>}
 
         <form method="post" onSubmit={pair}>
           <InputGA
@@ -67,13 +66,14 @@ const Onboarding = () => {
             password={password}
             setPassword={(e) => setPassword(e.target.value)}
             id="password"
+            label="Парола"
           />
 
           <PasswordFieldGA
-            name="Повтори парола"
             password={repeatPassword}
             setPassword={(e) => setRepeatPassword(e.target.value)}
             id="confirmPassword"
+            label="Повтори парола"
           />
 
           <Button

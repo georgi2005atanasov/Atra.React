@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { useResendTotp, useTotp } from "../../../utils/hooks.js";
+import { useLoading, useResendTotp, useTotp } from "../../../utils/hooks.js";
 import { CryptographyApi } from "../../../services/Cryptography/Api.js";
 import { IdentityApi } from "../../../services/Identity/Api.js";
 import { generateUID } from "../../../utils/commonUtils.js";
@@ -15,11 +15,13 @@ export const useHandlers = () => {
   const navigate = useNavigate();
   const { resendTotp, showResendButton, isResending, countdown } =
     useResendTotp();
+  const { setLoading, loading } = useLoading();
 
   const login = async (event) => {
     event.preventDefault();
 
     try {
+      setLoading(true);
       const payload = generateUID();
       const r = await CryptographyApi.get().sign({
         payload: payload,
@@ -33,6 +35,7 @@ export const useHandlers = () => {
         signature: r.data.signature,
         payload,
       });
+      setLoading(false);
 
       Storage.setEmail(email);
       Storage.setUserName(userName);
@@ -40,6 +43,7 @@ export const useHandlers = () => {
       navigate("/private/dashboard", { replace: true });
     } catch (ex) {
       console.log(ex);
+      setLoading(false);
       setError(ex.message);
     }
   };
@@ -58,5 +62,6 @@ export const useHandlers = () => {
     totp,
     setTotp,
     countdown,
+    loading,
   };
 };
