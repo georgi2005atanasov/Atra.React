@@ -1,21 +1,11 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   FormControl,
-  IconButton,
-  InputAdornment,
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
-import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
-const PasswordFieldGA = ({ password, setPassword, ...props }) => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
-
+const PasswordFieldGA = ({ password, setPassword, label, ...props }) => {
   return (
     <div className="form-group mb-2">
       <FormControl

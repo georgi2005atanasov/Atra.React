@@ -54,6 +54,7 @@ export const useHandlers = () => {
     setEmail,
     loading,
     error,
+    setError,
     totp,
     setTotp,
     role,

@@ -12,7 +12,6 @@ const InputGA = ({
   ...props
 }) => {
   return (
-    <>
       <div className="form-group mb-2">
         <TextField
           className="w-100 mb-3 rounded-0 p-0 m-0"
@@ -28,7 +27,6 @@ const InputGA = ({
           {...props}
         />
       </div>
-    </>
   );
 };
 

@@ -5,6 +5,8 @@ import { useLoading } from "../../utils/hooks";
 import LoadingSpinner from "../../components/Common/LoadingSpinner";
 import "./Dashboard.css";
 import Storage from "../../utils/storage/Storage";
+import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import { Search } from '@mui/icons-material';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -34,30 +36,44 @@ const Dashboard = () => {
     }
   };
 
+  const handleSearch = (event) => {
+    event.preventDefault();
+    console.log(1);
+  }
+
   return (
     <>
       {loading && <LoadingSpinner />}
-      <div className="container-fluid p-0">
-        <div className="row m-0 bg-white shadow-sm">
-          <div className="col-12 px-4 py-3">
+      <div className="container-fluid p-0 w-100">
+        <div className="row m-0 bg-white shadow-sm w-100">
+          <div className="col-12 w-100 px-4 py-3">
             {/* Greeting */}
-            <h5 className="mb-3 text-muted text-center">
-              {getGreeting()}&nbsp;{Storage.getUserName()}!
+            <h5 className="mb-3 text-muted">
+              {getGreeting()}&nbsp;{Storage.getUserName()}! Какво Ви интересува?
             </h5>
 
             <div className="d-flex justify-content-between align-items-center">
               <div className="position-relative d-flex align-items-center flex-grow-1 me-5">
-                <input
-                  type="text"
-                  className="form-control ps-3 pe-5 bg-light dashboard-searchBar"
-                  placeholder="Търсене..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <img
-                  className="h-50 bi bi-search position-absolute end-0 me-3"
-                  src={"../../src/assets/searchIcon.png"}
-                />
+                <form onSubmit={handleSearch} className="w-100">
+                  <FormControl variant="outlined" fullWidth color="error">
+                    <InputLabel htmlFor="outlined-search">Search</InputLabel>
+                    <OutlinedInput
+                      id="outlined-search"
+                      type="text"
+                      label="Search"
+                      value={searchQuery}
+                      onSubmit={handleSearch}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleSearch} edge="end">
+                            <Search />
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  </FormControl>
+                </form>
               </div>
               <img
                 onClick={logout}

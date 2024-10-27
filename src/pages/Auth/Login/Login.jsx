@@ -5,6 +5,7 @@ import { useHandlers } from "./hooks.jsx";
 import { Button } from "@mui/material";
 import PasswordFieldGA from "../../../components/Common/PasswordFieldGA.jsx";
 import "./Login.css";
+import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
 
 const Login = () => {
   const {
@@ -17,9 +18,11 @@ const Login = () => {
     setTotp,
     error,
     setError,
+    loading,
   } = useHandlers();
 
-  return (
+  return (<>
+    {loading && <LoadingSpinner />}
     <AuthenticationLayout header={"Вход"} error={error} setError={setError}>
       {!error && (
         <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
@@ -50,16 +53,8 @@ const Login = () => {
           password={password}
           setPassword={(e) => setPassword(e.target.value)}
           id="password"
+          label="Парола"
         />
-        {/* <InputGA
-          name="Парола"
-          value={password}
-          setValue={(e) => setPassword(e.target.value)}
-          placeholder="Въведете вашата парола"
-          id="password"
-          type="password"
-          required
-        /> */}
 
         <Button
           type="submit"
@@ -71,6 +66,7 @@ const Login = () => {
         </Button>
       </form>
     </AuthenticationLayout>
+  </>
   );
 };
 

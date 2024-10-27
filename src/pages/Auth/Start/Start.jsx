@@ -51,7 +51,7 @@ const Start = () => {
   return (
     <>
       {loading && <LoadingSpinner />}
-      <div className="container-fluid p-md-0 p-4 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+      <div className="container-fluid p-md-0 p-4 d-flex flex-column justify-content-md-center justify-content-start align-items-center vh-100">
         <div className="row w-lg-25 flex-column">
           <div className="col-lg-6 w-100 px-0">
             <header className="p-2 non-selectable text-center card d-flex justify-content-center align-items-center">
