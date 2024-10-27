@@ -34,6 +34,22 @@ class Api extends ApiAbstract {
 
     Storage.setAccessToken("");
   };
+
+  sendPasswordReset = async (data) =>
+    this.execute({
+      endpoint: "SendPasswordReset",
+      method: METHOD.POST,
+      isAuthorized: false,
+      body: data,
+    });
+
+  resetPassword = async (token, data) =>
+    this.execute({
+      endpoint: `ResetPassword?token=${token}`,
+      method: METHOD.POST,
+      isAuthorized: false,
+      body: data,
+    });
 }
 
 export { Api as IdentityApi };

@@ -2,11 +2,10 @@ import { useState } from "react";
 import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { useLoading, useTotp } from "../../../utils/hooks.js";
 import { DeviceApi } from "../../../services/Device/Api.js";
+import { Button } from "@mui/material";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
 import logo from "../../../assets/atraLogo.png";
-import "../Login/Login.jsx";
 import Storage from "../../../utils/storage/Storage.js";
-import { Button, TextField } from "@mui/material";
 import InputGA from "../../../components/Common/InputGA.jsx";
 
 const Start = () => {
@@ -77,14 +76,13 @@ const Start = () => {
                 placeholder="Въведете вашия имейл"
                 id="email"
                 type="email"
-                autoComplete="off"
                 error={error}
                 required
               />
 
               <Button
                 type="submit"
-                className="fw-bold w-100 p-2"
+                className="fw-bold w-100 p-3"
                 variant="contained"
                 color="error"
               >

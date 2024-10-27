@@ -7,7 +7,7 @@ import { generateUID } from "../../../utils/commonUtils.js";
 import Storage from "../../../utils/storage/Storage.js";
 
 export const useHandlers = () => {
-  const { email: passedEmail } = useLoaderData();
+  const { email: passedEmail, message, type } = useLoaderData();
   const [email, setEmail] = useState(passedEmail);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -63,5 +63,7 @@ export const useHandlers = () => {
     setTotp,
     countdown,
     loading,
+    message,
+    type,
   };
 };

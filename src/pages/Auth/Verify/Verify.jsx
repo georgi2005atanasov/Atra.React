@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout";
-import InputGA from "../../../components/Common/InputGA";
 import { DeviceApi } from "../../../services/Device/Api";
 import { useTotp } from "../../../utils/hooks";
-import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { DeviceAlreadyVerified } from "../../../utils/appConstants";
 import { Button } from "@mui/material";
+import AuthLayout from "../../../components/Auth/AuthLayout";
+import InputGA from "../../../components/Common/InputGA";
 import Storage from "../../../utils/storage/Storage";
+import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 
 const Verify = () => {
   const { totp, setTotp, isTotpSent, setIsTotpSent, error, setError } =
@@ -47,15 +47,14 @@ const Verify = () => {
       }
     };
 
-    if (!isTotpSent)
-      sendTOTPVerification();
+    if (!isTotpSent) sendTOTPVerification();
   }, [setIsTotpSent, setError, navigate, isTotpSent]);
 
   if (!isTotpSent) return <LoadingSpinner />;
 
   return (
     <>
-      <AuthenticationLayout header={"Имейл за получаване на TOTP"}>
+      <AuthLayout header={"Имейл за получаване на TOTP"}>
         <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
           Проверете имейла на чичо Манчо за TOTP.
         </h5>
@@ -72,14 +71,14 @@ const Verify = () => {
 
           <Button
             type="submit"
-            className="fw-bold w-100 p-2"
+            className="fw-bold w-100 p-3"
             variant="contained"
             color="error"
           >
             Верифицирай
           </Button>
         </form>
-      </AuthenticationLayout>
+      </AuthLayout>
     </>
   );
 };

@@ -1,17 +1,14 @@
 import { redirect } from "react-router-dom";
-import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout";
-import InputGA from "../../../components/Common/InputGA";
-import LoadingSpinner from "../../../components/Common/LoadingSpinner";
+import { ROLES } from "../../../utils/appConstants";
 import { useHandlers } from "./hooks";
-import PasswordFieldGA from "../../../components/Common/PasswordFieldGA";
 import {
   Button,
-  FormControl,
-  InputLabel,
   MenuItem,
-  Select,
 } from "@mui/material";
-import { ROLES } from "../../../utils/appConstants";
+import AuthLayout from "../../../components/Auth/AuthLayout";
+import InputGA from "../../../components/Common/InputGA";
+import LoadingSpinner from "../../../components/Common/LoadingSpinner";
+import PasswordFieldGA from "../../../components/Common/PasswordFieldGA";
 import SelectGA from "../../../components/Common/SelectGA";
 
 // todo: load email from start
@@ -38,7 +35,7 @@ const Onboarding = () => {
   return (
     <>
       {loading && <LoadingSpinner />}
-      <AuthenticationLayout
+      <AuthLayout
         header={"Активация"}
         error={error}
         setError={setError}
@@ -71,7 +68,6 @@ const Onboarding = () => {
             placeholder="Въведете вашия имейл"
             id="email"
             type="email"
-            autoComplete="off"
           />
 
           <InputGA
@@ -99,14 +95,14 @@ const Onboarding = () => {
 
           <Button
             type="submit"
-            className="fw-bold w-100 p-2"
+            className="fw-bold w-100 p-3"
             variant="contained"
             color="error"
           >
             Активирай
           </Button>
         </form>
-      </AuthenticationLayout>
+      </AuthLayout>
     </>
   );
 };

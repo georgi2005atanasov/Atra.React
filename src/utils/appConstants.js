@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://localhost:7158';
+export const API_BASE_URL = 'http://localhost:5167';
 export const EXPIRED = 'EXPIRED';
 
 export const DeviceAlreadyVerified = "Устройството е вече верифицирано.";

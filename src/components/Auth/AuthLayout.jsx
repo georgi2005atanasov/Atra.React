@@ -1,10 +1,10 @@
 import logo from "../../assets/atraLogo.png";
 import { useResendTotp } from "../../utils/hooks";
 import Storage from "../../utils/storage/Storage";
-import "./AuthenticationLayout.css";
+import "./AuthLayout.css";
 
 // eslint-disable-next-line react/prop-types
-const AuthenticationLayout = ({ header, error, setError, children }) => {
+const AuthLayout = ({ header, error, setError, children }) => {
   const { resendTotp, showResendButton, isResending, countdown } =
     useResendTotp(Storage.getEmail(), setError);
 
@@ -50,4 +50,4 @@ const AuthenticationLayout = ({ header, error, setError, children }) => {
   );
 };
 
-export default AuthenticationLayout;
+export default AuthLayout;
