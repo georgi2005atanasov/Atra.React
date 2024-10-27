@@ -1,3 +1,5 @@
+import { TextField } from "@mui/material";
+
 /* eslint-disable react/prop-types */
 const InputGA = ({
   name,
@@ -10,22 +12,23 @@ const InputGA = ({
   ...props
 }) => {
   return (
-    <div className="form-group mb-3">
-      <label htmlFor={id} className="non-selectable">
-        {name}
-      </label>
-      <input
-        type={type}
-        className="form-control non-selectable"
-        id={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        required
-        {...props}
-      />
-      {error && <h6 className="text-danger mt-2">{error}</h6>}
-    </div>
+    <>
+      <div className="form-group mb-2">
+        <TextField
+          className="w-100 mb-3 rounded-0 p-0 m-0"
+          color="error"
+          label={name}
+          placeholder={placeholder}
+          variant="outlined"
+          value={value} // Controlled input value
+          onChange={setValue} // Change handler to update state
+          error={error}
+          type={type}
+          id={id}
+          {...props}
+        />
+      </div>
+    </>
   );
 };
 

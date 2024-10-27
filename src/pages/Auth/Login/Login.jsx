@@ -2,6 +2,8 @@ import InputGA from "../../../components/Common/InputGA.jsx";
 import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout.jsx";
 import { redirect } from "react-router-dom";
 import { useHandlers } from "./hooks.jsx";
+import { Button } from "@mui/material";
+import PasswordFieldGA from "../../../components/Common/PasswordFieldGA.jsx";
 import "./Login.css";
 
 const Login = () => {
@@ -14,10 +16,11 @@ const Login = () => {
     totp,
     setTotp,
     error,
+    setError,
   } = useHandlers();
 
   return (
-    <AuthenticationLayout header={"Вход"} error={error}>
+    <AuthenticationLayout header={"Вход"} error={error} setError={setError}>
       {!error && (
         <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
           Проверете имейла си за получено TOTP.
@@ -27,36 +30,45 @@ const Login = () => {
         <InputGA
           name="TOTP за Активация"
           value={totp}
-          setValue={setTotp}
+          setValue={(e) => setTotp(e.target.value)}
           placeholder="TOTP"
           type="text"
+          required
         />
 
         <InputGA
           name="E-mail"
           value={email}
-          setValue={setEmail}
+          setValue={(e) => setEmail(e.target.value)}
           placeholder="Въведете вашия имейл"
           id="email"
           type="email"
+          required
         />
 
-        <InputGA
+        <PasswordFieldGA
+          password={password}
+          setPassword={(e) => setPassword(e.target.value)}
+          id="password"
+        />
+        {/* <InputGA
           name="Парола"
           value={password}
-          setValue={setPassword}
+          setValue={(e) => setPassword(e.target.value)}
           placeholder="Въведете вашата парола"
           id="password"
           type="password"
-        />
+          required
+        /> */}
 
-        <button
+        <Button
           type="submit"
-          className="btn btn-danger w-100"
-          style={{ fontWeight: "bold" }}
+          className="fw-bold w-100 p-2"
+          variant="contained"
+          color="error"
         >
           Влез
-        </button>
+        </Button>
       </form>
     </AuthenticationLayout>
   );

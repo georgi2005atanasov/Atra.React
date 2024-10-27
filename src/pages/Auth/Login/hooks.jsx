@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useResendTotp, useTotp } from "../../../utils/hooks.js";
-import { DeviceApi } from "../../../services/Device/Api.js";
 import { CryptographyApi } from "../../../services/Cryptography/Api.js";
 import { IdentityApi } from "../../../services/Identity/Api.js";
 import { generateUID } from "../../../utils/commonUtils.js";
@@ -14,12 +13,8 @@ export const useHandlers = () => {
   const [error, setError] = useState("");
   const { totp, setTotp } = useTotp();
   const navigate = useNavigate();
-  const {
-    resendTotp,
-    showResendButton,
-    isResending,
-    countdown,
-  } = useResendTotp();
+  const { resendTotp, showResendButton, isResending, countdown } =
+    useResendTotp();
 
   const login = async (event) => {
     event.preventDefault();
@@ -55,6 +50,7 @@ export const useHandlers = () => {
     showResendButton,
     isResending,
     error,
+    setError,
     email,
     setEmail,
     password,

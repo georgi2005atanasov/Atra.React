@@ -3,10 +3,11 @@ import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { useLoading, useTotp } from "../../../utils/hooks.js";
 import { DeviceApi } from "../../../services/Device/Api.js";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
-import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout.jsx";
 import logo from "../../../assets/atraLogo.png";
-import InputGA from "../../../components/Common/InputGA.jsx";
 import "../Login/Login.jsx";
+import Storage from "../../../utils/storage/Storage.js";
+import { Button, TextField } from "@mui/material";
+import InputGA from "../../../components/Common/InputGA.jsx";
 
 const Start = () => {
   const navigate = useNavigate();
@@ -29,6 +30,8 @@ const Start = () => {
       setError("");
       setLoading(false);
 
+      Storage.setEmail(email);
+
       // TODO: query builder?
       if (r.data.hasProfile && r.data.isVerified)
         navigate(`/login?email=${email}`, { replace: true });
@@ -38,7 +41,7 @@ const Start = () => {
         navigate("/verify", { replace: true });
     } catch (ex) {
       setLoading(false);
-      setError("Възникна грешка. Моля, проверете имейла си.");
+      setError(ex.message);
       console.error(ex);
     }
   };
@@ -48,7 +51,7 @@ const Start = () => {
   return (
     <>
       {loading && <LoadingSpinner />}
-      <div className="container-fluid m-md-0 m-3 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+      <div className="container-fluid p-md-0 p-4 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
         <div className="row w-lg-25 flex-column">
           <div className="col-lg-6 w-100 px-0">
             <header className="p-2 non-selectable text-center card d-flex justify-content-center align-items-center">
@@ -70,19 +73,23 @@ const Start = () => {
               <InputGA
                 name="E-mail"
                 value={email}
-                setValue={setEmail}
+                setValue={(e) => setEmail(e.target.value)}
                 placeholder="Въведете вашия имейл"
                 id="email"
                 type="email"
                 autoComplete="off"
+                error={error}
+                required
               />
-              <button
+
+              <Button
                 type="submit"
-                className="btn btn-danger w-100"
-                style={{ fontWeight: "bold" }}
+                className="fw-bold w-100 p-2"
+                variant="contained"
+                color="error"
               >
                 Изпрати TOTP
-              </button>
+              </Button>
             </form>
             {error && <h5 className="mt-3 text-center text-danger">{error}</h5>}
           </div>

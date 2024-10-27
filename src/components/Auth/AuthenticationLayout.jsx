@@ -1,13 +1,14 @@
 import logo from "../../assets/atraLogo.png";
 import { useResendTotp } from "../../utils/hooks";
+import Storage from "../../utils/storage/Storage";
 
 // eslint-disable-next-line react/prop-types
-const AuthenticationLayout = ({ header, error, children }) => {
+const AuthenticationLayout = ({ header, error, setError, children }) => {
   const { resendTotp, showResendButton, isResending, countdown } =
-  useResendTotp();
+    useResendTotp(Storage.getEmail(), setError);
 
   return (
-    <div className="container-fluid m-md-0 m-3 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+    <div className="container-fluid p-md-0 p-4 d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
       <div className="row w-lg-25 flex-column">
         <div className="col-lg-6 w-100 px-0">
           <header className="p-2 non-selectable text-center card d-flex justify-content-center align-items-center">

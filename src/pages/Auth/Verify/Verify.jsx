@@ -4,9 +4,9 @@ import InputGA from "../../../components/Common/InputGA";
 import { DeviceApi } from "../../../services/Device/Api";
 import { useTotp } from "../../../utils/hooks";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner";
-import Storage from "../../../utils/storage/Storage";
 import { useNavigate } from "react-router-dom";
 import { DeviceAlreadyVerified } from "../../../utils/appConstants";
+import { Button } from "@mui/material";
 
 const Verify = () => {
   const { totp, setTotp, isTotpSent, setIsTotpSent, error, setError } =
@@ -64,20 +64,21 @@ const Verify = () => {
           <InputGA
             name="TOTP"
             value={totp}
-            setValue={setTotp}
+            setValue={(e) => setTotp(e.target.value)}
             placeholder="Въведете полученото TOTP от чичо Манчо :)"
             id="text"
             type="text"
             error={error}
           />
 
-          <button
+          <Button
             type="submit"
-            className="btn btn-danger w-100"
-            style={{ fontWeight: "bold" }}
+            className="fw-bold w-100 p-2"
+            variant="contained"
+            color="error"
           >
             Верифицирай
-          </button>
+          </Button>
         </form>
       </AuthenticationLayout>
     </>

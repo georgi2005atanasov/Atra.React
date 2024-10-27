@@ -6,6 +6,8 @@ import AuthenticationLayout from "../../../components/Auth/AuthenticationLayout"
 import InputGA from "../../../components/Common/InputGA";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 import { useHandlers } from "./hooks";
+import PasswordFieldGA from "../../../components/Common/PasswordFieldGA";
+import { Button } from "@mui/material";
 
 // todo: load email from start
 const Onboarding = () => {
@@ -37,7 +39,7 @@ const Onboarding = () => {
           <InputGA
             name="TOTP за Активация"
             value={totp}
-            setValue={setTotp}
+            setValue={(e) => setTotp(e.target.value)}
             placeholder="TOTP"
             type="text"
           />
@@ -45,7 +47,7 @@ const Onboarding = () => {
           <InputGA
             name="E-mail"
             value={email}
-            setValue={setEmail}
+            setValue={(e) => setEmail(e.target.value)}
             placeholder="Въведете вашия имейл"
             id="email"
             type="email"
@@ -55,37 +57,33 @@ const Onboarding = () => {
           <InputGA
             name="Потребителско име"
             value={userName}
-            setValue={setUserName}
+            setValue={(e) => setUserName(e.target.value)}
             placeholder="Въведете потребителско име"
             id="userName"
             type="text"
           />
 
-          <InputGA
-            name="Парола"
-            value={password}
-            setValue={setPassword}
-            placeholder="Въведете вашата парола"
+          <PasswordFieldGA
+            password={password}
+            setPassword={(e) => setPassword(e.target.value)}
             id="password"
-            type="password"
           />
 
-          <InputGA
+          <PasswordFieldGA
             name="Повтори парола"
-            value={repeatPassword}
-            setValue={setRepeatPassword}
-            placeholder="Въведете вашата парола"
+            password={repeatPassword}
+            setPassword={(e) => setRepeatPassword(e.target.value)}
             id="confirmPassword"
-            type="password"
           />
 
-          <button
+          <Button
             type="submit"
-            className="btn btn-danger w-100"
-            style={{ fontWeight: "bold" }}
+            className="fw-bold w-100 p-2"
+            variant="contained"
+            color="error"
           >
             Активирай
-          </button>
+          </Button>
         </form>
       </AuthenticationLayout>
     </>
