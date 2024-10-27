@@ -4,7 +4,7 @@ import { FormControl, InputLabel, Select } from "@mui/material";
 const SelectGA = ({ value, setValue, label, id, children }) => {
   return (
     <div className="form-group mb-2">
-      <FormControl fullWidth className="mb-2">
+      <FormControl fullWidth className="mb-3">
         <InputLabel id="demo-simple-select-label" color="error">{label}</InputLabel>
         <Select id={id} value={value} label={label} onChange={setValue} color="error">
           {children}

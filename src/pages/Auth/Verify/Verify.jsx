@@ -7,6 +7,7 @@ import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { DeviceAlreadyVerified } from "../../../utils/appConstants";
 import { Button } from "@mui/material";
+import Storage from "../../../utils/storage/Storage";
 
 const Verify = () => {
   const { totp, setTotp, isTotpSent, setIsTotpSent, error, setError } =
@@ -18,8 +19,7 @@ const Verify = () => {
       event.preventDefault();
 
       await DeviceApi.get().verifyDevice({
-        deviceId: "73a6c649-828c-4656-9fca-66e2540cfb37",
-        // deviceId: Storage.getDeviceId(),
+        deviceId: Storage.getDeviceId(),
         totp: totp,
       });
 
@@ -34,8 +34,7 @@ const Verify = () => {
     const sendTOTPVerification = async () => {
       try {
         await DeviceApi.get().sendTOTP({
-          // deviceId: Storage.getDeviceId(),
-          deviceId: "73a6c649-828c-4656-9fca-66e2540cfb37",
+          deviceId: Storage.getDeviceId(),
         });
 
         setIsTotpSent(true);
@@ -44,13 +43,13 @@ const Verify = () => {
           navigate(`/?message=${DeviceAlreadyVerified}`, { replace: true });
           return;
         }
-
         setError(ex.message);
       }
     };
 
-    sendTOTPVerification();
-  }, [setIsTotpSent]);
+    if (!isTotpSent)
+      sendTOTPVerification();
+  }, [setIsTotpSent, setError, navigate, isTotpSent]);
 
   if (!isTotpSent) return <LoadingSpinner />;
 

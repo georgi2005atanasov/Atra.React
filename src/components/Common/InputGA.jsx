@@ -21,7 +21,7 @@ const InputGA = ({
           variant="outlined"
           value={value} // Controlled input value
           onChange={setValue} // Change handler to update state
-          error={error}
+          error={error ? true : false}
           type={type}
           id={id}
           {...props}

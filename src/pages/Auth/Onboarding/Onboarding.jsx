@@ -38,11 +38,16 @@ const Onboarding = () => {
   return (
     <>
       {loading && <LoadingSpinner />}
-      <AuthenticationLayout header={"Активация"} error={error} setError={setError}>
-        {!error &&
+      <AuthenticationLayout
+        header={"Активация"}
+        error={error}
+        setError={setError}
+      >
+        {!error && (
           <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
             Проверете имейла си за получено TOTP.
-          </h5>}
+          </h5>
+        )}
 
         <form method="post" onSubmit={pair}>
           <InputGA
@@ -54,11 +59,11 @@ const Onboarding = () => {
           />
 
           {/* TODO SelectGA */}
-          <SelectGA id="role" label="Аз съм" value={role} onChange={setRole}>
+          <SelectGA value={role} setValue={(e) => setRole(e.target.value)} label="Аз съм" id="role">
             <MenuItem value={ROLES.ADMIN}>Администратор</MenuItem>
             <MenuItem value={ROLES.EMPLOYEE}>Работник</MenuItem>
           </SelectGA>
-
+         
           <InputGA
             name="E-mail"
             value={email}

@@ -60,16 +60,13 @@ class ApiAbstract {
                     Storage.setAccessToken("");
                     return { success: true };
                 } catch {
-                    // Even if there's an error, clear the token and return success
                     Storage.setAccessToken("");
                     return { success: true };
                 }
             }
 
-            // Normal request handling for non-logout requests
             const response = await this.axiosInstance(config);
             return response.data;
-            
         } catch (error) {
             if (error.response?.status === 401) {
                 Storage.setAccessToken("");

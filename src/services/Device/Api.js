@@ -24,6 +24,7 @@ class Api extends ApiAbstract {
     });
 
     if (!r.data.deviceId) throw new AtraError(r.data.error, 400);
+    
     Storage.setDeviceId(r.data.deviceId);
   };
 

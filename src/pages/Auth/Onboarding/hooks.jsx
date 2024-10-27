@@ -31,6 +31,7 @@ export const useHandlers = () => {
         email,
         password,
         userName,
+        role,
       });
 
       navigate("/verify", { replace: true });
