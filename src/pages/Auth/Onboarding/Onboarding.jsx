@@ -7,7 +7,15 @@ import InputGA from "../../../components/Common/InputGA";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner";
 import { useHandlers } from "./hooks";
 import PasswordFieldGA from "../../../components/Common/PasswordFieldGA";
-import { Button } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import { ROLES } from "../../../utils/appConstants";
+import SelectGA from "../../../components/Common/SelectGA";
 
 // todo: load email from start
 const Onboarding = () => {
@@ -25,6 +33,8 @@ const Onboarding = () => {
     error,
     totp,
     setTotp,
+    role,
+    setRole,
   } = useHandlers();
 
   return (
@@ -43,6 +53,12 @@ const Onboarding = () => {
             placeholder="TOTP"
             type="text"
           />
+
+          {/* TODO SelectGA */}
+          <SelectGA id="role" label="Аз съм" value={role} onChange={setRole}>
+            <MenuItem value={ROLES.ADMIN}>Администратор</MenuItem>
+            <MenuItem value={ROLES.EMPLOYEE}>Работник</MenuItem>
+          </SelectGA>
 
           <InputGA
             name="E-mail"

@@ -7,6 +7,7 @@ export const useHandlers = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [role, setRole] = useState("");
   const { email: passedEmail } = useLoaderData();
   const [email, setEmail] = useState(passedEmail);
   const [error, setError] = useState();
@@ -55,5 +56,7 @@ export const useHandlers = () => {
     error,
     totp,
     setTotp,
+    role,
+    setRole,
   };
 };
