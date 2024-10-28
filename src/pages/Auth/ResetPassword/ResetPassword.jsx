@@ -11,8 +11,8 @@ import { IdentityApi } from "../../../services/Identity/Api.js";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
-  const { token } = useLoaderData();
-  const [email, setEmail] = useState("");
+  const { token, email: passedEmail } = useLoaderData();
+  const [email, setEmail] = useState(passedEmail);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -52,12 +52,14 @@ const ResetPassword = () => {
     try {
       setLoading(true);
 
-      await IdentityApi.get().resetPassword(token, {
-        email: Storage.getEmail(),
+      await IdentityApi.get().resetPassword(token, email, {
         password: password,
       });
 
-      navigate(`/login?email=${Storage.getEmail()}&message=Успешна смяна на парола!&type=success`, { replace: true });
+      navigate(
+        `/login?email=${Storage.getEmail()}&message=Успешна смяна на парола!&type=success`,
+        { replace: true }
+      );
     } catch (ex) {
       setLoading(false);
       setError(ex.message);
@@ -177,9 +179,11 @@ export async function loader({ request }) {
   try {
     const url = new URL(request.url);
     const token = url.searchParams.get("token");
+    const email = url.searchParams.get("email");
 
     return {
       token,
+      email,
     };
   } catch {
     return redirect("/");

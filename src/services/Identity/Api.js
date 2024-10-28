@@ -43,9 +43,9 @@ class Api extends ApiAbstract {
       body: data,
     });
 
-  resetPassword = async (token, data) =>
+  resetPassword = async (token, email, data) =>
     this.execute({
-      endpoint: `ResetPassword?token=${token}`,
+      endpoint: `ResetPassword?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`,
       method: METHOD.POST,
       isAuthorized: false,
       body: data,
