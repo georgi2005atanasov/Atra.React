@@ -16,10 +16,10 @@ const Dashboard = () => {
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return "Добро утро, ";
-    if (hour >= 12 && hour < 17) return "Добър ден, ";
-    if (hour >= 17 && hour < 22) return "Добър вечер, ";
-    return "Добър вечер, ";
+    if (hour >= 5 && hour < 12) return "Добро утро,";
+    if (hour >= 12 && hour < 17) return "Добър ден,";
+    if (hour >= 17 && hour < 22) return "Добър вечер,";
+    return "Добър вечер,";
   };
 
   const logout = async () => {
@@ -49,7 +49,7 @@ const Dashboard = () => {
           <div className="col-12 w-100 px-4 py-3">
             {/* Greeting */}
             <h5 className="mb-3 text-muted">
-              {getGreeting()}&nbsp;{Storage.getUserName()}! Какво Ви интересува?
+              {getGreeting()}&nbsp;{Storage.getUserName()}!&nbsp;Какво Ви интересува?
             </h5>
 
             <div className="d-flex justify-content-between align-items-center">

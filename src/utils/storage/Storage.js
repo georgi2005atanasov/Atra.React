@@ -13,11 +13,11 @@ class Storage {
   }
 
   static #setItem(key, value) {
-    localStorage.setItem(key, value);
+    sessionStorage.setItem(key, value);
   }
 
   static #removeItem(key) {
-    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
   }
 
   static getDeviceId() {

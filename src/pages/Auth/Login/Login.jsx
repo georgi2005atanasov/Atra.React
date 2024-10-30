@@ -5,9 +5,9 @@ import AuthLayout from "../../../components/Auth/AuthLayout.jsx";
 import InputGA from "../../../components/Common/InputGA.jsx";
 import PasswordFieldGA from "../../../components/Common/PasswordFieldGA.jsx";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
-import "./Login.css";
 import MessageAlertGA from "../../../components/Common/MessageAlertGA.jsx";
 import { useState } from "react";
+import "./Login.css";
 
 const Login = () => {
   const {
@@ -22,7 +22,7 @@ const Login = () => {
     setError,
     loading,
     message,
-    type
+    type,
   } = useHandlers();
   const [messageVisible, setMessageVisible] = useState(true);
 
@@ -43,7 +43,7 @@ const Login = () => {
         )}
         <form method="post" onSubmit={login}>
           <InputGA
-            name="TOTP за Активация"
+            name="TOTP за Вход"
             value={totp}
             setValue={(e) => setTotp(e.target.value)}
             placeholder="TOTP"

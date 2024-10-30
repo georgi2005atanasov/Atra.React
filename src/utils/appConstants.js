@@ -6,3 +6,9 @@ export const ROLES = {
     ADMIN: 0,
     EMPLOYEE: 1,
 }
+export const MESSAGE_TYPE = {
+    DANGER: "danger",
+    WARNING: "warning",
+    SUCCESS: "success",
+}
+export const SUCCESSFULL_VERIFICATION = "Успешна верификация!";

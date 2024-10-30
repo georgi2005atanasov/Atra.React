@@ -1,8 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { DeviceApi } from "../../../services/Device/Api";
-import { useTotp } from "../../../utils/hooks";
+import { useLoading, useTotp } from "../../../utils/hooks";
 import { useNavigate } from "react-router-dom";
-import { DeviceAlreadyVerified } from "../../../utils/appConstants";
+import {
+  DeviceAlreadyVerified,
+  MESSAGE_TYPE,
+  SUCCESSFULL_VERIFICATION,
+} from "../../../utils/appConstants";
 import { Button } from "@mui/material";
 import AuthLayout from "../../../components/Auth/AuthLayout";
 import InputGA from "../../../components/Common/InputGA";
@@ -13,19 +17,31 @@ const Verify = () => {
   const { totp, setTotp, isTotpSent, setIsTotpSent, error, setError } =
     useTotp();
   const navigate = useNavigate();
+  const didSendTOTP = useRef(false);
+  const { loading, setLoading } = useLoading();
 
   const verifyDevice = async (event) => {
     try {
       event.preventDefault();
+
+      setLoading(true);
 
       await DeviceApi.get().verifyDevice({
         deviceId: Storage.getDeviceId(),
         totp: totp,
       });
 
-      navigate("/login", { replace: true });
+      setLoading(false);
+
+      navigate(
+        `/login?email=${Storage.getEmail()}&message=${SUCCESSFULL_VERIFICATION}&type=${
+          MESSAGE_TYPE.SUCCESS
+        }`,
+        { replace: true }
+      );
     } catch (ex) {
       console.log(ex);
+      setLoading(false);
       setError("Възникна грешка!");
     }
   };
@@ -47,14 +63,20 @@ const Verify = () => {
       }
     };
 
-    if (!isTotpSent) sendTOTPVerification();
-  }, [setIsTotpSent, setError, navigate, isTotpSent]);
-
-  if (!isTotpSent) return <LoadingSpinner />;
+    if (!isTotpSent && !didSendTOTP.current) {
+      didSendTOTP.current = true;
+      sendTOTPVerification();
+    }
+  }, [isTotpSent, navigate, setIsTotpSent, setError]);
 
   return (
     <>
-      <AuthLayout header={"Имейл за получаване на TOTP"}>
+      {!isTotpSent || loading && <LoadingSpinner />}
+      <AuthLayout
+        header={"Имейл за получаване на TOTP"}
+        setError={setError}
+        isResendTotpVeryfying={true}
+      >
         <h5 className="text-danger d-flex justify-content-center my-0 mb-3">
           Проверете имейла на чичо Манчо за TOTP.
         </h5>

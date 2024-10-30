@@ -4,7 +4,7 @@ import Storage from "../../utils/storage/Storage";
 import "./AuthLayout.css";
 
 // eslint-disable-next-line react/prop-types
-const AuthLayout = ({ header, error, setError, children }) => {
+const AuthLayout = ({ header, error, setError, isResendTotpVeryfying = false, children }) => {
   const { resendTotp, showResendButton, isResending, countdown } =
     useResendTotp(Storage.getEmail(), setError);
 
@@ -28,14 +28,16 @@ const AuthLayout = ({ header, error, setError, children }) => {
           </div>
           {children}
           {showResendButton && (
-            <button
-              type="button"
-              className="btn text-danger text-decoration-underline btn-sm pt-3 border-0"
-              onClick={resendTotp}
-              disabled={isResending}
-            >
-              {isResending ? "Изпращане..." : "Изпрати нов код"}
-            </button>
+            <div className="w-100 d-flex justify-content-center">
+              <button
+                type="button"
+                className="btn d-flex text-danger text-decoration-underline btn-sm pt-3 border-0"
+                onClick={resendTotp.bind(this, isResendTotpVeryfying)}
+                disabled={isResending}
+              >
+                {isResending ? "Изпращане..." : "Изпрати нов код"}
+              </button>
+            </div>
           )}
           {countdown > 0 && (
             <small className="text-muted pt-3 text-center">

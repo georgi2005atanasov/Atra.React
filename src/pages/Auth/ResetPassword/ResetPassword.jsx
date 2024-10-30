@@ -8,6 +8,7 @@ import Storage from "../../../utils/storage/Storage.js";
 import InputGA from "../../../components/Common/InputGA.jsx";
 import PasswordFieldGA from "../../../components/Common/PasswordFieldGA.jsx";
 import { IdentityApi } from "../../../services/Identity/Api.js";
+import { MESSAGE_TYPE } from "../../../utils/appConstants.js";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const ResetPassword = () => {
       });
 
       Storage.setEmail(email);
+
       setSuccess("Моля, отворете линка, изпратен на имейла Ви.");
       setError("");
       setLoading(false);
@@ -56,8 +58,10 @@ const ResetPassword = () => {
         password: password,
       });
 
+      Storage.setEmail(email);
+
       navigate(
-        `/login?email=${Storage.getEmail()}&message=Успешна смяна на парола!&type=success`,
+        `/login?email=${passedEmail}&message=Успешна смяна на парола!&type=${MESSAGE_TYPE.SUCCESS}`,
         { replace: true }
       );
     } catch (ex) {

@@ -14,7 +14,7 @@ export const useHandlers = () => {
   const { totp, setTotp } = useTotp();
   const navigate = useNavigate();
   const { resendTotp, showResendButton, isResending, countdown } =
-    useResendTotp();
+    useResendTotp(Storage.getEmail() || passedEmail, setError);
   const { setLoading, loading } = useLoading();
 
   const login = async (event) => {
@@ -28,7 +28,7 @@ export const useHandlers = () => {
         email,
       });
 
-      const userName = await IdentityApi.get().login({
+      await IdentityApi.get().login({
         totp,
         email,
         password,
@@ -37,20 +37,16 @@ export const useHandlers = () => {
       });
       setLoading(false);
 
-      Storage.setEmail(email);
-      Storage.setUserName(userName);
-
       navigate("/private/dashboard", { replace: true });
     } catch (ex) {
       console.log(ex);
       setLoading(false);
-      setError(ex.message);
+      setError(ex.response.data.error);
     }
   };
 
   return {
     login,
-    resendTotp,
     showResendButton,
     isResending,
     error,

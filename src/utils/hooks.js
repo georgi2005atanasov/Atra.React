@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { DeviceApi } from "../services/Device/Api";
+import Storage from "./storage/Storage";
 
 export const useLoading = () => {
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,7 @@ export const useTotp = () => {
 };
 
 export const useResendTotp = (email, setError) => {
-  const [countdown, setCountdown] = useState(15);
+  const [countdown, setCountdown] = useState(0);
   const [showResendButton, setShowResendButton] = useState(false);
   const [isResending, setIsResending] = useState(false);
 
@@ -46,14 +47,19 @@ export const useResendTotp = (email, setError) => {
     };
   }, [countdown]);
 
-  const resendTotp = async () => {
+  const resendTotp = async (isVerifying) => {
     try {
       setIsResending(true);
       setError("");
 
-      await DeviceApi.get().requireAuth({
-        email,
-      });
+      if (!isVerifying)
+        await DeviceApi.get().requireAuth({
+          email,
+        });
+      else
+        await DeviceApi.get().sendTOTP({
+          deviceId: Storage.getDeviceId(),
+        });
 
       setCountdown(15);
       setShowResendButton(false);
@@ -62,7 +68,7 @@ export const useResendTotp = (email, setError) => {
     } finally {
       setIsResending(false);
     }
-  };
+  }
 
   return {
     resendTotp,
@@ -70,7 +76,7 @@ export const useResendTotp = (email, setError) => {
     isResending,
     countdown,
   };
-}
+};
 
 export default function useAuth(token) {
   let isAdmin = false;

@@ -14,13 +14,14 @@ class Api extends ApiAbstract {
       body: data,
     });
 
-    if (!response.data || !response.data.accessToken) {
-      if (response.error)
-        throw new Error(response.error);
+    if (response.error && response.error != null)
       throw new Error("Невалиден потребител!");
-    }
+    // if (!response.data.accessToken || response.data.userName) {
+    //   throw new Error(response.error);
+    // }
 
     Storage.setAccessToken(response.data.accessToken);
+    Storage.setUserName(response.data.userName);
 
     return response.data.userName;
   };
@@ -45,7 +46,9 @@ class Api extends ApiAbstract {
 
   resetPassword = async (token, email, data) =>
     this.execute({
-      endpoint: `ResetPassword?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`,
+      endpoint: `ResetPassword?token=${encodeURIComponent(
+        token
+      )}&email=${encodeURIComponent(email)}`,
       method: METHOD.POST,
       isAuthorized: false,
       body: data,
