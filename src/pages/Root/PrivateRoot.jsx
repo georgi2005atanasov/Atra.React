@@ -4,9 +4,9 @@ import Storage from "../../utils/storage/Storage";
 import Unauthorized from "../Errors/Unauthorized";
 
 const PrivateRoot = () => {
-  const { isAuthenticated } = useAuth(Storage.getAccessToken());
+  // const { isAuthenticated } = useAuth(Storage.getAccessToken());
 
-  if (!isAuthenticated) return <Unauthorized />;
+  // if (!isAuthenticated) return <Unauthorized />;
 
   return (
     <>

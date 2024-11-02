@@ -13,7 +13,7 @@ export const useHandlers = () => {
   const [error, setError] = useState("");
   const { totp, setTotp } = useTotp();
   const navigate = useNavigate();
-  const { resendTotp, showResendButton, isResending, countdown } =
+  const { showResendButton, isResending, countdown } =
     useResendTotp(Storage.getEmail() || passedEmail, setError);
   const { setLoading, loading } = useLoading();
 
