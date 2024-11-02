@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { DeviceApi } from "../services/Device/Api";
 import Storage from "./storage/Storage";
@@ -68,7 +68,7 @@ export const useResendTotp = (email, setError) => {
     } finally {
       setIsResending(false);
     }
-  }
+  };
 
   return {
     resendTotp,

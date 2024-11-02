@@ -13,6 +13,9 @@ import ResetPassword, {
 } from "./pages/Auth/ResetPassword/ResetPassword.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import Unauthorized from "./pages/Errors/Unauthorized.jsx";
+import ErrorsRoot from "./pages/Root/ErrorsRoot.jsx";
+import Unhandled from "./pages/Errors/Unhandled.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,14 +38,19 @@ const router = createBrowserRouter([
     element: <PrivateRoot />,
     children: [{ path: "dashboard", element: <Dashboard /> }],
   },
+  {
+    path: "/errors",
+    element: <ErrorsRoot />,
+    children: [
+      { index: true, element: <Unhandled /> },
+      { path: "unauthorized", element: <Unauthorized /> },
+    ],
+    errorElement: <Unhandled />
+  },
 ]);
 
 function App() {
-  return (
-    <div id="root">
-      <RouterProvider router={router} />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

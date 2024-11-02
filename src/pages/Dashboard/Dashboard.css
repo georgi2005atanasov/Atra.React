@@ -1,11 +1,74 @@
 .dashboard-searchBar {
-    border-radius: 25px;
-    height: 40px;
+  border-radius: 25px;
+  height: 40px;
 }
 
 .exit {
-    max-height: 30px !important;
-    max-height: 30px !important;
-    background-size: contain;
-    cursor: pointer;
+  max-height: 30px !important;
+  max-height: 30px !important;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.menu-container {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.menu-button {
+  font-size: 20px !important;
+  text-transform: none !important;
+  padding: 6px 12px !important;
+  transition: color 0.2s ease-in-out !important;
+  min-width: 120px !important;
+  z-index: 1;
+}
+
+.menu-button.active,
+.menu-button:hover {
+  color: #dc3545 !important;
+}
+
+.arrow-icon {
+  transition: transform 0.2s ease-in-out !important;
+}
+
+.arrow-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.menu-paper {
+  min-width: 300px !important;
+  max-width: 300px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  z-index: 1000 !important;
+}
+
+.menu-item {
+  font-size: 18px !important;
+  padding: 8px 16px !important;
+  white-space: normal !important;
+  line-height: 1.4 !important;
+}
+
+.menu-item:hover {
+  color: #dc3545 !important;
+  background-color: rgba(220, 53, 69, 0.04) !important;
+}
+
+.MuiPopover-root {
+  pointer-events: none !important;
+}
+
+.MuiPopover-root .MuiPaper-root {
+  pointer-events: auto !important;
+}
+
+.MuiMenu-paper {
+  transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+              transform 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+}
+
+.standardized-menu {
+  display: flex;
+  flex-direction: column;
 }

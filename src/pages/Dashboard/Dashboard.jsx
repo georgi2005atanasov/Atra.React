@@ -1,93 +1,116 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { IdentityApi } from "../../services/Identity/Api";
 import { useLoading } from "../../utils/hooks";
 import LoadingSpinner from "../../components/Common/LoadingSpinner";
+import TopBarGA from "../../components/Dashboard/TopBarGA";
+import MenuButtonGA from "../../components/Dashboard/MenuButtonGA";
+import MenuSectionGA from "../../components/Dashboard/MenuSectionGA";
+import { ClickAwayListener } from "@mui/material";
 import "./Dashboard.css";
-import Storage from "../../utils/storage/Storage";
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
-import { Search } from '@mui/icons-material';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
   const { loading, setLoading } = useLoading();
+  const [menuAnchors, setMenuAnchors] = useState({
+    details: null,
+    components: null,
+    products: null,
+  });
 
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) return "Добро утро,";
-    if (hour >= 12 && hour < 17) return "Добър ден,";
-    if (hour >= 17 && hour < 22) return "Добър вечер,";
-    return "Добър вечер,";
+  const handleClickAway = () => {
+    setMenuAnchors({
+      details: null,
+      components: null,
+      products: null
+    });
   };
 
-  const logout = async () => {
-    try {
-      setLoading(true);
-      await IdentityApi.get().logout({
-        email: Storage.getEmail(),
-      });
-      setLoading(false);
-      navigate(`/login?email=${Storage.getEmail()}`, { replace: true });
-    } catch (ex) {
-      setError(ex.message);
-      console.log(ex);
-    }
+  const handleMenuClick = (event, menuKey) => {
+    setMenuAnchors((prev) => {
+      const newAnchors = { details: null, components: null, products: null };
+      newAnchors[menuKey] = prev[menuKey] ? null : event.currentTarget;
+      return newAnchors;
+    });
   };
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    console.log(1);
-  }
+  const handleMenuClose = () => {
+    setMenuAnchors({ details: null, components: null, products: null });
+  };
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    handleMenuClose();
+  };
+
+  const menus = {
+    details: {
+      title: "Детайли",
+      items: [
+        { path: "/details/glass", label: "Стъкла" },
+        { path: "/details/metals", label: "Метали" },
+        { path: "/details/fasteners", label: "Крепежи" },
+        { path: "/details/conductors", label: "Проводници, клеми, накрайници" },
+        { path: "/details/atra", label: "АТРА" },
+        { path: "/details/others", label: "Други" },
+      ],
+    },
+    components: {
+      title: "Компоненти",
+      items: [{ path: "/components/all", label: "Всички" }],
+    },
+    products: {
+      title: "Крайни изделия",
+      items: [
+        { path: "/products/lighting", label: "Осветителни тела" },
+        { path: "/products/led", label: "Професионални LED осветителни тела" },
+        {
+          path: "/products/electrical",
+          label: "Електроинсталационни материали",
+        },
+        { path: "/products/explosion-proof", label: "Взривозащитени изделия" },
+        { path: "/products/disinfection", label: "Дезинфекционни системи" },
+      ],
+    },
+  };
 
   return (
     <>
       {loading && <LoadingSpinner />}
       <div className="container-fluid p-0 w-100">
-        <div className="row m-0 bg-white shadow-sm w-100">
-          <div className="col-12 w-100 px-4 py-3">
-            {/* Greeting */}
-            <h5 className="mb-3 text-muted">
-              {getGreeting()}&nbsp;{Storage.getUserName()}!&nbsp;Какво Ви интересува?
-            </h5>
-
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="position-relative d-flex align-items-center flex-grow-1 me-5">
-                <form onSubmit={handleSearch} className="w-100">
-                  <FormControl variant="outlined" fullWidth color="error">
-                    <InputLabel htmlFor="outlined-search">Search</InputLabel>
-                    <OutlinedInput
-                      id="outlined-search"
-                      type="text"
-                      label="Search"
-                      value={searchQuery}
-                      onSubmit={handleSearch}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton onClick={handleSearch} edge="end">
-                            <Search />
-                          </IconButton>
-                        </InputAdornment>
-                      }
+        <TopBarGA setLoading={setLoading} setError={setError} />
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <div className="menu-container bg-light py-3">
+            <div className="container ">
+              <div className="d-flex row flex-row justify-content-between">
+                {Object.entries(menus).map(([key, menu]) => (
+                  <div
+                    key={key}
+                    className="d-flex col-md-4 justify-content-center"
+                  >
+                    <MenuButtonGA
+                      title={menu.title}
+                      isOpen={Boolean(menuAnchors[key])}
+                      onClick={(e) => handleMenuClick(e, key)}
+                      menuKey={key}
                     />
-                  </FormControl>
-                </form>
+                    <MenuSectionGA
+                      menuKey={key}
+                      menu={menu}
+                      anchorEl={menuAnchors[key]}
+                      isOpen={Boolean(menuAnchors[key])}
+                      onClose={handleMenuClose}
+                      onNavigate={handleNavigate}
+                    />
+                  </div>
+                ))}
               </div>
-              <img
-                onClick={logout}
-                className="position-absolute end-0 me-3 exit"
-                src={"../../src/assets/exit.png"}
-              />
             </div>
           </div>
-        </div>
+        </ClickAwayListener>
 
-        <div className="row m-0">
-          <div className="col-12 p-4">{/* Your dashboard content */}</div>
-          {error && <h6 className="p-3 text-center text-danger">{error}</h6>}
-        </div>
+        {/* Error Display */}
+        {error && <h6 className="p-3 text-center text-danger">{error}</h6>}
       </div>
     </>
   );
