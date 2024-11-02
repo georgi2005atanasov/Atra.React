@@ -36,7 +36,6 @@ export const useHandlers = () => {
 
       navigate("/verify", { replace: true });
     } catch (ex) {
-      console.log(ex);
       setError(ex.message);
     } finally {
       setLoading(false);

@@ -40,7 +40,6 @@ const TopBarGA = ({ setLoading, setError }) => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    console.log(1);
   };
 
   return (

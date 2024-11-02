@@ -40,7 +40,6 @@ const Verify = () => {
         { replace: true }
       );
     } catch (ex) {
-      console.log(ex);
       setLoading(false);
       setError("Възникна грешка!");
     }

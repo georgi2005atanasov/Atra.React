@@ -39,7 +39,6 @@ export const useHandlers = () => {
 
       navigate("/private/dashboard", { replace: true });
     } catch (ex) {
-      console.log(ex);
       setLoading(false);
       setError(ex.response.data.error);
     }

@@ -24,7 +24,7 @@ class ApiAbstract {
     }
 
     #getEndpointUrl = (endpoint) => {
-        return `${this.controllerName}/${endpoint}`;
+        return `${this.controllerName.trim("/")}/${endpoint.trim("/")}`;
     }
 
     execute = async ({

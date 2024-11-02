@@ -43,14 +43,14 @@
   z-index: 1000 !important;
 }
 
-.menu-item {
+.menu-option {
   font-size: 18px !important;
   padding: 8px 16px !important;
   white-space: normal !important;
   line-height: 1.4 !important;
 }
 
-.menu-item:hover {
+.menu-option:hover {
   color: #dc3545 !important;
   background-color: rgba(220, 53, 69, 0.04) !important;
 }
