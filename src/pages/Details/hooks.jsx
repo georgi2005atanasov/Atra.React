@@ -10,6 +10,7 @@ import {
   WeightUnit,
 } from "./constants";
 import { useLoaderData } from "react-router-dom";
+import { DetailsApi } from "../../services/Detail/Api";
 
 export const useHandlers = () => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);
@@ -225,9 +226,16 @@ export const useHandlers = () => {
     }));
   }, []);
 
-  const createDetail = (event) => {
+  const createDetail = async (event) => {
     event.preventDefault();
-    console.log(formData);
+
+    try {
+      // Get the form data
+      await DetailsApi.get().create(convertToFormData(formData));
+      console.log(formData);
+    } catch (ex) {
+      console.log(ex);
+    }
   };
 
   return {
@@ -254,4 +262,27 @@ export const useHandlers = () => {
     handleWeightRemove,
     handleWeightChange,
   };
+};
+
+const convertToFormData = (formData) => {
+  const form = new FormData();
+  
+  form.append('name', formData.name);
+  form.append('detailNumber', formData.detailNumber);
+  form.append('atraNumber', formData.atraNumber);
+  form.append('supplier', formData.supplier);
+  form.append('description', formData.description || "");
+  form.append('hasVAT', formData.hasVAT);
+  form.append('category', formData.category);
+  form.append('labourPrice', formData.labourPrice);
+  form.append('detailPrices', JSON.stringify(formData.detailPrices));
+  form.append('detailWeights', JSON.stringify(formData.detailWeights));
+
+  if (formData.image) {
+    form.append('image', formData.image);
+  }
+
+  form.append('extraCharacteristics', JSON.stringify(formData.extraCharacteristics));
+
+  return form;
 };

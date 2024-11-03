@@ -1,13 +1,16 @@
-import AtraError from "../../AtraError.js";
-import Storage from "../../utils/storage/Storage.js";
 import ApiAbstract, { METHOD } from "../ApiAbstract.js";
 
 class Api extends ApiAbstract {
-  controllerName = "Details";
+  controllerName = "Detail";
 
   static get = () => new Api();
 
-  // create
+  create = async (formData) => 
+    this.execute({
+    endpoint: "Create",
+    method: METHOD.POST,
+    body: formData,
+  });
 }
 
 export { Api as DetailsApi };
