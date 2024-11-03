@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Category } from "../Details/constants";
 
 export const useHandlers = () => {
   const [menuAnchors, setMenuAnchors] = useState({
@@ -29,53 +30,53 @@ export const useHandlers = () => {
   const menus = {
     details: {
       title: "Детайли",
-      basePath: "/details/",
+      basePath: "/private/details/",
       options: [
         {
-          allPath: "all?detailCategory=glass",
-          addPath: "add?detailCategory=glass",
+          allPath: `all?category=${Category.Glass}`,
+          addPath: `add?category=${Category.Glass}`,
           label: "Стъкла",
         },
         {
-          allPath: "all?detailCategory=metal",
-          addPath: "add?detailCategory=metal",
+          allPath: `all?category=${Category.Metal}`,
+          addPath: `add?category=${Category.Metal}`,
           label: "Метали",
         },
         {
-          allPath: "all?detailCategory=fastener",
-          addPath: "add?detailCategory=fastener",
+          allPath: `all?category=${Category.Fastener}`,
+          addPath: `add?category=${Category.Fastener}`,
           label: "Крепежи",
         },
         {
-          allPath: "all?detailCategory=conductors",
-          addPath: "add?detailCategory=conductors",
+          allPath: `all?category=${Category.WireTerminalConnector}`,
+          addPath: `add?category=${Category.WireTerminalConnector}`,
           label: "Проводници, клеми, накрайници",
         },
         {
-          allPath: "all?detailCategory=atra",
-          addPath: "add?detailCategory=atra",
+          allPath: `all?category=${Category.AtraDetail}`,
+          addPath: `add?category=${Category.AtraDetail}`,
           label: "АТРА",
         },
         {
-          allPath: "all?detailCategory=laki",
-          addPath: "add?detailCategory=laki",
+          allPath: `all?category=${Category.LakiDetail}`,
+          addPath: `add?category=${Category.LakiDetail}`,
           label: "ЛАКИ",
         },
         {
-          allPath: "all?detailCategory=others",
-          addPath: "add?detailCategory=others",
+          allPath: `all?category=${Category.Other}`,
+          addPath: `add?category=${Category.Other}`,
           label: "Други",
         },
       ],
     },
     components: {
       title: "Компоненти",
-      basePath: "/components/",
+      basePath: "/private/components/",
       options: [{ allPath: "all", addPath: "add", label: "Всички" }],
     },
     products: {
       title: "Крайни изделия",
-      basePath: "/products/",
+      basePath: "/private/products/",
       options: [
         {
           allPath: "all?category=lighting",

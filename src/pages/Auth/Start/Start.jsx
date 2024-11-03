@@ -1,49 +1,13 @@
-import { useState } from "react";
-import { redirect, useLoaderData, useNavigate } from "react-router-dom";
-import { useLoading, useTotp } from "../../../utils/hooks.js";
-import { DeviceApi } from "../../../services/Device/Api.js";
+import { redirect } from "react-router-dom";
 import { Button } from "@mui/material";
+import { useHandlers } from "./hooks.jsx";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
 import logo from "../../../assets/atraLogo.png";
-import Storage from "../../../utils/storage/Storage.js";
 import InputGA from "../../../components/Common/InputGA.jsx";
 
 const Start = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const { loading, setLoading } = useLoading();
-  const { isTotpSent, setIsTotpSent, error, setError } = useTotp();
-  const { message } = useLoaderData();
-
-  const requirePair = async (event) => {
-    event.preventDefault();
-
-    try {
-      setLoading(true);
-
-      const r = await DeviceApi.get().requireAuth({
-        email,
-      });
-
-      setIsTotpSent(true);
-      setError("");
-      setLoading(false);
-
-      Storage.setEmail(email);
-
-      // TODO: query builder?
-      if (r.data.hasProfile && r.data.isVerified)
-        navigate(`/login?email=${email}`, { replace: true });
-      else if (!r.data.hasProfile)
-        navigate(`/onboarding?email=${email}`, { replace: true });
-      else if (r.data.hasProfile && !r.data.isVerified)
-        navigate("/verify", { replace: true });
-    } catch (ex) {
-      setLoading(false);
-      setError(ex.message);
-      console.error(ex);
-    }
-  };
+  const { requirePair, isTotpSent, error, email, setEmail, loading, message } =
+    useHandlers();
 
   if (isTotpSent) return <></>;
 
@@ -97,6 +61,7 @@ const Start = () => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export async function loader({ request }) {
   try {
     const url = new URL(request.url);

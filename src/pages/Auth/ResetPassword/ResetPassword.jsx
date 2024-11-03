@@ -1,77 +1,26 @@
-import { useState } from "react";
-import { redirect, useLoaderData, useNavigate } from "react-router-dom";
-import { useLoading } from "../../../utils/hooks.js";
+import { redirect } from "react-router-dom";
 import { Button } from "@mui/material";
 import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
 import logo from "../../../assets/atraLogo.png";
-import Storage from "../../../utils/storage/Storage.js";
 import InputGA from "../../../components/Common/InputGA.jsx";
 import PasswordFieldGA from "../../../components/Common/PasswordFieldGA.jsx";
-import { IdentityApi } from "../../../services/Identity/Api.js";
-import { MESSAGE_TYPE } from "../../../utils/appConstants.js";
+import { useHandlers } from "./hooks.jsx";
 
 const ResetPassword = () => {
-  const navigate = useNavigate();
-  const { token, email: passedEmail } = useLoaderData();
-  const [email, setEmail] = useState(passedEmail);
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const { loading, setLoading } = useLoading();
-
-  const sendResetPasswordEmail = async (event) => {
-    event.preventDefault();
-
-    try {
-      setLoading(true);
-
-      await IdentityApi.get().sendPasswordReset({
-        email,
-      });
-
-      Storage.setEmail(email);
-
-      setSuccess("Моля, отворете линка, изпратен на имейла Ви.");
-      setError("");
-      setLoading(false);
-    } catch (ex) {
-      setLoading(false);
-      setSuccess("");
-      setError(ex.message);
-      console.error(ex);
-    }
-  };
-
-  const resetPassword = async (event) => {
-    event.preventDefault();
-
-    if (password != repeatPassword) {
-      setError("Паролите не съвпадат!");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      await IdentityApi.get().resetPassword(token, email, {
-        password: password,
-      });
-
-      Storage.setEmail(email);
-
-      setLoading(false);
-      navigate(
-        `/login?email=${passedEmail}&message=Успешна смяна на парола!&type=${MESSAGE_TYPE.SUCCESS}`,
-        { replace: true }
-      );
-    } catch (ex) {
-      setLoading(false);
-      setError(ex.message);
-      setSuccess("");
-      console.error(ex);
-    }
-  };
+  const {
+    resetPassword,
+    sendResetPasswordEmail,
+    repeatPassword,
+    setRepeatPassword,
+    loading,
+    success,
+    error,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    token,
+  } = useHandlers();
 
   if (token)
     return (

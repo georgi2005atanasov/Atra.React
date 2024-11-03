@@ -10,6 +10,8 @@ import PriceSection from "../../components/Details/Form/PriceSection";
 import WeightSection from "../../components/Details/Form/WeightSection";
 import { Category, CATEGORY_LABELS } from "./constants";
 import GlassFields from "../../components/Details/Form/GlassFields";
+import BackButtonGA from "../../components/Common/BackButtonGA";
+import { redirect } from "react-router-dom";
 import "./DetailForm.css";
 
 const DetailForm = () => {
@@ -38,7 +40,14 @@ const DetailForm = () => {
   } = useHandlers();
 
   return (
-    <div className="detail-form-wrapper container mt-4 bg-white">
+    <div className="detail-form-wrapper container-fluid bg-white p-4 m-3">
+      <div className="position-absolute mt-2">
+        <BackButtonGA />
+      </div>
+      <h2 className="text-center my-3 pb-2 border-bottom border-1 border-danger">
+        Добави Детайл
+      </h2>
+
       <form
         className="row g-3"
         onSubmit={createDetail}
@@ -89,8 +98,9 @@ const DetailForm = () => {
           <MetalFields
             material={formData.extraCharacteristics.material}
             materials={materials}
-            thickness={formData.extraCharacteristics.thicknessValue}
+            thicknessValue={formData.extraCharacteristics.thicknessValue}
             sizes={formData.extraCharacteristics.sizes}
+            handleNumberChange={handleNumberChange}
             handleChange={handleExtraChange}
           />
         )}
@@ -143,5 +153,19 @@ const DetailForm = () => {
     </div>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ request }) {
+  try {
+    const url = new URL(request.url);
+    const category = url.searchParams.get("category");
+
+    return {
+      category,
+    };
+  } catch {
+    return redirect("/");
+  }
+}
 
 export default DetailForm;

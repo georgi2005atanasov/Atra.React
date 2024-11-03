@@ -16,6 +16,9 @@ import "./App.css";
 import Unauthorized from "./pages/Errors/Unauthorized.jsx";
 import ErrorsRoot from "./pages/Root/ErrorsRoot.jsx";
 import Unhandled from "./pages/Errors/Unhandled.jsx";
+import DetailForm, {
+  loader as detailFormLoader,
+} from "./pages/Details/DetailForm.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/private",
     element: <PrivateRoot />,
-    children: [{ path: "dashboard", element: <Dashboard /> }],
+    children: [
+      { path: "dashboard", element: <Dashboard /> },
+      { path: "details/add", element: <DetailForm />, loader: detailFormLoader },
+    ],
   },
   {
     path: "/errors",
@@ -45,7 +51,7 @@ const router = createBrowserRouter([
       { index: true, element: <Unhandled /> },
       { path: "unauthorized", element: <Unauthorized /> },
     ],
-    errorElement: <Unhandled />
+    errorElement: <Unhandled />,
   },
 ]);
 

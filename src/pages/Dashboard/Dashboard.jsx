@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLoading } from "../../utils/hooks";
+import { ClickAwayListener } from "@mui/material";
+import { useHandlers } from "./hooks";
 import LoadingSpinner from "../../components/Common/LoadingSpinner";
 import TopBarGA from "../../components/Dashboard/TopBarGA";
 import MenuButtonGA from "../../components/Dashboard/MenuButtonGA";
 import MenuSectionGA from "../../components/Dashboard/MenuSectionGA";
-import { ClickAwayListener } from "@mui/material";
-import { useHandlers } from "./hooks";
-import DetailForm from "../Details/DetailForm";
-import { EnumsApi } from "../../services/Enums/Api";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -54,8 +52,6 @@ const Dashboard = () => {
           </div>
         </ClickAwayListener>
         <TopBarGA setLoading={setLoading} setError={setError} />
-
-        <DetailForm />
         {/* Error Display */}
         {error && <h6 className="p-3 text-center text-danger">{error}</h6>}
       </div>

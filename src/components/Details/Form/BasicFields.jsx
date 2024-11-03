@@ -29,7 +29,6 @@ const BasicFields = ({
           label="Име на детайл"
           name="name"
           onChange={handleChange}
-          required
           color="error"
         />
       </div>
@@ -40,7 +39,6 @@ const BasicFields = ({
           name="detailNumber"
           value={formData.detailNumber}
           onChange={handleChange}
-          required
           color="error"
         />
       </div>
@@ -52,7 +50,6 @@ const BasicFields = ({
             value={formData.supplier}
             label="Доставчик"
             name="supplier"
-            required
             onChange={handleChange}
           >
             {suppliers.map((supplier) => (
@@ -118,7 +115,7 @@ const BasicFields = ({
         />
       </div>
 
-      <div className="col-12">
+      <div className="col-12 mb-0">
         <TextareaAutosize
           minRows={3}
           maxLength={200}

@@ -9,10 +9,12 @@ import {
   PriceUnit,
   WeightUnit,
 } from "./constants";
+import { useLoaderData } from "react-router-dom";
 
 export const useHandlers = () => {
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);
-  const [category, setCategory] = useState("");
+  const { category: passedCategory } = useLoaderData();
+  const [category, setCategory] = useState(CATEGORY_LABELS[passedCategory]);
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
 
@@ -36,40 +38,51 @@ export const useHandlers = () => {
     });
   }, []);
 
-  const handleExtraChange = useCallback((e) => {
-    handleChange({
-      ...e,
-      target: {
-        ...e.target,
-        name: `extra.${e.target.name}`,
-      },
-    });
-  }, [handleChange]);
+  const handleExtraChange = useCallback(
+    (e) => {
+      handleChange({
+        ...e,
+        target: {
+          ...e.target,
+          name: `extra.${e.target.name}`,
+        },
+      });
+    },
+    [handleChange]
+  );
 
-  const handleNumberChange = useCallback((e) => {
-    const { name, value } = e.target;
+  const handleNumberChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
 
-    setFormData((prev) => {
-      if (Object.getOwnPropertyNames(formData.extraCharacteristics).includes(name)) {
+      setFormData((prev) => {
+        if (
+          Object.getOwnPropertyNames(formData.extraCharacteristics).includes(
+            name
+          )
+        ) {
+          return {
+            ...prev,
+            extraCharacteristics: {
+              ...prev.extraCharacteristics,
+              [name]: value === "" ? "" : Number(value),
+            },
+          };
+        }
         return {
           ...prev,
-          extraCharacteristics: {
-            ...prev.extraCharacteristics,
-            [name]: value === "" ? "" : Number(value),
-          },
+          [name]: value === "" ? "" : Number(value),
         };
-      }
-      return {
-        ...prev,
-        [name]: value === "" ? "" : Number(value),
-      };
-    });
-  }, [formData.extraCharacteristics]);
+      });
+    },
+    [formData.extraCharacteristics]
+  );
 
   const validateImage = useCallback((file) => {
     if (file.size > IMAGE_CONFIG.MAX_SIZE) {
       throw new Error(
-        `Снимката не трябва да надвишава ${IMAGE_CONFIG.MAX_SIZE / 1024 / 1024
+        `Снимката не трябва да надвишава ${
+          IMAGE_CONFIG.MAX_SIZE / 1024 / 1024
         }MB`
       );
     }
@@ -156,12 +169,12 @@ export const useHandlers = () => {
   }, []);
 
   const handlePriceAdd = useCallback(() => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       detailPrices: [
         ...prev.detailPrices,
-        { value: null, unit: PriceUnit.PerOne }
-      ]
+        { value: null, unit: PriceUnit.PerOne },
+      ],
     }));
   }, []);
 
@@ -186,7 +199,7 @@ export const useHandlers = () => {
       ...prev,
       detailWeights: prev.detailWeights.map((item, i) =>
         i === index ? { ...item, [field]: value } : item
-      )
+      ),
     }));
   }, []);
 
@@ -197,7 +210,7 @@ export const useHandlers = () => {
 
       return {
         ...prev,
-        detailWeights: prev.detailWeights.filter((_, i) => i !== indexToRemove)
+        detailWeights: prev.detailWeights.filter((_, i) => i !== indexToRemove),
       };
     });
   }, []);
@@ -207,8 +220,8 @@ export const useHandlers = () => {
       ...prev,
       detailWeights: [
         ...prev.detailWeights,
-        { value: null, unit: WeightUnit.PerOne } // Default values
-      ]
+        { value: null, unit: WeightUnit.PerOne }, // Default values
+      ],
     }));
   }, []);
 

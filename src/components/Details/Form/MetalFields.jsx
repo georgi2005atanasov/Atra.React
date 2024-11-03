@@ -8,11 +8,12 @@ import {
 } from "@mui/material";
 
 const MetalFields = ({
-  thickness,
+  thicknessValue,
   sizes,
   material,
   materials,
   handleChange,
+  handleNumberChange,
 }) => {
   return (
     <>
@@ -20,14 +21,10 @@ const MetalFields = ({
         <TextField
           fullWidth
           label="Дебелина (мм)"
-          name="thickness"
+          name="thicknessValue"
           type="number"
-          value={thickness}
-          onChange={(e) =>
-            e.target.value !== ""
-              ? handleChange(Number(e.target.value))
-              : handleChange("")
-          }
+          value={thicknessValue}
+          onChange={handleNumberChange}
           color="error"
         />
       </div>
