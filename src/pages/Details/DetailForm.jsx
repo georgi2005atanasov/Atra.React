@@ -1,12 +1,16 @@
-import { Typography, Button } from "@mui/material";
+import { Button } from "@mui/material";
 import { useHandlers } from "./hooks";
-import BasicFields from "../../components/Details/BasicFields";
-import FastenerFields from "../../components/Details/FastenerFields";
-import AtraFields from "../../components/Details/AtraFields";
-import LakiFields from "../../components/Details/LakiFields";
-import MetalFields from "../../components/Details/MetalFields";
-import ImageField from "../../components/Details/ImageField";
+import BasicFields from "../../components/Details/Form/BasicFields";
+import FastenerFields from "../../components/Details/Form/FastenerFields";
+import AtraFields from "../../components/Details/Form/AtraFields";
+import LakiFields from "../../components/Details/Form/LakiFields";
+import MetalFields from "../../components/Details/Form/MetalFields";
+import ImageField from "../../components/Details/Form/ImageField";
+import PriceSection from "../../components/Details/Form/PriceSection";
+import WeightSection from "../../components/Details/Form/WeightSection";
 import "./DetailForm.css";
+import { Category, CATEGORY_LABELS, getLabelByEnum } from "./constants";
+import GlassFields from "../../components/Details/Form/GlassFields";
 
 const DetailForm = () => {
   const {
@@ -23,17 +27,14 @@ const DetailForm = () => {
     materials,
     suppliers,
     createDetail,
+    handleExtraChange,
+    handlePriceAdd,
+    handlePriceRemove,
+    handlePriceChange,
+    handleWeightAdd,
+    handleWeightRemove,
+    handleWeightChange,
   } = useHandlers();
-
-  const handleExtraChange = (e) => {
-    handleChange({
-      ...e,
-      target: {
-        ...e.target,
-        name: `extra.${e.target.name}`,
-      },
-    });
-  };
 
   return (
     <div className="detail-form-wrapper container mt-4 bg-white">
@@ -45,30 +46,29 @@ const DetailForm = () => {
         <BasicFields
           formData={formData}
           handleChange={handleChange}
-          suppliers={suppliers}
           handleSwitchChange={handleSwitchChange}
           handleCategoryChange={handleCategoryChange}
+          suppliers={suppliers}
           categories={categories}
           category={category}
         />
 
-        {category === "Крепежи" && (
-          <FastenerFields
-            din={formData.extraCharacteristics.din}
-            handleChange={handleExtraChange}
-          />
-        )}
+        <PriceSection
+          formData={formData}
+          handlePriceChange={handlePriceChange}
+          handlePriceRemove={handlePriceRemove}
+          handlePriceAdd={handlePriceAdd}
+        />
 
-        <div className="col-12">
-          <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-            Цени на детайл
-          </Typography>
-          {/* TODO */}
-          {/* Price - Price unit */}
-        </div>
+        <WeightSection
+          formData={formData}
+          handleWeightChange={handleWeightChange}
+          handleWeightRemove={handleWeightRemove}
+          handleWeightAdd={handleWeightAdd}
+        />
 
         {/* ATPA Fields */}
-        {category === "АТРА" && (
+        {category === CATEGORY_LABELS[Category.AtraDetail] && (
           <AtraFields
             formData={formData}
             materials={materials}
@@ -77,14 +77,33 @@ const DetailForm = () => {
         )}
 
         {/* LAKI Fields */}
-        {category === "ЛАКИ" && (
+        {category === CATEGORY_LABELS[Category.LakiDetail] && (
           <LakiFields formData={formData} handleChange={handleExtraChange} />
         )}
 
         {/* Метали Fields */}
-        {category === "Метали" && (
+        {category === CATEGORY_LABELS[Category.Metal] && (
           <MetalFields
-            formData={formData}
+            thickness={formData.extraCharacteristics.thicknessValue}
+            sizes={formData.extraCharacteristics.sizes}
+            handleChange={handleExtraChange}
+          />
+        )}
+
+        {/* Крепежи Fields */}
+        {category === CATEGORY_LABELS[Category.Fastener] && (
+          <FastenerFields
+            din={formData.extraCharacteristics.din}
+            material={formData.extraCharacteristics.material}
+            materials={materials}
+            handleChange={handleExtraChange}
+          />
+        )}
+
+        {/* Стъкло Fields */}
+        {category === CATEGORY_LABELS[Category.Glass] && (
+          <GlassFields
+            material={formData.extraCharacteristics.material}
             materials={materials}
             handleChange={handleExtraChange}
           />

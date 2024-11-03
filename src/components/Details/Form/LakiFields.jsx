@@ -19,7 +19,7 @@ const LakiFields = ({ formData, handleChange }) => {
           fullWidth
           label="Размери Прес форма"
           name="pressMoldDimensions"
-          value={formData.extraCharacteristics.pressMoldDimensions}
+          value={formData.extraCharacteristics.pressMoldSizes}
           onChange={handleChange}
           color="error"
         />
@@ -50,18 +50,6 @@ const LakiFields = ({ formData, handleChange }) => {
           label="Леярска машина"
           name="castingMachine"
           value={formData.extraCharacteristics.castingMachine}
-          onChange={handleChange}
-          color="error"
-        />
-      </div>
-      {/* TODO: Remove Weight fields */}
-      <div className="col-md-4">
-        <TextField
-          fullWidth
-          label="Грамове"
-          name="grams"
-          type="number"
-          value={formData.extraCharacteristics.grams}
           onChange={handleChange}
           color="error"
         />

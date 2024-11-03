@@ -57,27 +57,9 @@ const AtraFields = ({ formData, materials, handleChange }) => {
         <TextField
           fullWidth
           label="Разкрой"
-          name="cutting"
+          name="layout"
           type="number"
-          value={formData.extraCharacteristics.cutting}
-          onChange={handleChange}
-          color="error"
-        />
-      </div>
-      <div className="col-12">
-        <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-          Тегла на детайл
-        </Typography>
-
-        {/* TODO */}
-      </div>
-      <div className="col-md-3">
-        <TextField
-          fullWidth
-          label="Тегло-отпадък"
-          name="wasteWeight"
-          type="number"
-          value={formData.extraCharacteristics.wasteWeight}
+          value={formData.extraCharacteristics.layout}
           onChange={handleChange}
           color="error"
         />
@@ -86,9 +68,20 @@ const AtraFields = ({ formData, materials, handleChange }) => {
         <TextField
           fullWidth
           label="Брой детайли/удар лист"
-          name="partsPerSheet"
+          name="detailsPerHit"
           type="number"
-          value={formData.extraCharacteristics.partsPerSheet}
+          value={formData.extraCharacteristics.detailsPerHit}
+          onChange={handleChange}
+          color="error"
+        />
+      </div>
+      <div className="col-md-3">
+        <TextField
+          fullWidth
+          label="Брой детайли от лист"
+          name="detailsPerSheet"
+          type="number"
+          value={formData.extraCharacteristics.detailsPerSheet}
           onChange={handleChange}
           color="error"
         />

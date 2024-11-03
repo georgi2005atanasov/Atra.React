@@ -36,8 +36,8 @@ const BasicFields = ({
         <TextField
           fullWidth
           label="Номер на детайл"
-          name="partNumber"
-          value={formData.partNumber}
+          name="detailNumber"
+          value={formData.detailNumber}
           onChange={handleChange}
           required
           color="error"
@@ -99,7 +99,7 @@ const BasicFields = ({
           fullWidth
           label="Номер АТРА"
           name="atraNumber"
-          value={formData.extraCharacteristics.atraNumber}
+          value={formData.atraNumber}
           onChange={handleChange}
           color="error"
         />
@@ -109,10 +109,12 @@ const BasicFields = ({
         <TextField
           fullWidth
           label="Цена за труд"
-          name="laborCost"
+          name="labourPrice"
           type="number"
-          value={formData.laborCost}
-          onChange={handleChange}
+          value={formData.labourPrice}
+          onChange={(e) =>
+            handleChange(e.target.value !== "" ? Number(e.target.value) : null)
+          }
           color="error"
         />
       </div>
