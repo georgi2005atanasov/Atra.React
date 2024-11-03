@@ -8,9 +8,9 @@ import MetalFields from "../../components/Details/Form/MetalFields";
 import ImageField from "../../components/Details/Form/ImageField";
 import PriceSection from "../../components/Details/Form/PriceSection";
 import WeightSection from "../../components/Details/Form/WeightSection";
-import "./DetailForm.css";
 import { Category, CATEGORY_LABELS } from "./constants";
 import GlassFields from "../../components/Details/Form/GlassFields";
+import "./DetailForm.css";
 
 const DetailForm = () => {
   const {
@@ -87,6 +87,8 @@ const DetailForm = () => {
         {/* Метали Fields */}
         {category === CATEGORY_LABELS[Category.Metal] && (
           <MetalFields
+            material={formData.extraCharacteristics.material}
+            materials={materials}
             thickness={formData.extraCharacteristics.thicknessValue}
             sizes={formData.extraCharacteristics.sizes}
             handleChange={handleExtraChange}

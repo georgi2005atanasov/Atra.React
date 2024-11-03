@@ -57,10 +57,8 @@ class ApiAbstract {
             if (endpoint.toLowerCase() === 'logout') {
                 try {
                     await this.axiosInstance(config);
-                    Storage.setAccessToken("");
                     return { success: true };
                 } catch {
-                    Storage.setAccessToken("");
                     return { success: true };
                 }
             }
@@ -69,7 +67,6 @@ class ApiAbstract {
             return response.data;
         } catch (error) {
             if (error.response?.status === 401) {
-                Storage.setAccessToken("");
                 throw new AtraError(error.response.data, error.response.status);
             }
             throw error;

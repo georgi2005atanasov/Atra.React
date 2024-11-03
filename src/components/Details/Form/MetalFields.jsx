@@ -1,7 +1,19 @@
 /* eslint-disable react/prop-types */
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
-const MetalFields = ({ thickness, sizes, handleChange }) => {
+const MetalFields = ({
+  thickness,
+  sizes,
+  material,
+  materials,
+  handleChange,
+}) => {
   return (
     <>
       <div className="col-md-6">
@@ -11,7 +23,11 @@ const MetalFields = ({ thickness, sizes, handleChange }) => {
           name="thickness"
           type="number"
           value={thickness}
-          onChange={(e) => e.target.value !== "" ? handleChange(Number(e.target.value)) : handleChange("")}
+          onChange={(e) =>
+            e.target.value !== ""
+              ? handleChange(Number(e.target.value))
+              : handleChange("")
+          }
           color="error"
         />
       </div>
@@ -24,6 +40,24 @@ const MetalFields = ({ thickness, sizes, handleChange }) => {
           onChange={handleChange}
           color="error"
         />
+      </div>
+      <div className="col-md-6">
+        <FormControl fullWidth>
+          <InputLabel color="error">Материал</InputLabel>
+          <Select
+            value={material}
+            label="Материал"
+            name="material"
+            color="error"
+            onChange={handleChange}
+          >
+            {materials.map((material) => (
+              <MenuItem key={material} value={material}>
+                {material}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
     </>
   );

@@ -60,6 +60,7 @@ const ResetPassword = () => {
 
       Storage.setEmail(email);
 
+      setLoading(false);
       navigate(
         `/login?email=${passedEmail}&message=Успешна смяна на парола!&type=${MESSAGE_TYPE.SUCCESS}`,
         { replace: true }

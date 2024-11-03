@@ -52,23 +52,27 @@ export const CATEGORY_LABELS: Record<Category, string> = {
 
 export enum Material {
   Other = 0,
-  Aluminum = 1,
-  Steel = 2,
+  Aluminium = 1,
   Copper = 3,
   Brass = 4,
-  Plastic = 5,
-  NormalGlass = 7,
-  TemperedGlass = 8,
+  GalvanizedMetal = 5,
+  StainlessSteel = 6,
+  BlackMetal = 7,
+  Plastic = 8,
+  NormalGlass = 9,
+  TemperedGlass = 10,
 }
 export const MATERIAL_LABELS: Record<Material, string> = {
-  [Material.Other]: "Други",
-  [Material.Aluminum]: "Алуминий",
-  [Material.Steel]: "Стомана",
+  [Material.Aluminium]: "Алуминий",
   [Material.Copper]: "Мед",
-  [Material.Brass]: "Месинг",
+  [Material.Brass]: "Месингова ламарина",
+  [Material.GalvanizedMetal]: "Поцинкована ламарина",
+  [Material.StainlessSteel]: "Неръждаема ламарина",
+  [Material.BlackMetal]: "Черна ламарина",
   [Material.Plastic]: "Пластмаса",
   [Material.NormalGlass]: "Нормално стъкло",
   [Material.TemperedGlass]: "Темперирано стъкло",
+  [Material.Other]: "Други",
 };
 
 export enum Supplier {
@@ -89,14 +93,6 @@ export const SUPPLIER_LABELS: Record<Supplier, string> = {
   [Supplier.Alcomet]: "АЛКОМЕТ Шумен",
   [Supplier.Mushikov]: "Мушиков",
 };
-
-export const SUPPLIERS_WITH_ATRA_NUMBER = [
-  Supplier.Diko,
-  Supplier.Alucom,
-  Supplier.AngelPopov,
-  Supplier.Laki,
-  Supplier.Alcomet,
-];
 
 export type EnumLabels<T extends { [key: number]: string }> = {
   [K in keyof T]: string;
