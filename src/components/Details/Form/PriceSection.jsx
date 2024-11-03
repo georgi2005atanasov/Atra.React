@@ -23,7 +23,7 @@ const PriceSection = ({
   }
 
   const onPriceValueChange = (index, value) => {
-    const numberValue = value !== "" ? Number(value) : null;
+    const numberValue = value !== "" ? Number(value) : "";
     handlePriceChange(index, "value", numberValue);
   };
 

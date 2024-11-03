@@ -9,7 +9,7 @@ import ImageField from "../../components/Details/Form/ImageField";
 import PriceSection from "../../components/Details/Form/PriceSection";
 import WeightSection from "../../components/Details/Form/WeightSection";
 import "./DetailForm.css";
-import { Category, CATEGORY_LABELS, getLabelByEnum } from "./constants";
+import { Category, CATEGORY_LABELS } from "./constants";
 import GlassFields from "../../components/Details/Form/GlassFields";
 
 const DetailForm = () => {
@@ -21,6 +21,7 @@ const DetailForm = () => {
     handleUploadClick,
     handleRemoveImage,
     handleChange,
+    handleNumberChange,
     handleCategoryChange,
     handleSwitchChange,
     categories,
@@ -46,6 +47,7 @@ const DetailForm = () => {
         <BasicFields
           formData={formData}
           handleChange={handleChange}
+          handleNumberChange={handleNumberChange}
           handleSwitchChange={handleSwitchChange}
           handleCategoryChange={handleCategoryChange}
           suppliers={suppliers}
@@ -73,6 +75,7 @@ const DetailForm = () => {
             formData={formData}
             materials={materials}
             handleChange={handleExtraChange}
+            handleNumberChange={handleNumberChange}
           />
         )}
 

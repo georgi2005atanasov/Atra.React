@@ -24,7 +24,7 @@ const WeightSection = ({
   }
 
   const onWeightValueChange = (index, value) => {
-    const numberValue = value !== "" ? Number(value) : null;
+    const numberValue = value !== "" ? Number(value) : "";
     handleWeightChange(index, "value", numberValue);
   };
 

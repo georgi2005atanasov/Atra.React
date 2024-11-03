@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
-const AtraFields = ({ formData, materials, handleChange }) => {
+const AtraFields = ({ formData, materials, handleChange, handleNumberChange }) => {
   return (
     <>
       <div className="col-md-6">
@@ -49,7 +49,7 @@ const AtraFields = ({ formData, materials, handleChange }) => {
           name="step"
           type="number"
           value={formData.extraCharacteristics.step}
-          onChange={handleChange}
+          onChange={handleNumberChange}
           color="error"
         />
       </div>
@@ -58,7 +58,7 @@ const AtraFields = ({ formData, materials, handleChange }) => {
           fullWidth
           label="Разкрой"
           name="layout"
-          type="number"
+          type="text"
           value={formData.extraCharacteristics.layout}
           onChange={handleChange}
           color="error"
@@ -71,7 +71,7 @@ const AtraFields = ({ formData, materials, handleChange }) => {
           name="detailsPerHit"
           type="number"
           value={formData.extraCharacteristics.detailsPerHit}
-          onChange={handleChange}
+          onChange={handleNumberChange}
           color="error"
         />
       </div>
@@ -82,7 +82,7 @@ const AtraFields = ({ formData, materials, handleChange }) => {
           name="detailsPerSheet"
           type="number"
           value={formData.extraCharacteristics.detailsPerSheet}
-          onChange={handleChange}
+          onChange={handleNumberChange}
           color="error"
         />
       </div>

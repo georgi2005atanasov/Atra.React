@@ -116,16 +116,16 @@ export const INITIAL_FORM_STATE = {
   description: "",
   hasVAT: false,
   category: "",
-  labourPrice: null,
+  labourPrice: "", // null,
   detailPrices: [
     {
-      value: null,
+      value: "", // null,
       unit: PriceUnit.PerOne,
     },
   ],
   detailWeights: [
     {
-      value: null,
+      value: "", // null,
       unit: WeightUnit.PerOne,
     },
   ],
@@ -136,10 +136,10 @@ export const INITIAL_FORM_STATE = {
     material: "",
     dieNumber: "",
     benderNumber: "",
-    step: "",
+    step: "",//null,
     layout: "",
-    detailsPerHit: "",
-    detailsPerSheet: "",
+    detailsPerHit: "", //null,
+    detailsPerSheet: "", //null,
 
     // Fasteners specific fields
     din: "",
@@ -152,7 +152,7 @@ export const INITIAL_FORM_STATE = {
     finishing: "",
 
     // Metal specific fields
-    thicknessValue: "",
+    thicknessValue: "", //null,
     sizes: "",
   },
 };

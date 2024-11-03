@@ -13,6 +13,7 @@ import {
 const BasicFields = ({
   formData,
   handleChange,
+  handleNumberChange,
   suppliers,
   handleSwitchChange,
   handleCategoryChange,
@@ -112,9 +113,7 @@ const BasicFields = ({
           name="labourPrice"
           type="number"
           value={formData.labourPrice}
-          onChange={(e) =>
-            handleChange(e.target.value !== "" ? Number(e.target.value) : null)
-          }
+          onChange={handleNumberChange}
           color="error"
         />
       </div>

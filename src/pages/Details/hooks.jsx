@@ -16,7 +16,27 @@ export const useHandlers = () => {
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
 
-  const handleExtraChange = (e) => {
+  const handleChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => {
+      if (name.startsWith("extra.")) {
+        const fieldName = name.replace("extra.", "");
+        return {
+          ...prev,
+          extraCharacteristics: {
+            ...prev.extraCharacteristics,
+            [fieldName]: value,
+          },
+        };
+      }
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  }, []);
+
+  const handleExtraChange = useCallback((e) => {
     handleChange({
       ...e,
       target: {
@@ -24,13 +44,32 @@ export const useHandlers = () => {
         name: `extra.${e.target.name}`,
       },
     });
-  };
+  }, [handleChange]);
+
+  const handleNumberChange = useCallback((e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => {
+      if (Object.getOwnPropertyNames(formData.extraCharacteristics).includes(name)) {
+        return {
+          ...prev,
+          extraCharacteristics: {
+            ...prev.extraCharacteristics,
+            [name]: value === "" ? "" : Number(value),
+          },
+        };
+      }
+      return {
+        ...prev,
+        [name]: value === "" ? "" : Number(value),
+      };
+    });
+  }, [formData.extraCharacteristics]);
 
   const validateImage = useCallback((file) => {
     if (file.size > IMAGE_CONFIG.MAX_SIZE) {
       throw new Error(
-        `Снимката не трябва да надвишава ${
-          IMAGE_CONFIG.MAX_SIZE / 1024 / 1024
+        `Снимката не трябва да надвишава ${IMAGE_CONFIG.MAX_SIZE / 1024 / 1024
         }MB`
       );
     }
@@ -90,26 +129,6 @@ export const useHandlers = () => {
     });
   }, []);
 
-  const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => {
-      if (name.startsWith("extra.")) {
-        const fieldName = name.replace("extra.", "");
-        return {
-          ...prev,
-          extraCharacteristics: {
-            ...prev.extraCharacteristics,
-            [fieldName]: value,
-          },
-        };
-      }
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-  }, []);
-
   const handleCategoryChange = useCallback((e) => {
     const newCategory = e.target.value;
     setCategory(newCategory);
@@ -165,24 +184,24 @@ export const useHandlers = () => {
   const handleWeightChange = useCallback((index, field, value) => {
     setFormData((prev) => ({
       ...prev,
-      detailWeights: prev.detailWeights.map((item, i) => 
+      detailWeights: prev.detailWeights.map((item, i) =>
         i === index ? { ...item, [field]: value } : item
       )
     }));
   }, []);
-  
+
   const handleWeightRemove = useCallback((indexToRemove) => {
     setFormData((prev) => {
       // Don't remove if it's the last item
       if (prev.detailWeights.length <= 1) return prev;
-      
+
       return {
         ...prev,
         detailWeights: prev.detailWeights.filter((_, i) => i !== indexToRemove)
       };
     });
   }, []);
-  
+
   const handleWeightAdd = useCallback(() => {
     setFormData((prev) => ({
       ...prev,
@@ -207,6 +226,7 @@ export const useHandlers = () => {
     handleUploadClick,
     handleRemoveImage,
     handleChange,
+    handleNumberChange,
     handleCategoryChange,
     handleSwitchChange,
     categories: Object.values(CATEGORY_LABELS),

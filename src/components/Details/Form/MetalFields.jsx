@@ -11,7 +11,7 @@ const MetalFields = ({ thickness, sizes, handleChange }) => {
           name="thickness"
           type="number"
           value={thickness}
-          onChange={handleChange}
+          onChange={(e) => e.target.value !== "" ? handleChange(Number(e.target.value)) : handleChange("")}
           color="error"
         />
       </div>
