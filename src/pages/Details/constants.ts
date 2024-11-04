@@ -109,7 +109,8 @@ export const INITIAL_FORM_STATE = {
       unit: PriceUnit.PerOne,
       metalDimensions: {
         thickness: "",
-        sizes: "",
+        width: "",
+        height: "",
       },
     },
   ],

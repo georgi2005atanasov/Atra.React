@@ -91,7 +91,6 @@ const DetailForm = () => {
             material={formData.extraCharacteristics.material}
             materials={materials}
             thicknessValue={formData.extraCharacteristics.thicknessValue}
-            sizes={formData.extraCharacteristics.sizes}
             handleNumberChange={handleNumberChange}
             handleChange={handleExtraChange}
           />

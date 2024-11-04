@@ -76,7 +76,7 @@ const PriceSection = ({
               <div className="col-md-2">
                 <TextField
                   fullWidth
-                  label="Дебелина"
+                  label="Дебелина (мм)"
                   type="number"
                   value={price.metalDimensions?.thickness ?? ""}
                   required
@@ -86,14 +86,26 @@ const PriceSection = ({
                   color="error"
                 />
               </div>
-              <div className="col-md-2">
+              <div className="col-md-1">
                 <TextField
                   fullWidth
-                  label="Размери"
-                  value={price.metalDimensions?.sizes ?? ""}
-                  required
+                  label="Широчина (мм)"
+                  value={price.metalDimensions?.width ?? ""}
+                  type="number"
                   onChange={(e) =>
-                    onDimensionsChange(index, "sizes", e.target.value)
+                    onDimensionsChange(index, "width", e.target.value)
+                  }
+                  color="error"
+                />
+              </div>
+              <div className="col-md-1">
+                <TextField
+                  fullWidth
+                  label="Височина (мм)"
+                  value={price.metalDimensions?.height ?? ""}
+                  type="number"
+                  onChange={(e) =>
+                    onDimensionsChange(index, "height", e.target.value)
                   }
                   color="error"
                 />

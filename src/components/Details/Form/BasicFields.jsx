@@ -38,18 +38,30 @@ const BasicFields = ({
               color="error"
             />
           </div>
-          <div className="col-md-3">
+
+          <div className="col-md-4">
             <TextField
               fullWidth
-              label="Номер на детайл"
-              name="detailNumber"
-              value={formData.detailNumber}
+              label="Номер АТРА"
+              name="atraNumber"
+              value={formData.atraNumber}
               onChange={handleChange}
               color="error"
             />
           </div>
         </>
       )}
+
+      <div className="col-md-3">
+        <TextField
+          fullWidth
+          label="Номер на детайл"
+          name="detailNumber"
+          value={formData.detailNumber}
+          onChange={handleChange}
+          color="error"
+        />
+      </div>
 
       <div className="col-md-6">
         <FormControl fullWidth color="error">
@@ -99,17 +111,6 @@ const BasicFields = ({
             ))}
           </Select>
         </FormControl>
-      </div>
-
-      <div className="col-md-4">
-        <TextField
-          fullWidth
-          label="Номер АТРА"
-          name="atraNumber"
-          value={formData.atraNumber}
-          onChange={handleChange}
-          color="error"
-        />
       </div>
 
       <div className="col-md-2">

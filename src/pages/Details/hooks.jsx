@@ -215,7 +215,8 @@ export const useHandlers = () => {
           unit: PriceUnit.PerOne,
           metalDimensions: {
             thickness: null,
-            sizes: "",
+            width: "",
+            height: "",
           },
         },
       ],
