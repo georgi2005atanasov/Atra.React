@@ -6,12 +6,11 @@ import AtraFields from "../../components/Details/Form/AtraFields";
 import LakiFields from "../../components/Details/Form/LakiFields";
 import MetalFields from "../../components/Details/Form/MetalFields";
 import ImageField from "../../components/Details/Form/ImageField";
-import PriceSection from "../../components/Details/Form/PriceSection";
-import WeightSection from "../../components/Details/Form/WeightSection";
 import { Category, CATEGORY_LABELS } from "./constants";
 import GlassFields from "../../components/Details/Form/GlassFields";
 import BackButtonGA from "../../components/Common/BackButtonGA";
 import { redirect } from "react-router-dom";
+import PriceSection from "../../components/Details/Form/PriceSection";
 import "./DetailForm.css";
 
 const DetailForm = () => {
@@ -34,9 +33,10 @@ const DetailForm = () => {
     handlePriceAdd,
     handlePriceRemove,
     handlePriceChange,
-    handleWeightAdd,
-    handleWeightRemove,
-    handleWeightChange,
+    handleMetalDimensionsChange,
+    // handleWeightAdd,
+    // handleWeightRemove,
+    // handleWeightChange,
   } = useHandlers();
 
   return (
@@ -69,13 +69,7 @@ const DetailForm = () => {
           handlePriceChange={handlePriceChange}
           handlePriceRemove={handlePriceRemove}
           handlePriceAdd={handlePriceAdd}
-        />
-
-        <WeightSection
-          formData={formData}
-          handleWeightChange={handleWeightChange}
-          handleWeightRemove={handleWeightRemove}
-          handleWeightAdd={handleWeightAdd}
+          handleMetalDimensionsChange={handleMetalDimensionsChange}
         />
 
         {/* ATPA Fields */}

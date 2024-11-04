@@ -7,7 +7,7 @@ import {
   SUPPLIER_LABELS,
   IMAGE_CONFIG,
   PriceUnit,
-  WeightUnit,
+  getKeyByValue,
 } from "./constants";
 import { useLoaderData } from "react-router-dom";
 import { DetailsApi } from "../../services/Detail/Api";
@@ -100,20 +100,25 @@ export const useHandlers = () => {
 
       try {
         validateImage(file);
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setFormData((prev) => ({
-            ...prev,
-            image: reader.result,
-          }));
-        };
-        reader.onerror = () => {
-          setErrors((prev) => ({
-            ...prev,
-            image: "Failed to read image file",
-          }));
-        };
-        reader.readAsDataURL(file);
+        setFormData((prev) => ({
+          ...prev,
+          image: file,
+        }));
+
+        // const reader = new FileReader();
+        // reader.onloadend = () => {
+        //   setFormData((prev) => ({
+        //     ...prev,
+        //     image: reader.result,
+        //   }));
+        // };
+        // reader.onerror = () => {
+        //   setErrors((prev) => ({
+        //     ...prev,
+        //     image: "Failed to read image file",
+        //   }));
+        // };
+        // reader.readAsDataURL(file);
       } catch (error) {
         setErrors((prev) => ({
           ...prev,
@@ -169,70 +174,75 @@ export const useHandlers = () => {
     }));
   }, []);
 
-  const handlePriceAdd = useCallback(() => {
-    setFormData((prev) => ({
-      ...prev,
-      detailPrices: [
-        ...prev.detailPrices,
-        { value: null, unit: PriceUnit.PerOne },
-      ],
-    }));
-  }, []);
-
-  const handlePriceRemove = useCallback((index) => {
-    setFormData((prev) => ({
-      ...prev,
-      detailPrices: prev.detailPrices.filter((_, i) => i !== index),
-    }));
-  }, []);
-
-  const handlePriceChange = useCallback((index, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      detailPrices: prev.detailPrices.map((price, i) =>
-        i === index ? { ...price, [field]: value } : price
-      ),
-    }));
-  }, []);
-
-  const handleWeightChange = useCallback((index, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      detailWeights: prev.detailWeights.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      ),
-    }));
-  }, []);
-
-  const handleWeightRemove = useCallback((indexToRemove) => {
-    setFormData((prev) => {
-      // Don't remove if it's the last item
-      if (prev.detailWeights.length <= 1) return prev;
-
-      return {
-        ...prev,
-        detailWeights: prev.detailWeights.filter((_, i) => i !== indexToRemove),
-      };
+  // Handler for price/weight/unit changes
+  const handlePriceChange = (index, field, value) => {
+    const newPrices = [...formData.prices];
+    newPrices[index] = {
+      ...newPrices[index],
+      [field]: value,
+    };
+    setFormData({
+      ...formData,
+      prices: newPrices,
     });
-  }, []);
+  };
 
-  const handleWeightAdd = useCallback(() => {
-    setFormData((prev) => ({
-      ...prev,
-      detailWeights: [
-        ...prev.detailWeights,
-        { value: null, unit: WeightUnit.PerOne }, // Default values
+  // Handler specifically for metal dimensions
+  const handleMetalDimensionsChange = (index, field, value) => {
+    const newPrices = [...formData.prices];
+    newPrices[index] = {
+      ...newPrices[index],
+      metalDimensions: {
+        ...newPrices[index].metalDimensions,
+        [field]: value,
+      },
+    };
+    setFormData({
+      ...formData,
+      prices: newPrices,
+    });
+  };
+
+  // Add a new price record
+  const handlePriceAdd = () => {
+    setFormData({
+      ...formData,
+      prices: [
+        ...formData.prices,
+        {
+          price: null,
+          weight: null,
+          unit: PriceUnit.PerOne,
+          metalDimensions: {
+            thickness: null,
+            sizes: "",
+          },
+        },
       ],
-    }));
-  }, []);
+    });
+  };
+
+  // Remove a price record
+  const handlePriceRemove = (index) => {
+    const newPrices = formData.prices.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      prices: newPrices,
+    });
+  };
 
   const createDetail = async (event) => {
     event.preventDefault();
 
     try {
-      // Get the form data
-      await DetailsApi.get().create(convertToFormData(formData));
       console.log(formData);
+      await DetailsApi.get().create(
+        convertToFormData({
+          ...formData,
+          // converting to accept enum
+          category: getKeyByValue(formData.category),
+        })
+      );
     } catch (ex) {
       console.log(ex);
     }
@@ -258,31 +268,32 @@ export const useHandlers = () => {
     handlePriceAdd,
     handlePriceRemove,
     handlePriceChange,
-    handleWeightAdd,
-    handleWeightRemove,
-    handleWeightChange,
+    handleMetalDimensionsChange,
   };
 };
 
 const convertToFormData = (formData) => {
   const form = new FormData();
-  
-  form.append('name', formData.name);
-  form.append('detailNumber', formData.detailNumber);
-  form.append('atraNumber', formData.atraNumber);
-  form.append('supplier', formData.supplier);
-  form.append('description', formData.description || "");
-  form.append('hasVAT', formData.hasVAT);
-  form.append('category', formData.category);
-  form.append('labourPrice', formData.labourPrice);
-  form.append('detailPrices', JSON.stringify(formData.detailPrices));
-  form.append('detailWeights', JSON.stringify(formData.detailWeights));
+
+  form.append("name", formData.name);
+  form.append("detailNumber", formData.detailNumber);
+  form.append("atraNumber", formData.atraNumber);
+  form.append("supplier", formData.supplier);
+  form.append("description", formData.description || "");
+  form.append("hasVAT", formData.hasVAT);
+  form.append("category", formData.category);
+  form.append("labourPrice", formData.labourPrice);
+  form.append("prices", JSON.stringify(formData.prices));
+  form.append("detailWeights", JSON.stringify(formData.detailWeights));
 
   if (formData.image) {
-    form.append('image', formData.image);
+    form.append("image", formData.image);
   }
 
-  form.append('extraCharacteristics', JSON.stringify(formData.extraCharacteristics));
+  form.append(
+    "extraCharacteristics",
+    JSON.stringify(formData.extraCharacteristics)
+  );
 
   return form;
 };

@@ -1,27 +1,10 @@
-// constants.ts
-export enum WeightUnit {
-  Other = 0,
-  PerSheet = 1,
-  PerKg = 2,
-  PerSquareMeter = 3,
-  ScrapWeight = 4,
-  PerOne = 5,
-}
-export const WEIGHT_UNIT_LABELS: Record<WeightUnit, string> = {
-  [WeightUnit.Other]: "Друга",
-  [WeightUnit.PerSheet]: "За лист",
-  [WeightUnit.PerKg]: "За килограм",
-  [WeightUnit.PerSquareMeter]: "За кв. метър",
-  [WeightUnit.ScrapWeight]: "Отпадък",
-  [WeightUnit.PerOne]: "За бройка",
-};
-
 export enum PriceUnit {
   Other = 0,
   PerOne = 1,
   PerSheet = 2,
   PerKg = 3,
   PerSquareMeter = 4,
+  ScrapWeight = 5,
 }
 export const PRICE_UNIT_LABELS: Record<PriceUnit, string> = {
   [PriceUnit.Other]: "Друга",
@@ -29,6 +12,7 @@ export const PRICE_UNIT_LABELS: Record<PriceUnit, string> = {
   [PriceUnit.PerSheet]: "За лист",
   [PriceUnit.PerKg]: "За килограм",
   [PriceUnit.PerSquareMeter]: "кв.м",
+  [PriceUnit.ScrapWeight]: "Отпадък",
 };
 
 export enum Category {
@@ -83,6 +67,7 @@ export enum Supplier {
   Laki = 4,
   Alcomet = 5,
   Mushikov = 6,
+  FastenersBulgaria = 7,
 }
 export const SUPPLIER_LABELS: Record<Supplier, string> = {
   [Supplier.Other]: "Други",
@@ -92,12 +77,16 @@ export const SUPPLIER_LABELS: Record<Supplier, string> = {
   [Supplier.Laki]: "ЛАКИ",
   [Supplier.Alcomet]: "АЛКОМЕТ Шумен",
   [Supplier.Mushikov]: "Мушиков",
+  [Supplier.FastenersBulgaria]: "Крепежи България",
 };
 
 export type EnumLabels<T extends { [key: number]: string }> = {
   [K in keyof T]: string;
 };
-
+export const getKeyByValue = (value: string): Category | undefined => {
+  const entry = Object.entries(CATEGORY_LABELS).find(([_, val]) => val === value);
+  return entry ? (entry[0] as unknown as Category) : undefined;
+}
 export const getLabelByEnum = <T extends number>(
   enumObj: Record<T, string>,
   value: T
@@ -113,16 +102,15 @@ export const INITIAL_FORM_STATE = {
   hasVAT: false,
   category: "",
   labourPrice: "", // null,
-  detailPrices: [
+  prices: [
     {
-      value: "", // null,
+      price: null,
+      weight: null,
       unit: PriceUnit.PerOne,
-    },
-  ],
-  detailWeights: [
-    {
-      value: "", // null,
-      unit: WeightUnit.PerOne,
+      metalDimensions: {
+        thickness: "",
+        sizes: "",
+      },
     },
   ],
   image: null,
@@ -132,7 +120,7 @@ export const INITIAL_FORM_STATE = {
     material: "",
     dieNumber: "",
     benderNumber: "",
-    step: "",//null,
+    step: "", //null,
     layout: "",
     detailsPerHit: "", //null,
     detailsPerSheet: "", //null,

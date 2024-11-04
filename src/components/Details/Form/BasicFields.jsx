@@ -9,6 +9,7 @@ import {
   TextareaAutosize,
   TextField,
 } from "@mui/material";
+import { Category, CATEGORY_LABELS } from "../../../pages/Details/constants";
 
 const BasicFields = ({
   formData,
@@ -23,25 +24,32 @@ const BasicFields = ({
   return (
     <>
       {/* Basic Fields */}
-      <div className="col-md-6">
-        <TextField
-          fullWidth
-          label="Име на детайл"
-          name="name"
-          onChange={handleChange}
-          color="error"
-        />
-      </div>
-      <div className="col-md-3">
-        <TextField
-          fullWidth
-          label="Номер на детайл"
-          name="detailNumber"
-          value={formData.detailNumber}
-          onChange={handleChange}
-          color="error"
-        />
-      </div>
+      {![
+        CATEGORY_LABELS[Category.Glass],
+        CATEGORY_LABELS[Category.Metal],
+      ].includes(category) && (
+        <>
+          <div className="col-md-6">
+            <TextField
+              fullWidth
+              label="Име на детайл"
+              name="name"
+              onChange={handleChange}
+              color="error"
+            />
+          </div>
+          <div className="col-md-3">
+            <TextField
+              fullWidth
+              label="Номер на детайл"
+              name="detailNumber"
+              value={formData.detailNumber}
+              onChange={handleChange}
+              color="error"
+            />
+          </div>
+        </>
+      )}
 
       <div className="col-md-6">
         <FormControl fullWidth color="error">
@@ -61,10 +69,11 @@ const BasicFields = ({
         </FormControl>
       </div>
 
-      <div className="col-md-6">
+      <div className="col-md-2 d-flex justify-content-center">
         <FormControlLabel
           control={
             <Switch
+              color="error"
               checked={formData.hasVAT}
               onChange={handleSwitchChange}
               name="hasVAT"

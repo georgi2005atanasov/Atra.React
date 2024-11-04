@@ -16,9 +16,6 @@ class Api extends ApiAbstract {
 
     if (response.error && response.error != null)
       throw new Error("Невалиден потребител!");
-    // if (!response.data.accessToken || response.data.userName) {
-    //   throw new Error(response.error);
-    // }
 
     Storage.setAccessToken(response.data.accessToken);
     Storage.setUserName(response.data.userName);
