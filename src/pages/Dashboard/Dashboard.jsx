@@ -23,6 +23,7 @@ const Dashboard = () => {
     <>
       {loading && <LoadingSpinner />}
       <div className="container-fluid p-0 w-100">
+        <TopBarGA setLoading={setLoading} setError={setError} />
         {/* Menu */}
         <ClickAwayListener onClickAway={handleClickAway}>
           <div className="menu-container bg-light py-3">
@@ -51,7 +52,6 @@ const Dashboard = () => {
             </div>
           </div>
         </ClickAwayListener>
-        <TopBarGA setLoading={setLoading} setError={setError} />
         {/* Error Display */}
         {error && <h6 className="p-3 text-center text-danger">{error}</h6>}
       </div>

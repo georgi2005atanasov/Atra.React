@@ -91,7 +91,7 @@ const ImageField = ({
               <X size={20} />
             </IconButton>
             <img
-              src={formData.image}
+              src={URL.createObjectURL(formData.image)}
               alt="Uploaded preview"
               style={{
                 width: "100%",

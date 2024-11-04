@@ -13,9 +13,9 @@ import { useLoaderData } from "react-router-dom";
 import { DetailsApi } from "../../services/Detail/Api";
 
 export const useHandlers = () => {
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const { category: passedCategory } = useLoaderData();
   const [category, setCategory] = useState(CATEGORY_LABELS[passedCategory]);
+  const [formData, setFormData] = useState({...INITIAL_FORM_STATE, category: category || ""});
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
 

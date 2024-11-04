@@ -17,6 +17,7 @@ import {
 import { Add, X } from "@mui/icons-material";
 
 const PriceSection = ({
+  category,
   formData,
   handlePriceChange,
   handleMetalDimensionsChange,
@@ -27,7 +28,7 @@ const PriceSection = ({
     return null;
   }
 
-  const isMetal = formData.category === CATEGORY_LABELS[Category.Metal];
+  const isMetal = category === CATEGORY_LABELS[Category.Metal];
 
   const onValueChange = (index, field, value) => {
     const numberValue = value !== "" ? Number(value) : null;

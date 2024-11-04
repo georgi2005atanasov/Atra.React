@@ -34,9 +34,6 @@ const DetailForm = () => {
     handlePriceRemove,
     handlePriceChange,
     handleMetalDimensionsChange,
-    // handleWeightAdd,
-    // handleWeightRemove,
-    // handleWeightChange,
   } = useHandlers();
 
   return (
@@ -65,6 +62,7 @@ const DetailForm = () => {
         />
 
         <PriceSection
+          category={category}
           formData={formData}
           handlePriceChange={handlePriceChange}
           handlePriceRemove={handlePriceRemove}
