@@ -10,17 +10,13 @@ class Api extends ApiAbstract {
     const response = await this.execute({
       endpoint: "Login",
       method: METHOD.POST,
-      isAuthorized: false,
       body: data,
     });
 
-    if (response.error && response.error != null)
+    if (!response.success)
       throw new Error("Невалиден потребител!");
 
-    Storage.setAccessToken(response.data.accessToken);
-    Storage.setUserName(response.data.userName);
-
-    return response.data.userName;
+    return response;
   };
 
   logout = async (data) => {
@@ -37,7 +33,6 @@ class Api extends ApiAbstract {
     this.execute({
       endpoint: "SendPasswordReset",
       method: METHOD.POST,
-      isAuthorized: false,
       body: data,
     });
 
@@ -47,7 +42,6 @@ class Api extends ApiAbstract {
         token
       )}&email=${encodeURIComponent(email)}`,
       method: METHOD.POST,
-      isAuthorized: false,
       body: data,
     });
 }

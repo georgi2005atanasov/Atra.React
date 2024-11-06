@@ -31,7 +31,6 @@ class ApiAbstract {
     endpoint,
     method,
     body = {},
-    isAuthorized = true,
     params,
   }) => {
     try {
@@ -46,16 +45,6 @@ class ApiAbstract {
         },
         params
       };
-
-      if (isAuthorized) {
-        const accessToken = Storage.getAccessToken();
-
-        if (!accessToken) {
-          throw new Error("Невалидни данни за оторизация!");
-        }
-
-        config.headers['Authorization'] = `Bearer ${accessToken}`;
-      }
 
       // Special handling for logout
       if (endpoint.toLowerCase() === 'logout') {

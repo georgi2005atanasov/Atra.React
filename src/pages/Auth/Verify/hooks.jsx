@@ -19,7 +19,6 @@ export const useHandlers = () => {
       setLoading(true);
 
       await DeviceApi.get().verifyDevice({
-        deviceId: Storage.getDeviceId(),
         totp: totp,
       });
 
@@ -40,9 +39,7 @@ export const useHandlers = () => {
   useEffect(() => {
     const sendTOTPVerification = async () => {
       try {
-        await DeviceApi.get().sendTOTP({
-          deviceId: Storage.getDeviceId(),
-        });
+        await DeviceApi.get().sendTOTP();
 
         setIsTotpSent(true);
       } catch (ex) {

@@ -57,9 +57,7 @@ export const useResendTotp = (email, setError) => {
           email,
         });
       else
-        await DeviceApi.get().sendTOTP({
-          deviceId: Storage.getDeviceId(),
-        });
+        await DeviceApi.get().sendTOTP();
 
       setCountdown(15);
       setShowResendButton(false);

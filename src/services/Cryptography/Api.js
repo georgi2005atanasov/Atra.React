@@ -11,7 +11,6 @@ class Api extends ApiAbstract {
       endpoint: "Sign",
       method: METHOD.POST,
       body: data,
-      isAuthorized: false,
     });
 }
 
