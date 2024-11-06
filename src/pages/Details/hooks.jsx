@@ -7,7 +7,8 @@ import {
   SUPPLIER_LABELS,
   IMAGE_CONFIG,
   PriceUnit,
-  getKeyByValue,
+  getMaterialKeyByValue,
+  getCategoryKeyByValue,
 } from "./constants";
 import { useLoaderData } from "react-router-dom";
 import { DetailsApi } from "../../services/Detail/Api";
@@ -15,7 +16,10 @@ import { DetailsApi } from "../../services/Detail/Api";
 export const useHandlers = () => {
   const { category: passedCategory } = useLoaderData();
   const [category, setCategory] = useState(CATEGORY_LABELS[passedCategory]);
-  const [formData, setFormData] = useState({...INITIAL_FORM_STATE, category: category || ""});
+  const [formData, setFormData] = useState({
+    ...INITIAL_FORM_STATE,
+    category: category || "",
+  });
   const [errors, setErrors] = useState({});
   const fileInputRef = useRef(null);
 
@@ -241,7 +245,13 @@ export const useHandlers = () => {
         convertToFormData({
           ...formData,
           // converting to accept enum
-          category: getKeyByValue(formData.category),
+          category: getCategoryKeyByValue(formData.category),
+          extraCharacteristics: {
+            ...formData.extraCharacteristics,
+            material: getMaterialKeyByValue(
+              formData.extraCharacteristics.material
+            ),
+          },
         })
       );
     } catch (ex) {

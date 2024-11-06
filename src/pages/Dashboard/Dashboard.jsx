@@ -7,6 +7,7 @@ import TopBarGA from "../../components/Dashboard/TopBarGA";
 import MenuButtonGA from "../../components/Dashboard/MenuButtonGA";
 import MenuSectionGA from "../../components/Dashboard/MenuSectionGA";
 import "./Dashboard.css";
+import Table from "../../components/Details/Table";
 
 const Dashboard = () => {
   const [error, setError] = useState("");
@@ -53,6 +54,7 @@ const Dashboard = () => {
           </div>
         </ClickAwayListener>
         {/* Error Display */}
+        <Table />
         {error && <h6 className="p-3 text-center text-danger">{error}</h6>}
       </div>
     </>

@@ -18,7 +18,7 @@ const LakiFields = ({ formData, handleChange }) => {
         <TextField
           fullWidth
           label="Размери Прес форма"
-          name="pressMoldDimensions"
+          name="pressMoldSizes"
           value={formData.extraCharacteristics.pressMoldSizes}
           onChange={handleChange}
           color="error"

@@ -32,6 +32,7 @@ class ApiAbstract {
     method,
     body = {},
     isAuthorized = true,
+    params,
   }) => {
     try {
       const url = this.#getEndpointUrl(endpoint);
@@ -43,6 +44,7 @@ class ApiAbstract {
         headers: {
           'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
         },
+        params
       };
 
       if (isAuthorized) {

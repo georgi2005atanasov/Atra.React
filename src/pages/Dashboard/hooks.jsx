@@ -33,6 +33,11 @@ export const useHandlers = () => {
       basePath: "/private/details/",
       options: [
         {
+          allPath: `all`,
+          addPath: `add`,
+          label: "Всички",
+        },
+        {
           allPath: `all?category=${Category.Glass}`,
           addPath: `add?category=${Category.Glass}`,
           label: "Стъкла",

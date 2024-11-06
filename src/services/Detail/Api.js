@@ -11,6 +11,13 @@ class Api extends ApiAbstract {
     method: METHOD.POST,
     body: formData,
   });
+
+  all = async (params) => 
+    this.execute({
+    endpoint: "All",
+    method: METHOD.GET,
+    params
+  });
 }
 
 export { Api as DetailsApi };

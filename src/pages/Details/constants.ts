@@ -83,8 +83,12 @@ export const SUPPLIER_LABELS: Record<Supplier, string> = {
 export type EnumLabels<T extends { [key: number]: string }> = {
   [K in keyof T]: string;
 };
-export const getKeyByValue = (value: string): Category | undefined => {
-  const entry = Object.entries(CATEGORY_LABELS).find(([_, val]) => val === value);
+export const getMaterialKeyByValue = (value: string) => {
+  const entry = Object.entries(MATERIAL_LABELS).find(([_, label]) => label === value);
+  return entry ? (entry[0] as unknown as Material) : undefined;
+}
+export const getCategoryKeyByValue = (value: string) => {
+  const entry = Object.entries(CATEGORY_LABELS).find(([_, label]) => label === value);
   return entry ? (entry[0] as unknown as Category) : undefined;
 }
 export const getLabelByEnum = <T extends number>(
