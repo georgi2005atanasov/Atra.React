@@ -4,17 +4,18 @@ import {
   INITIAL_FORM_STATE,
   CATEGORY_LABELS,
   MATERIAL_LABELS,
-  SUPPLIER_LABELS,
   IMAGE_CONFIG,
   PriceUnit,
   getMaterialKeyByValue,
   getCategoryKeyByValue,
 } from "./constants";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { DetailsApi } from "../../../services/Detail/Api";
 
 export const useHandlers = () => {
-  const { category: passedCategory } = useLoaderData();
+  const navigate = useNavigate();
+  const { category: passedCategory, suppliers, detail } = useLoaderData();
+  console.log(detail);
   const [category, setCategory] = useState(CATEGORY_LABELS[passedCategory]);
   const [formData, setFormData] = useState({
     ...INITIAL_FORM_STATE,
@@ -240,7 +241,6 @@ export const useHandlers = () => {
     event.preventDefault();
 
     try {
-      console.log(formData);
       await DetailsApi.get().create(
         convertToFormData({
           ...formData,
@@ -252,8 +252,37 @@ export const useHandlers = () => {
               formData.extraCharacteristics.material
             ),
           },
+          supplierId: suppliers.filter(x => x.name === formData.supplier)[0].id,
         })
       );
+
+      navigate("/private/details/all", { replace: true });
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  const updateDetail = async (event) => {
+    event.preventDefault();
+
+    try {
+      await DetailsApi.get().update(
+        convertToFormData(detail.id,
+          {
+          ...formData,
+          // converting to accept enum
+          category: getCategoryKeyByValue(formData.category),
+          extraCharacteristics: {
+            ...formData.extraCharacteristics,
+            material: getMaterialKeyByValue(
+              formData.extraCharacteristics.material
+            ),
+          },
+          supplierId: suppliers.filter(x => x.name === formData.supplier)[0].id,
+        })
+      );
+
+      navigate("/private/details/all", { replace: true });
     } catch (ex) {
       console.log(ex);
     }
@@ -273,8 +302,10 @@ export const useHandlers = () => {
     handleSwitchChange,
     categories: Object.values(CATEGORY_LABELS),
     materials: Object.values(MATERIAL_LABELS),
-    suppliers: Object.values(SUPPLIER_LABELS),
+    suppliers: suppliers,
     createDetail,
+    updateDetail,
+    detail,
     handleExtraChange,
     handlePriceAdd,
     handlePriceRemove,
@@ -289,7 +320,7 @@ const convertToFormData = (formData) => {
   form.append("name", formData.name);
   form.append("detailNumber", formData.detailNumber);
   form.append("atraNumber", formData.atraNumber);
-  form.append("supplier", formData.supplier);
+  form.append("supplierId", formData.supplierId && parseInt(formData.supplierId));
   form.append("description", formData.description || "");
   form.append("hasVAT", formData.hasVAT);
   form.append("category", formData.category);

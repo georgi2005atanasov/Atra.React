@@ -5,16 +5,25 @@ import ImageCell from "../../../components/Common/ImageCell";
 import "./All.css";
 import TopBarGA from "../../../components/Dashboard/TopBarGA";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
+import { redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { CompaniesApi } from "../../../services/Companies/Api";
+import { Autocomplete, TextField } from "@mui/material";
+
+const PAGE_SIZE = 10;
 
 const All = () => {
+  let { suppliers } = useLoaderData();
+  suppliers = [{ id: null, name: "Всички" }, ...suppliers];
+
+  const navigate = useNavigate();
   const [details, setDetails] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { setLoading } = useLoading(true);
   const [error, setError] = useState(null);
-  const pageSize = 30;
+  const pageSize = PAGE_SIZE;
 
-  const [supplier, setSupplier] = useState("");
+  const [supplierId, setSupplierId] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [orderByNameAscending, setOrderByNameAscending] = useState(false);
@@ -27,7 +36,7 @@ const All = () => {
       const params = {
         page: currentPage,
         pageSize,
-        ...(supplier && { supplier: supplier }),
+        ...(supplierId && { supplierId: parseInt(supplierId) }),
         ...(minPrice && { minPrice: parseFloat(minPrice) }),
         ...(maxPrice && { maxPrice: parseFloat(maxPrice) }),
         orderByNameAscending,
@@ -50,14 +59,14 @@ const All = () => {
 
   useEffect(() => {
     fetchDetails();
-  }, []);
+  }, [currentPage]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleFilterReset = () => {
-    setSupplier("");
+    setSupplierId("");
     setMinPrice("");
     setMaxPrice("");
     setOrderByNameAscending(false);
@@ -65,8 +74,7 @@ const All = () => {
   };
 
   const handleView = (id) => {
-    // TODO: Implement view functionality
-    console.log("View detail:", id);
+    navigate(`/private/details/info/${id}`);
   };
 
   const handleDelete = (id) => {
@@ -83,9 +91,9 @@ const All = () => {
   }
 
   return (
-    <div className="container-fluid p-0">
+    <div className="container-fluid m-0 p-0">
       <TopBarGA setLoading={setLoading} setError={setError} />
-      <div className="card">
+      <div className="card p-3">
         <div className="position-absolute">
           <BackButtonGA />
         </div>
@@ -97,12 +105,25 @@ const All = () => {
           <div className="row g-3">
             <div className="col-md-3">
               <label className="form-label">Доставчик</label>
-              <input
-                type="text"
-                className="form-control"
-                value={supplier}
-                onChange={(e) => setSupplier(e.target.value)}
-                placeholder="Име на доставчик"
+              <Autocomplete
+                options={suppliers}
+                getOptionLabel={(option) => option.name || ""}
+                value={
+                  supplierId
+                    ? suppliers.find((supplier) => supplier.id === supplierId)
+                    : null
+                }
+                onChange={(event, newValue) => {
+                  setSupplierId(newValue ? newValue.id : null);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Всички"
+                    variant="outlined"
+                  />
+                )}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
               />
             </div>
 
@@ -110,7 +131,7 @@ const All = () => {
               <label className="form-label">Минимална цена</label>
               <input
                 type="number"
-                className="form-control"
+                className="form-control p-3"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
                 placeholder="Мин. цена"
@@ -121,7 +142,7 @@ const All = () => {
               <label className="form-label">Максимална цена</label>
               <input
                 type="number"
-                className="form-control"
+                className="form-control p-3"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
                 placeholder="Макс. цена"
@@ -131,7 +152,7 @@ const All = () => {
             <div className="col-lg-1">
               <label className="form-label">Подреждане</label>
               <select
-                className="form-select"
+                className="form-select p-3"
                 value={orderByNameAscending.toString()}
                 onChange={(e) =>
                   setOrderByNameAscending(e.target.value === "true")
@@ -144,7 +165,7 @@ const All = () => {
 
             <div className="col-xl-1 d-flex align-items-end">
               <button
-                className="btn btn-secondary w-100"
+                className="btn btn-secondary w-100 p-3"
                 onClick={fetchDetails}
               >
                 Търси
@@ -152,7 +173,7 @@ const All = () => {
             </div>
             <div className="col-xl-1 d-flex align-items-end">
               <button
-                className="btn btn-danger w-100"
+                className="btn btn-danger w-100 p-3"
                 onClick={handleFilterReset}
               >
                 Изчисти
@@ -272,7 +293,18 @@ const All = () => {
 };
 
 export async function loader({ request }) {
-  // TODO: get by category
+  try {
+    // const url = new URL(request.url);
+    // const category = url.searchParams.get("category");
+    const response = await CompaniesApi.get().all();
+
+    return {
+      // category,
+      suppliers: response.data.items,
+    };
+  } catch {
+    return redirect("/");
+  }
 }
 
 export default All;

@@ -16,12 +16,17 @@ import "./App.css";
 import Unauthorized from "./pages/Errors/Unauthorized.jsx";
 import ErrorsRoot from "./pages/Root/ErrorsRoot.jsx";
 import Unhandled from "./pages/Errors/Unhandled.jsx";
-import DetailForm, {
-  loader as detailFormLoader,
-} from "./pages/Details/Form/DetailForm.jsx";
-import AllDetails from "./pages/Details/All/All.jsx";
+import AllDetails, {
+  loader as allDetailsLoader,
+} from "./pages/Details/All/All.jsx";
 import CompanyForm from "./pages/Companies/Form/CompanyForm.jsx";
 import AllCompanies from "./pages/Companies/All.jsx";
+import AddDetail, {
+  loader as detailFormLoader,
+} from "./pages/Details/Add/Add.jsx";
+import DetailInfo, {
+  loader as detailInfoLoader
+} from "./pages/Details/Info/Info.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,10 +51,19 @@ const router = createBrowserRouter([
       { path: "dashboard", element: <Dashboard /> },
       {
         path: "details/add",
-        element: <DetailForm />,
+        element: <AddDetail />,
         loader: detailFormLoader,
       },
-      { path: "details/all", element: <AllDetails /> },
+      {
+        path: "details/info/:id",
+        element: <DetailInfo />,
+        loader: detailInfoLoader,
+      },
+      {
+        path: "details/all",
+        element: <AllDetails />,
+        loader: allDetailsLoader,
+      },
       {
         path: "companies/add",
         element: <CompanyForm />,

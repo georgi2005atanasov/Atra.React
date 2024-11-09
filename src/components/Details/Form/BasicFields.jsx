@@ -72,9 +72,9 @@ const BasicFields = ({
             name="supplier"
             onChange={handleChange}
           >
-            {suppliers.map((supplier) => (
-              <MenuItem key={supplier} value={supplier}>
-                {supplier}
+            {suppliers && suppliers.map((supplier) => (
+              <MenuItem key={supplier.name} value={supplier.name}>
+                {supplier.name}
               </MenuItem>
             ))}
           </Select>

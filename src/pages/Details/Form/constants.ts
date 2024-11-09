@@ -59,27 +59,6 @@ export const MATERIAL_LABELS: Record<Material, string> = {
   [Material.Other]: "Други",
 };
 
-export enum Supplier {
-  Other = 0,
-  Diko = 1,
-  Alucom = 2,
-  AngelPopov = 3,
-  Laki = 4,
-  Alcomet = 5,
-  Mushikov = 6,
-  FastenersBulgaria = 7,
-}
-export const SUPPLIER_LABELS: Record<Supplier, string> = {
-  [Supplier.Other]: "Други",
-  [Supplier.Diko]: "DIKO",
-  [Supplier.Alucom]: "АЛУКОМ Плевен",
-  [Supplier.AngelPopov]: "Ангел Попов",
-  [Supplier.Laki]: "ЛАКИ",
-  [Supplier.Alcomet]: "АЛКОМЕТ Шумен",
-  [Supplier.Mushikov]: "Мушиков",
-  [Supplier.FastenersBulgaria]: "Крепежи България",
-};
-
 export type EnumLabels<T extends { [key: number]: string }> = {
   [K in keyof T]: string;
 };

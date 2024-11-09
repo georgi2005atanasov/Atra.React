@@ -7,15 +7,15 @@ class Storage {
   };
 
   static #getItem(key) {
-    return sessionStorage.getItem(key);
+    return localStorage.getItem(key);
   }
 
   static #setItem(key, value) {
-    sessionStorage.setItem(key, value);
+    localStorage.setItem(key, value);
   }
 
   static #removeItem(key) {
-    sessionStorage.removeItem(key);
+    localStorage.removeItem(key);
   }
 
   static getUserName() {

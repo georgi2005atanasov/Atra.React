@@ -54,6 +54,7 @@ const PriceSection = ({
               fullWidth
               label="Цена"
               type="number"
+              required={formData.prices.length === 1}
               value={price.price ?? ""}
               onChange={(e) => onValueChange(index, "price", e.target.value)}
               color="error"
@@ -63,8 +64,9 @@ const PriceSection = ({
           <div className={`col-md-${isMetal ? "2" : "3"}`}>
             <TextField
               fullWidth
-              label="Тегло"
+              label="Тегло (гр.)"
               type="number"
+              required={formData.prices.length === 1}
               value={price.weight ?? ""}
               onChange={(e) => onValueChange(index, "weight", e.target.value)}
               color="error"
@@ -79,7 +81,7 @@ const PriceSection = ({
                   label="Дебелина (мм)"
                   type="number"
                   value={price.metalDimensions?.thickness ?? ""}
-                  required
+                  required={formData.prices.length === 1}
                   onChange={(e) =>
                     onDimensionsChange(index, "thickness", e.target.value)
                   }
@@ -91,6 +93,7 @@ const PriceSection = ({
                   fullWidth
                   label="Широчина (мм)"
                   value={price.metalDimensions?.width ?? ""}
+                  required={formData.prices.length === 1}
                   type="number"
                   onChange={(e) =>
                     onDimensionsChange(index, "width", e.target.value)
@@ -103,6 +106,7 @@ const PriceSection = ({
                   fullWidth
                   label="Височина (мм)"
                   value={price.metalDimensions?.height ?? ""}
+                  required={formData.prices.length === 1}
                   type="number"
                   onChange={(e) =>
                     onDimensionsChange(index, "height", e.target.value)
