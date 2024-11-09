@@ -1,23 +1,25 @@
-import { useState, useEffect, useCallback } from "react";
-import { DetailsApi } from "../../services/Detail/Api";
-import "./Table.css";
-import { useLoading } from "../../utils/hooks";
-import ImageCell from "./ImageCell";
+import { useState, useEffect } from "react";
+import { DetailsApi } from "../../../services/Detail/Api";
+import { useLoading } from "../../../utils/hooks";
+import ImageCell from "../../../components/Common/ImageCell";
+import "./All.css";
+import TopBarGA from "../../../components/Dashboard/TopBarGA";
+import BackButtonGA from "../../../components/Common/BackButtonGA";
 
-const Table = () => {
+const All = () => {
   const [details, setDetails] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { setLoading } = useLoading(true);
   const [error, setError] = useState(null);
-  const pageSize = 10;
+  const pageSize = 30;
 
   const [supplier, setSupplier] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [orderByNameAscending, setOrderByNameAscending] = useState(false);
 
-  const fetchDetails = useCallback(async () => {
+  const fetchDetails = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -44,18 +46,11 @@ const Table = () => {
     } finally {
       setLoading(false);
     }
-  }, [
-    currentPage,
-    supplier,
-    minPrice,
-    maxPrice,
-    orderByNameAscending,
-    setLoading,
-  ]);
+  };
 
   useEffect(() => {
     fetchDetails();
-  }, [fetchDetails]);
+  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -81,15 +76,19 @@ const Table = () => {
 
   if (error) {
     return (
-      <div className="alert alert-danger" role="alert">
+      <div className="alert alert-danger m-0" role="alert">
         {error}
       </div>
     );
   }
 
   return (
-    <div className="container-fluid my-4">
+    <div className="container-fluid p-0">
+      <TopBarGA setLoading={setLoading} setError={setError} />
       <div className="card">
+        <div className="position-absolute">
+          <BackButtonGA />
+        </div>
         <div className="card-header">
           <h3 className="card-title mb-0 text-center">Детайли</h3>
         </div>
@@ -164,28 +163,24 @@ const Table = () => {
 
         <div className="card-body">
           <div className="table-responsive">
-            <table className="table align-middle">
-              <thead>
-                <tr>
-                  <th>Име</th>
-                  <th>Номер на детайл</th>
-                  <th>АТРА номер</th>
-                  <th>Доставчик</th>
-                  <th>Цена за труд</th>
-                  <th>Добавен на</th>
-                  <th>Снимка</th>
-                  <th className="text-center">Действия</th>
-                </tr>
-              </thead>
-              <tbody>
-                {details.length === 0 ? (
+            {details.length === 0 ? (
+              <h5 className="w-100 text-center mt-2">Няма намерени детайли</h5>
+            ) : (
+              <table className="table align-middle">
+                <thead>
                   <tr>
-                    <td colSpan="7" className="text-center">
-                      Няма намерени детайли
-                    </td>
+                    <th>Име</th>
+                    <th>Номер на детайл</th>
+                    <th>АТРА номер</th>
+                    <th>Доставчик</th>
+                    <th>Цена за труд</th>
+                    <th>Добавен на</th>
+                    <th>Снимка</th>
+                    <th className="text-center">Действия</th>
                   </tr>
-                ) : (
-                  details.map((detail) => (
+                </thead>
+                <tbody>
+                  {details.map((detail) => (
                     <tr key={detail.id}>
                       <td>{detail.name || "-"}</td>
                       <td>{detail.detailNumber || "-"}</td>
@@ -215,10 +210,10 @@ const Table = () => {
                         </div>
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
 
           <nav aria-label="Page navigation" className="mt-4">
@@ -276,4 +271,8 @@ const Table = () => {
   );
 };
 
-export default Table;
+export async function loader({ request }) {
+  // TODO: get by category
+}
+
+export default All;

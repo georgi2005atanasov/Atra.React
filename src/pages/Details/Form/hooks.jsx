@@ -11,7 +11,7 @@ import {
   getCategoryKeyByValue,
 } from "./constants";
 import { useLoaderData } from "react-router-dom";
-import { DetailsApi } from "../../services/Detail/Api";
+import { DetailsApi } from "../../../services/Detail/Api";
 
 export const useHandlers = () => {
   const { category: passedCategory } = useLoaderData();

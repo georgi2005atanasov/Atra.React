@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './MessageAlert.css';
+import './MessageAlertGA.css';
 
 // eslint-disable-next-line react/prop-types
 const MessageAlertGA = ({ message, type = 'info', onClose }) => {

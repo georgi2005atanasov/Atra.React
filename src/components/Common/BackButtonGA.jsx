@@ -2,7 +2,8 @@ import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 
-const BackButtonGA = () => {
+// eslint-disable-next-line react/prop-types
+const BackButtonGA = ({ textColor = "secondary" }) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -10,9 +11,9 @@ const BackButtonGA = () => {
   };
 
   return (
-    <IconButton 
-      onClick={handleBack} 
-      className="btn btn-light text-secondary" 
+    <IconButton
+      onClick={handleBack}
+      className={`btn btn-light text-${textColor}`}
       aria-label="Назад"
     >
       <ArrowBackIcon />

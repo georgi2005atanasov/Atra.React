@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useLoading } from "../../utils/hooks";
-import { ClickAwayListener } from "@mui/material";
+import { Button, ClickAwayListener } from "@mui/material";
 import { useHandlers } from "./hooks";
 import LoadingSpinner from "../../components/Common/LoadingSpinner";
 import TopBarGA from "../../components/Dashboard/TopBarGA";
 import MenuButtonGA from "../../components/Dashboard/MenuButtonGA";
 import MenuSectionGA from "../../components/Dashboard/MenuSectionGA";
 import "./Dashboard.css";
-import Table from "../../components/Details/Table";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const { loading, setLoading } = useLoading();
   const {
@@ -33,7 +34,7 @@ const Dashboard = () => {
                 {Object.entries(menus).map(([key, menu]) => (
                   <div
                     key={key}
-                    className="d-flex col-md-4 justify-content-center"
+                    className="d-flex col-md-3 justify-content-center"
                   >
                     <MenuButtonGA
                       title={menu.title}
@@ -49,12 +50,22 @@ const Dashboard = () => {
                     />
                   </div>
                 ))}
+                <div
+                  className="d-flex col-md-3 justify-content-center"
+                >
+                  <Button
+                    color="inherit"
+                    onClick={() => navigate("/private/companies/all")}
+                    className={`menu-button`}
+                  >
+                    Компании
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </ClickAwayListener>
         {/* Error Display */}
-        <Table />
         {error && <h6 className="p-3 text-center text-danger">{error}</h6>}
       </div>
     </>

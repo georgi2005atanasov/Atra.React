@@ -9,7 +9,7 @@ import {
   TextareaAutosize,
   TextField,
 } from "@mui/material";
-import { Category, CATEGORY_LABELS } from "../../../pages/Details/constants";
+import { Category, CATEGORY_LABELS } from "../../../pages/Details/Form/constants";
 
 const BasicFields = ({
   formData,

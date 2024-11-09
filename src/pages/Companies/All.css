@@ -1,0 +1,9 @@
+.company-form-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute; 
+    right: 1%;
+    top: 25%;
+    cursor: pointer;
+}

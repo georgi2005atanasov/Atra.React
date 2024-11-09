@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Category } from "../Details/constants";
+import { Category } from "../Details/Form/constants";
 
 export const useHandlers = () => {
   const [menuAnchors, setMenuAnchors] = useState({

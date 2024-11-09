@@ -18,7 +18,10 @@ import ErrorsRoot from "./pages/Root/ErrorsRoot.jsx";
 import Unhandled from "./pages/Errors/Unhandled.jsx";
 import DetailForm, {
   loader as detailFormLoader,
-} from "./pages/Details/DetailForm.jsx";
+} from "./pages/Details/Form/DetailForm.jsx";
+import AllDetails from "./pages/Details/All/All.jsx";
+import CompanyForm from "./pages/Companies/Form/CompanyForm.jsx";
+import AllCompanies from "./pages/Companies/All.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,7 +44,17 @@ const router = createBrowserRouter([
     element: <PrivateRoot />,
     children: [
       { path: "dashboard", element: <Dashboard /> },
-      { path: "details/add", element: <DetailForm />, loader: detailFormLoader },
+      {
+        path: "details/add",
+        element: <DetailForm />,
+        loader: detailFormLoader,
+      },
+      { path: "details/all", element: <AllDetails /> },
+      {
+        path: "companies/add",
+        element: <CompanyForm />,
+      },
+      { path: "companies/all", element: <AllCompanies /> },
     ],
   },
   {

@@ -8,7 +8,6 @@ const ImageModal = ({ base64Image, name, onClose }) => {
     <>
       <div
         className="modal d-block"
-        tabIndex="-1"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
       >
         <div className="modal-dialog modal-lg modal-dialog-centered" style={{ maxWidth: "400px", maxHeight: "400px" }}>

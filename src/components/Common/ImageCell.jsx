@@ -44,7 +44,7 @@ const ImageCell = ({ base64Image, modalImage, name }) => {
               height: "80px"
             }}
           >
-            <span className="text-muted">No image</span>
+            <span className="text-muted">X</span>
           </div>
         )}
       </td>

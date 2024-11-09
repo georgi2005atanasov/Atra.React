@@ -1,16 +1,16 @@
 import { Button } from "@mui/material";
 import { useHandlers } from "./hooks";
-import BasicFields from "../../components/Details/Form/BasicFields";
-import FastenerFields from "../../components/Details/Form/FastenerFields";
-import AtraFields from "../../components/Details/Form/AtraFields";
-import LakiFields from "../../components/Details/Form/LakiFields";
-import MetalFields from "../../components/Details/Form/MetalFields";
-import ImageField from "../../components/Details/Form/ImageField";
+import BasicFields from "../../../components/Details/Form/BasicFields";
+import FastenerFields from "../../../components/Details/Form/FastenerFields";
+import AtraFields from "../../../components/Details/Form/AtraFields";
+import LakiFields from "../../../components/Details/Form/LakiFields";
+import MetalFields from "../../../components/Details/Form/MetalFields";
+import ImageField from "../../../components/Details/Form/ImageField";
 import { Category, CATEGORY_LABELS } from "./constants";
-import GlassFields from "../../components/Details/Form/GlassFields";
-import BackButtonGA from "../../components/Common/BackButtonGA";
+import GlassFields from "../../../components/Details/Form/GlassFields";
+import BackButtonGA from "../../../components/Common/BackButtonGA";
 import { redirect } from "react-router-dom";
-import PriceSection from "../../components/Details/Form/PriceSection";
+import PriceSection from "../../../components/Details/Form/PriceSection";
 import "./DetailForm.css";
 
 const DetailForm = () => {

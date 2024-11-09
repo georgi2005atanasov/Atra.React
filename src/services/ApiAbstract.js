@@ -1,7 +1,6 @@
 import axios from "axios";
 import AtraError from "../AtraError.js";
 import { API_BASE_URL } from "../utils/appConstants.js";
-import Storage from "../utils/storage/Storage.js";
 
 export const METHOD = {
   GET: "GET",
@@ -43,7 +42,7 @@ class ApiAbstract {
         headers: {
           'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
         },
-        params
+        params,
       };
 
       // Special handling for logout

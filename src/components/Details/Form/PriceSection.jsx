@@ -13,7 +13,7 @@ import {
   PRICE_UNIT_LABELS,
   Category,
   CATEGORY_LABELS,
-} from "../../../pages/Details/constants";
+} from "../../../pages/Details/Form/constants";
 import { Add, X } from "@mui/icons-material";
 
 const PriceSection = ({

@@ -8,3 +8,11 @@ export function generateUID(length = 32) {
   }
   return uid;
 }
+
+// not secure at all
+export const getCookie = (name) => {
+  const cookieString = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(name + "="));
+  return cookieString ? cookieString.split("=")[1] : null;
+};
