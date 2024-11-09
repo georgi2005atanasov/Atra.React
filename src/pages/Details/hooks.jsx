@@ -293,7 +293,7 @@ const convertToFormData = (formData) => {
   form.append("description", formData.description || "");
   form.append("hasVAT", formData.hasVAT);
   form.append("category", formData.category);
-  form.append("labourPrice", formData.labourPrice);
+  formData.labourPrice && form.append("labourPrice", formData.labourPrice);
   form.append("prices", JSON.stringify(formData.prices));
   form.append("detailWeights", JSON.stringify(formData.detailWeights));
 

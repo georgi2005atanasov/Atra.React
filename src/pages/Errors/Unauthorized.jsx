@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { ShieldX, Home, ArrowLeft, Lock } from 'lucide-react';
 
 const Unauthorized = () => {

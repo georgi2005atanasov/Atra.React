@@ -1,0 +1,36 @@
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.modal .btn-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 1;
+  background-color: white;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modal .btn-close:hover {
+  background-color: #f8f9fa;
+}
+
+.modal-dialog {
+  max-width: 90vw;
+}
+
+.modal img {
+  max-height: 80vh;
+  object-fit: contain;
+}
