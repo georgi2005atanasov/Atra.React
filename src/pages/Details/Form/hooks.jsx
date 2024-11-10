@@ -274,7 +274,8 @@ export const useHandlers = () => {
 
     try {
       await DetailsApi.get().update(
-        convertToFormData(detailId, {
+        detailId,
+        convertToFormData({
           ...formData,
           // converting to accept enum
           category: getCategoryKeyByValue(formData.category),

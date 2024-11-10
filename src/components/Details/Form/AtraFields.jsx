@@ -1,14 +1,29 @@
 /* eslint-disable react/prop-types */
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
-const AtraFields = ({ formData, materials, handleChange, handleNumberChange }) => {
+const AtraFields = ({
+  formData,
+  materials,
+  handleChange,
+  handleNumberChange,
+}) => {
   return (
     <>
       <div className="col-md-6">
         <FormControl fullWidth>
           <InputLabel color="error">Материал</InputLabel>
           <Select
-            value={formData.extraCharacteristics.material}
+            value={
+              !isNaN(formData.extraCharacteristics.material)
+                ? materials[formData.extraCharacteristics.material]
+                : formData.extraCharacteristics.material
+            }
             label="Материал"
             name="material"
             color="error"

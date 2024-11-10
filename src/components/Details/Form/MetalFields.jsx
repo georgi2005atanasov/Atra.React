@@ -1,23 +1,18 @@
 /* eslint-disable react/prop-types */
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const MetalFields = ({
-  material,
-  materials,
-  handleChange,
-}) => {
+const MetalFields = ({ material, materials, handleChange }) => {
   return (
     <>
       <div className="col-md-6">
         <FormControl fullWidth>
           <InputLabel color="error">Материал</InputLabel>
           <Select
-            value={material}
+            value={
+              !isNaN(material)
+                ? materials[material]
+                : material
+            }
             label="Материал"
             name="material"
             color="error"

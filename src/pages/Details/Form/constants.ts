@@ -37,14 +37,14 @@ export const CATEGORY_LABELS: Record<Category, string> = {
 export enum Material {
   Other = 0,
   Aluminium = 1,
-  Copper = 3,
-  Brass = 4,
-  GalvanizedMetal = 5,
-  StainlessSteel = 6,
-  BlackMetal = 7,
-  Plastic = 8,
-  NormalGlass = 9,
-  TemperedGlass = 10,
+  Copper = 2,
+  Brass = 3,
+  GalvanizedMetal = 4,
+  StainlessSteel = 5,
+  BlackMetal = 6,
+  Plastic = 7,
+  NormalGlass = 8,
+  TemperedGlass = 9,
 }
 export const MATERIAL_LABELS: Record<Material, string> = {
   [Material.Aluminium]: "Алуминий",

@@ -25,7 +25,7 @@ const Update = () => {
 export async function loader({ params }) {
   try {
     // GETTING IT AS STRING
-    const detailId = params.id;
+    const detailId = parseInt(params.id);
     const resCompanies = await CompaniesApi.get().all();
     const resDetail = await DetailsApi.get().getById(detailId);
 

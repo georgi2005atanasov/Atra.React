@@ -49,7 +49,7 @@ const PriceSection = ({
 
       {formData.prices.map((price, index) => (
         <div key={`price-${index}`} className="row align-items-end mb-2">
-          <div className={`col-md-${isMetal ? "2" : "3"}`}>
+          <div className={`col-md-${isMetal ? "2" : "3"} my-1`}>
             <TextField
               fullWidth
               label="Цена"
@@ -61,7 +61,7 @@ const PriceSection = ({
             />
           </div>
 
-          <div className={`col-md-${isMetal ? "2" : "3"}`}>
+          <div className={`col-md-${isMetal ? "2" : "3"} my-1`}>
             <TextField
               fullWidth
               label="Тегло (гр.)"
@@ -75,7 +75,7 @@ const PriceSection = ({
 
           {isMetal && (
             <>
-              <div className="col-md-2">
+              <div className="col-md-2 my-1">
                 <TextField
                   fullWidth
                   label="Дебелина (мм)"
@@ -88,7 +88,7 @@ const PriceSection = ({
                   color="error"
                 />
               </div>
-              <div className="col-md-1">
+              <div className="col-md-1 my-1">
                 <TextField
                   fullWidth
                   label="Широчина (мм)"
@@ -101,7 +101,7 @@ const PriceSection = ({
                   color="error"
                 />
               </div>
-              <div className="col-md-1">
+              <div className="col-md-1 my-1">
                 <TextField
                   fullWidth
                   label="Височина (мм)"
@@ -117,7 +117,7 @@ const PriceSection = ({
             </>
           )}
 
-          <div className={`col-md-${isMetal ? "3" : "4"}`}>
+          <div className={`col-md-${isMetal ? "3" : "4"} my-1`}>
             <FormControl fullWidth color="error">
               <InputLabel>Мерна единица</InputLabel>
               <Select

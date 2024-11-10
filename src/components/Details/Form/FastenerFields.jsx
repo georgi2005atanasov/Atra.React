@@ -26,7 +26,7 @@ const FastenerFields = ({ din, material, materials, handleChange }) => {
         <FormControl fullWidth>
           <InputLabel color="error">Материал</InputLabel>
           <Select
-            value={material}
+            value={!isNaN(material) ? materials[material] : material}
             label="Материал"
             name="material"
             color="error"
