@@ -28,7 +28,7 @@ class Api extends ApiAbstract {
   update = async (id, formData) => 
     this.execute({
     endpoint: `Update/${id}`,
-    method: METHOD.POST,
+    method: METHOD.PUT,
     body: formData,
   });
 }

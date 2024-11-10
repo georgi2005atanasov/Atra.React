@@ -8,6 +8,7 @@ import BackButtonGA from "../../../components/Common/BackButtonGA";
 import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { CompaniesApi } from "../../../services/Companies/Api";
 import { Autocomplete, TextField } from "@mui/material";
+import AddButtonGA from "../../../components/Common/AddButtonGA";
 
 const PAGE_SIZE = 10;
 
@@ -73,8 +74,12 @@ const All = () => {
     setCurrentPage(1);
   };
 
-  const handleView = (id) => {
-    navigate(`/private/details/info/${id}`);
+  const goToUpdateDetail = (id) => {
+    navigate(`/private/details/update/${id}`);
+  };
+
+  const goToAddDetail = () => {
+    navigate(`/private/details/add`);
   };
 
   const handleDelete = (id) => {
@@ -93,12 +98,17 @@ const All = () => {
   return (
     <div className="container-fluid m-0 p-0">
       <TopBarGA setLoading={setLoading} setError={setError} />
-      <div className="card p-3">
-        <div className="position-absolute">
-          <BackButtonGA />
-        </div>
-        <div className="card-header">
-          <h3 className="card-title mb-0 text-center">Детайли</h3>
+      <div className="card p-0">
+        <div className="row">
+          <div className="col-md-3">
+            <BackButtonGA />
+          </div>
+          <div className="col-md-6 card-header">
+            <h3 className="card-title mb-0 text-center">Детайли</h3>
+          </div>
+          <div className="col-md-3 d-flex justify-content-md-end justify-content-center align-items-center">
+            <AddButtonGA handler={goToAddDetail} />
+          </div>
         </div>
 
         <div className="card-body bg-light border-bottom">
@@ -218,9 +228,15 @@ const All = () => {
                         <div className="d-flex justify-content-center gap-2">
                           <button
                             className="btn btn-primary btn-sm px-3 py-2"
-                            onClick={() => handleView(detail.id)}
+                            onClick={() => goToUpdateDetail(detail.id)}
                           >
                             Виж
+                          </button>
+                          <button
+                            className="btn btn-warning btn-sm px-3 py-2"
+                            onClick={() => goToUpdateDetail(detail.id)}
+                          >
+                            Обнови
                           </button>
                           <button
                             className="btn btn-danger btn-sm px-3 py-2"

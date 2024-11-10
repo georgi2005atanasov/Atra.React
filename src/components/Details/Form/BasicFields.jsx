@@ -34,6 +34,7 @@ const BasicFields = ({
               fullWidth
               label="Име на детайл"
               name="name"
+              value={formData.name}
               onChange={handleChange}
               color="error"
             />
@@ -65,12 +66,13 @@ const BasicFields = ({
 
       <div className="col-md-6">
         <FormControl fullWidth color="error">
-          <InputLabel>Доставчик</InputLabel>
+          <InputLabel required>Доставчик</InputLabel>
           <Select
-            value={formData.supplier}
+            value={formData.supplierName}
             label="Доставчик"
-            name="supplier"
+            name="supplierName"
             onChange={handleChange}
+            required
           >
             {suppliers && suppliers.map((supplier) => (
               <MenuItem key={supplier.name} value={supplier.name}>
@@ -100,6 +102,7 @@ const BasicFields = ({
           <InputLabel>Категория</InputLabel>
           <Select
             value={category}
+            name="category"
             label="Категория"
             onChange={handleCategoryChange}
             required

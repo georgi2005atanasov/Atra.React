@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import "./All.css";
 import TopBarGA from "../../components/Dashboard/TopBarGA";
 import BackButtonGA from "../../components/Common/BackButtonGA";
+import AddButtonGA from "../../components/Common/AddButtonGA";
 
 const PAGE_SIZE = 500;
 const All = () => {
@@ -74,14 +75,15 @@ const All = () => {
       <TopBarGA setLoading={setLoading} setError={setError} />
 
       <div className="card shadow-sm">
-        <div className="position-relative card-header bg-danger text-white text-center">
-          <div className="position-absolute top-0">
-            <BackButtonGA textColor="light" />
+        <div className="row">
+          <div className="col-md-3">
+            <BackButtonGA />
           </div>
-          <h3 className="card-title mb-0">Компании</h3>
-          <div onClick={goToAddCompany} className="company-form-header">
-            <h5 className="mb-0">Добави</h5>
-            <Add />
+          <div className="col-md-6 card-header">
+            <h3 className="card-title mb-0 text-center">Компании</h3>
+          </div>
+          <div className="col-md-3 d-flex justify-content-md-end justify-content-center align-items-center">
+            <AddButtonGA handler={goToAddCompany} />
           </div>
         </div>
 

@@ -14,11 +14,17 @@ import { DetailsApi } from "../../../services/Detail/Api";
 
 export const useHandlers = () => {
   const navigate = useNavigate();
-  const { category: passedCategory, suppliers, detail } = useLoaderData();
-  console.log(detail);
+  const {
+    category: passedCategory,
+    suppliers,
+    formData: detailData,
+    detailId,
+  } = useLoaderData();
+  console.log(detailData);
+  console.log(detailId);
   const [category, setCategory] = useState(CATEGORY_LABELS[passedCategory]);
   const [formData, setFormData] = useState({
-    ...INITIAL_FORM_STATE,
+    ...detailData,
     category: category || "",
   });
   const [errors, setErrors] = useState({});
@@ -252,7 +258,8 @@ export const useHandlers = () => {
               formData.extraCharacteristics.material
             ),
           },
-          supplierId: suppliers.filter(x => x.name === formData.supplier)[0].id,
+          supplierId: suppliers.filter((x) => x.name === formData.supplierName)[0]
+            .id,
         })
       );
 
@@ -267,8 +274,7 @@ export const useHandlers = () => {
 
     try {
       await DetailsApi.get().update(
-        convertToFormData(detail.id,
-          {
+        convertToFormData(detailId, {
           ...formData,
           // converting to accept enum
           category: getCategoryKeyByValue(formData.category),
@@ -278,7 +284,8 @@ export const useHandlers = () => {
               formData.extraCharacteristics.material
             ),
           },
-          supplierId: suppliers.filter(x => x.name === formData.supplier)[0].id,
+          supplierId: suppliers.filter((x) => x.name === formData.supplierName)[0]
+            .id,
         })
       );
 
@@ -305,7 +312,7 @@ export const useHandlers = () => {
     suppliers: suppliers,
     createDetail,
     updateDetail,
-    detail,
+    detailId,
     handleExtraChange,
     handlePriceAdd,
     handlePriceRemove,
@@ -320,7 +327,10 @@ const convertToFormData = (formData) => {
   form.append("name", formData.name);
   form.append("detailNumber", formData.detailNumber);
   form.append("atraNumber", formData.atraNumber);
-  form.append("supplierId", formData.supplierId && parseInt(formData.supplierId));
+  form.append(
+    "supplierId",
+    formData.supplierId && parseInt(formData.supplierId)
+  );
   form.append("description", formData.description || "");
   form.append("hasVAT", formData.hasVAT);
   form.append("category", formData.category);

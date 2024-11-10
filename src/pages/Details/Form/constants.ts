@@ -80,7 +80,7 @@ export const INITIAL_FORM_STATE = {
   name: "",
   detailNumber: "",
   atraNumber: "",
-  supplier: "",
+  supplierId: "",
   description: "",
   hasVAT: false,
   category: "",

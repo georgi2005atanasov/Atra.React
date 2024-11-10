@@ -1,8 +1,10 @@
+import { renderBase64Image } from "../../utils/renderers";
+
 // eslint-disable-next-line react/prop-types
 const ImageModal = ({ base64Image, name, onClose }) => {
   if (!base64Image) return null;
 
-  const imageUrl = `data:image/jpeg;base64,${base64Image}`;
+  const imageUrl = renderBase64Image(base64Image);
 
   return (
     <>
@@ -10,7 +12,10 @@ const ImageModal = ({ base64Image, name, onClose }) => {
         className="modal d-block"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
       >
-        <div className="modal-dialog modal-lg modal-dialog-centered" style={{ maxWidth: "400px", maxHeight: "400px" }}>
+        <div
+          className="modal-dialog modal-lg modal-dialog-centered"
+          style={{ maxWidth: "400px", maxHeight: "400px" }}
+        >
           <div className="modal-content" style={{ aspectRatio: "1/1" }}>
             <div className="modal-header border-0">
               <h5 className="modal-title">{name}</h5>

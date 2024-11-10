@@ -28,7 +28,7 @@ const DetailForm = () => {
     suppliers,
     createDetail,
     updateDetail,
-    detail,
+    detailId,
     handleExtraChange,
     handlePriceAdd,
     handlePriceRemove,
@@ -36,11 +36,13 @@ const DetailForm = () => {
     handleMetalDimensionsChange,
   } = useHandlers();
 
+  const isAddingNewDetail = () => detailId === undefined || detailId === null;
+
   return (
     <form
       className="row g-3"
       onSubmit={
-        detail !== undefined || detail !== null ? createDetail : updateDetail
+        isAddingNewDetail() ? createDetail : updateDetail
       }
       encType="multipart/form-data"
     >
@@ -130,7 +132,7 @@ const DetailForm = () => {
               textTransform: "none",
             }}
           >
-            Създай детайл
+            {isAddingNewDetail() ? 'Създай детайл' : 'Обнови детайл'}
           </Button>
         </div>
       </div>

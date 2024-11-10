@@ -25,13 +25,12 @@ export async function loader({ request, params }) {
     const category = url.searchParams.get("category");
     const detailId = params.id;
     const resCompanies = await CompaniesApi.get().all();
-    const detail = await DetailsApi.get().getById(detailId);
-    console.log(detail);
+    const resDetail = await DetailsApi.get().getById(detailId);
 
     return {
       category,
       suppliers: resCompanies.data.items,
-      detail,
+      formData: resDetail.data.detail,
     };
   } catch {
     return redirect("/");

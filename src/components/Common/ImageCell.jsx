@@ -1,11 +1,12 @@
 import { useState } from "react";
 import ImageModal from "./ImageModal";
+import { renderBase64Image } from "../../utils/renderers";
 
 // ImageCell.jsx
 // eslint-disable-next-line react/prop-types
 const ImageCell = ({ base64Image, modalImage, name }) => {
     const [showModal, setShowModal] = useState(false);
-    const imageUrl = base64Image ? `data:image/jpeg;base64,${base64Image}` : null;
+    const imageUrl = base64Image ? renderBase64Image(base64Image) : null;
   
     return (
       <td style={{ width: "100px" }}>

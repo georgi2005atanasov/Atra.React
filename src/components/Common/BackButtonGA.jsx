@@ -13,7 +13,7 @@ const BackButtonGA = ({ textColor = "secondary" }) => {
   return (
     <IconButton
       onClick={handleBack}
-      className={`btn btn-light text-${textColor}`}
+      className={`btn btn-light text-${textColor} d-flex justify-content-center align-items-center`}
       aria-label="Назад"
     >
       <ArrowBackIcon />

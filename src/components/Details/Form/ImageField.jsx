@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Image, X } from "@mui/icons-material";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
+import { renderBase64Image } from "../../../utils/renderers";
 
 const ImageField = ({
   fileInputRef,
@@ -9,6 +10,15 @@ const ImageField = ({
   handleRemoveImage,
   formData,
 }) => {
+  // it is either in base64 or getting it from the user, so this may do the work
+  const getImage = () => {
+    try {
+      return URL.createObjectURL(formData.image);
+    } catch {
+      return formData.image ? renderBase64Image(formData.image) : null;
+    }
+  }
+
   return (
     <div className="col-6 mt-4">
       <Box
@@ -91,7 +101,7 @@ const ImageField = ({
               <X size={20} />
             </IconButton>
             <img
-              src={URL.createObjectURL(formData.image)}
+              src={getImage()}
               alt="Uploaded preview"
               style={{
                 width: "100%",

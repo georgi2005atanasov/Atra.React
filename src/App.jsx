@@ -27,6 +27,9 @@ import AddDetail, {
 import DetailInfo, {
   loader as detailInfoLoader
 } from "./pages/Details/Info/Info.jsx";
+import UpdateDetail, {
+  loader as detailUpdateLoader
+} from "./pages/Details/Update/Update.jsx";
 
 const router = createBrowserRouter([
   {
@@ -55,9 +58,9 @@ const router = createBrowserRouter([
         loader: detailFormLoader,
       },
       {
-        path: "details/info/:id",
-        element: <DetailInfo />,
-        loader: detailInfoLoader,
+        path: "details/update/:id",
+        element: <UpdateDetail />,
+        loader: detailUpdateLoader,
       },
       {
         path: "details/all",

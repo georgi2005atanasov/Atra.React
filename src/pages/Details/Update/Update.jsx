@@ -1,10 +1,10 @@
 import BackButtonGA from "../../../components/Common/BackButtonGA";
 import { redirect } from "react-router-dom";
-import DetailForm from "../Form/DetailForm";
+import { DetailsApi } from "../../../services/Detail/Api";
 import { CompaniesApi } from "../../../services/Companies/Api";
-import { INITIAL_FORM_STATE } from "../Form/constants";
+import DetailForm from "../Form/DetailForm";
 
-const Add = () => {
+const Update = () => {
   return (
     <div className="detail-form-wrapper container-fluid bg-white p-4 m-3">
       <div className="row d-flex">
@@ -13,7 +13,7 @@ const Add = () => {
         </div>
         <div className="offset-md-2"></div>
         <h2 className="col-12 d-flex text-center my-3 pb-2 border-bottom border-1 border-danger">
-          Добави Детайл
+          Обнови Детайл
         </h2>
       </div>
 
@@ -22,25 +22,22 @@ const Add = () => {
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export async function loader({ request }) {
+export async function loader({ params }) {
   try {
-    const url = new URL(request.url);
-    const category = url.searchParams.get("category");
+    // GETTING IT AS STRING
+    const detailId = params.id;
     const resCompanies = await CompaniesApi.get().all();
-    const formData = INITIAL_FORM_STATE;
+    const resDetail = await DetailsApi.get().getById(detailId);
 
     return {
-      category,
+      category: resDetail.data.detail.category,
       suppliers: resCompanies.data.items,
-
-      // passing init data in order to use one form only
-      formData,
-      detailId: undefined,
+      formData: resDetail.data.detail,
+      detailId,
     };
   } catch {
     return redirect("/");
   }
 }
 
-export default Add;
+export default Update;
