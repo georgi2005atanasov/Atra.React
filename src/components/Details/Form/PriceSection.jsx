@@ -37,7 +37,7 @@ const PriceSection = ({
 
   const onDimensionsChange = (index, field, value) => {
     const numberValue =
-      field === "thickness" ? (value !== "" ? Number(value) : null) : value;
+      field === "thickness" || field === "width" || field === "height" ? (value !== "" ? Number(value) : null) : value;
     handleMetalDimensionsChange(index, field, numberValue);
   };
 

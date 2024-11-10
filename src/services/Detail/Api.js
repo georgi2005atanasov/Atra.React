@@ -31,6 +31,12 @@ class Api extends ApiAbstract {
     method: METHOD.PUT,
     body: formData,
   });
+
+  delete = async (id) => 
+    this.execute({
+    endpoint: `Delete/${id}`,
+    method: METHOD.DELETE,
+  });
 }
 
 export { Api as DetailsApi };
