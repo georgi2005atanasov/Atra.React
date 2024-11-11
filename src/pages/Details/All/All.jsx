@@ -1,108 +1,50 @@
-import { useState, useEffect } from "react";
-import { DetailsApi } from "../../../services/Detail/Api";
-import { useLoading } from "../../../utils/hooks";
 import ImageCell from "../../../components/Common/ImageCell";
 import "./All.css";
 import TopBarGA from "../../../components/Dashboard/TopBarGA";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
-import { redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import { CompaniesApi } from "../../../services/Companies/Api";
-import { Autocomplete, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import AddButtonGA from "../../../components/Common/AddButtonGA";
 import DeleteModal from "../../../components/Details/DeleteModal";
-
-const PAGE_SIZE = 10;
+import { CATEGORY_LABELS } from "../Form/constants";
+import { useHandlers } from "./hooks";
 
 const All = () => {
-  let { suppliers } = useLoaderData();
-  suppliers = [{ id: null, name: "Всички" }, ...suppliers];
-
-  const navigate = useNavigate();
-  const [details, setDetails] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const { setLoading } = useLoading(true);
-  const [error, setError] = useState(null);
-  const pageSize = PAGE_SIZE;
-  const [deleteModal, setDeleteModal] = useState({
-    isOpen: false,
-    detailName: "",
-    detailId: null,
-  });
-
-  const [supplierId, setSupplierId] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const [orderByNameAscending, setOrderByNameAscending] = useState(false);
-
-  const fetchDetails = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const params = {
-        page: currentPage,
-        pageSize,
-        ...(supplierId && { supplierId: parseInt(supplierId) }),
-        ...(minPrice && { minPrice: parseFloat(minPrice) }),
-        ...(maxPrice && { maxPrice: parseFloat(maxPrice) }),
-        orderByNameAscending,
-      };
-
-      const response = await DetailsApi.get().all(params);
-
-      if (response.data) {
-        const paginatedData = response.data.paginatedDetails;
-        setDetails(paginatedData.items);
-        setTotalPages(paginatedData.totalPages);
-      }
-    } catch (error) {
-      setError("Възникна грешка.");
-      console.error("Error fetching details:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDetails();
-  }, [currentPage]);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
-  const handleFilterReset = () => {
-    setSupplierId("");
-    setMinPrice("");
-    setMaxPrice("");
-    setOrderByNameAscending(false);
-    setCurrentPage(1);
-  };
-
-  const goToUpdateDetail = (id) => {
-    navigate(`/private/details/update/${id}`);
-  };
-
-  const goToAddDetail = () => {
-    navigate(`/private/details/add`);
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      await DetailsApi.get().delete(id);
-      
-      navigate(0);
-    } catch (error) {
-      setError("Възникна грешка.");
-      console.error("Error fetching details:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    suppliers,
+    details,
+    supplierId,
+    setSupplierId,
+    category,
+    handleCategoryChange,
+    minPrice,
+    setMinPrice,
+    maxPrice,
+    setMaxPrice,
+    orderByNameAscending,
+    setOrderByNameAscending,
+    currentPage,
+    totalPages,
+    error,
+    setError,
+    setLoading,
+    deleteModal,
+    setDeleteModal,
+    handlePageChange,
+    handleFilterReset,
+    goToAddDetail,
+    goToUpdateDetail,
+    handleDelete,
+    fetchDetails,
+  } = useHandlers();
 
   if (error) {
     return (
@@ -139,7 +81,7 @@ const All = () => {
 
           <div className="card-body bg-light border-bottom">
             <div className="row g-3">
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label className="form-label">Доставчик</label>
                 <Autocomplete
                   options={suppliers}
@@ -165,7 +107,26 @@ const All = () => {
                 />
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-3 d-flex align-items-end">
+                <FormControl fullWidth color="error">
+                  <InputLabel>Категория</InputLabel>
+                  <Select
+                    value={category}
+                    name="category"
+                    label="Категория"
+                    onChange={handleCategoryChange}
+                    required
+                  >
+                    {Object.values(CATEGORY_LABELS).map((cat) => (
+                      <MenuItem key={cat} value={cat}>
+                        {cat}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+
+              <div className="col-md-2">
                 <label className="form-label">Минимална цена</label>
                 <input
                   type="number"
@@ -176,7 +137,7 @@ const All = () => {
                 />
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-2">
                 <label className="form-label">Максимална цена</label>
                 <input
                   type="number"

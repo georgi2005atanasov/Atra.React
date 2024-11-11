@@ -78,7 +78,7 @@ const CompanyForm = () => {
           </div>
 
           <div className="card-body">
-            <form onSubmit={handleSubmit} className="row g-3">
+            <form method="post" onSubmit={handleSubmit} className="row g-3">
               <div className="col-md-12">
                 <TextField
                   fullWidth
