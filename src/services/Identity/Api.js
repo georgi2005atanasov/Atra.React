@@ -25,8 +25,6 @@ class Api extends ApiAbstract {
       method: METHOD.POST,
       body: data,
     });
-
-    Storage.setAccessToken("");
   };
 
   sendPasswordReset = async (data) =>

@@ -119,7 +119,7 @@ const BasicFields = ({
       <div className="col-md-2">
         <TextField
           fullWidth
-          label="Цена за труд"
+          label="Цена за труд (лв.)"
           name="labourPrice"
           type="number"
           value={formData.labourPrice}

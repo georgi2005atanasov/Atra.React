@@ -52,7 +52,7 @@ const PriceSection = ({
           <div className={`col-md-${isMetal ? "2" : "3"} my-1`}>
             <TextField
               fullWidth
-              label="Цена"
+              label="Цена (лв.)"
               type="number"
               required={formData.prices.length === 1}
               value={price.price ?? ""}
@@ -64,7 +64,7 @@ const PriceSection = ({
           <div className={`col-md-${isMetal ? "2" : "3"} my-1`}>
             <TextField
               fullWidth
-              label="Тегло (гр.)"
+              label="Тегло"
               type="number"
               required={formData.prices.length === 1}
               value={price.weight ?? ""}

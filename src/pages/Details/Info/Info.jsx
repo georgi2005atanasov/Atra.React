@@ -130,7 +130,7 @@ const Info = () => {
                       {formData.prices.map((price, index) => (
                         <tr key={index}>
                           <td className="text-end">{price.price} лв.</td>
-                          <td className="text-end">{price.weight ?? "-"} гр.</td>
+                          <td className="text-end">{price.weight ?? "-"}</td>
                           <td>{PRICE_UNIT_LABELS[price.unit]}</td>
                           {formData.category === Category.Metal && (
                             <>
