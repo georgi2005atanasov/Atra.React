@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DetailsApi } from "../../../services/Detail/Api";
 import { getCategoryKeyByValue } from "../Form/constants";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { useLoading } from "../../../utils/hooks";
+import { useLoading } from "../../../context/LoadingContext";
 
 const PAGE_SIZE = 10;
 
@@ -38,8 +38,8 @@ export const useHandlers = () => {
         page: currentPage,
         pageSize,
         ...(supplierId && { supplierId: parseInt(supplierId) }),
-        ...(minPrice && { minPrice: parseFloat(minPrice) }),
-        ...(maxPrice && { maxPrice: parseFloat(maxPrice) }),
+        ...(minPrice && { minPrice: Number(minPrice) }),
+        ...(maxPrice && { maxPrice: Number(maxPrice) }),
         ...(category && { category: getCategoryKeyByValue(category) }),
         orderByNameAscending,
       };

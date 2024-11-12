@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IdentityApi } from "../../../services/Identity/Api";
 import { MESSAGE_TYPE } from "../../../utils/appConstants";
-import { useLoading } from "../../../utils/hooks";
+import { useLoading } from "../../../context/LoadingContext";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import Storage from "../../../utils/storage/Storage";
 

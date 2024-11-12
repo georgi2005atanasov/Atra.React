@@ -1,6 +1,7 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { DeviceApi } from "../../../services/Device/Api";
-import { useLoading, useTotp } from "../../../utils/hooks";
+import { useTotp } from "../../../utils/hooks";
+import { useLoading } from "../../../context/LoadingContext";
 import { useState } from "react";
 
 export const useHandlers = () => {

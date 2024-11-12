@@ -1,19 +1,17 @@
 import { redirect } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useHandlers } from "./hooks.jsx";
-import LoadingSpinner from "../../../components/Common/LoadingSpinner.jsx";
 import logo from "../../../assets/atraLogo.png";
 import InputGA from "../../../components/Common/InputGA.jsx";
 
 const Start = () => {
-  const { requirePair, isTotpSent, error, email, setEmail, loading, message } =
+  const { requirePair, isTotpSent, error, email, setEmail, message } =
     useHandlers();
 
   if (isTotpSent) return <></>;
 
   return (
     <>
-      {loading && <LoadingSpinner />}
       <div className="container-fluid p-md-0 p-4 d-flex flex-column justify-content-md-center justify-content-start align-items-center vh-100">
         <div className="row w-lg-25 flex-column">
           <div className="col-lg-6 w-100 px-0">

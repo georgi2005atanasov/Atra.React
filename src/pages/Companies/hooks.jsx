@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { CompaniesApi } from "../../services/Companies/Api";
-import { useLoading } from "../../utils/hooks";
+import { useLoading } from "../../context/LoadingContext";
 import { useNavigate } from "react-router-dom";
 
 const PAGE_SIZE = 500;

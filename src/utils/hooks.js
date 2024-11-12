@@ -1,16 +1,6 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { DeviceApi } from "../services/Device/Api";
-import Storage from "./storage/Storage";
-
-export const useLoading = () => {
-  const [loading, setLoading] = useState(false);
-
-  return {
-    loading,
-    setLoading,
-  };
-};
 
 export const useTotp = () => {
   const [totp, setTotp] = useState("");

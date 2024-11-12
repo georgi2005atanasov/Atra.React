@@ -1,9 +1,5 @@
 import { Trash2 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import { CompaniesApi } from "../../services/Companies/Api";
-import { useLoading } from "../../utils/hooks";
 import { Alert, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import "./All.css";
 import TopBarGA from "../../components/Dashboard/TopBarGA";
 import BackButtonGA from "../../components/Common/BackButtonGA";

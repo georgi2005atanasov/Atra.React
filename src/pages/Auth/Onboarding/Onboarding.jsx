@@ -23,7 +23,6 @@ const Onboarding = () => {
     setRepeatPassword,
     email,
     setEmail,
-    loading,
     error,
     setError,
     totp,
@@ -34,7 +33,6 @@ const Onboarding = () => {
 
   return (
     <>
-      {loading && <LoadingSpinner />}
       <AuthLayout
         header={"Активация"}
         error={error}

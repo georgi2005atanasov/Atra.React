@@ -31,7 +31,7 @@ const Info = () => {
   const handleDelete = async () => {
     try {
       await DetailsApi.get().delete(formData.id);
-      navigate("/details");
+      navigate("/private/details/all");
     } catch (error) {
       console.error("Error deleting detail:", error);
     }

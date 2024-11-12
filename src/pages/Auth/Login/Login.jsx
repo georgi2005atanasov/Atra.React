@@ -20,7 +20,6 @@ const Login = () => {
     setTotp,
     error,
     setError,
-    loading,
     message,
     type,
   } = useHandlers();
@@ -28,7 +27,6 @@ const Login = () => {
 
   return (
     <>
-      {loading && <LoadingSpinner />}
       {message && messageVisible && 
       <MessageAlertGA
         message={message}

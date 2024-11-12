@@ -21,8 +21,9 @@ export const useHandlers = () => {
     formData: detailData,
     detailId,
   } = useLoaderData();
+
   console.log(detailData);
-  console.log(detailId);
+
   const [category, setCategory] = useState(CATEGORY_LABELS[passedCategory]);
   const [formData, setFormData] = useState({
     ...detailData,
@@ -283,9 +284,10 @@ export const useHandlers = () => {
           category: getCategoryKeyByValue(formData.category),
           extraCharacteristics: {
             ...formData.extraCharacteristics,
-            material: getMaterialKeyByValue(
-              formData.extraCharacteristics.material
-            ),
+            material:
+              typeof formData.extraCharacteristics.material === "string"
+                ? getMaterialKeyByValue(formData.extraCharacteristics.material)
+                : formData.extraCharacteristics.material,
           },
           supplierId: suppliers.filter(
             (x) => x.name === formData.supplierName
@@ -338,10 +340,8 @@ const convertToFormData = (formData) => {
   form.append("description", formData.description || "");
   form.append("hasVAT", formData.hasVAT);
   form.append("category", formData.category);
-  formData.labourPrice && form.append("labourPrice", formData.labourPrice);
   form.append("prices", JSON.stringify(formData.prices));
   form.append("detailWeights", JSON.stringify(formData.detailWeights));
-
   if (formData.image) {
     if (typeof formData.image === "string") {
       form.append("image", base64ToFile(formData.image, "DEFAULT_IMAGE.png"));
@@ -349,6 +349,8 @@ const convertToFormData = (formData) => {
       form.append("image", formData.image);
     }
   }
+  if (formData.labourPrice !== null && formData.labourPrice !== "")
+    form.append("labourPrice", formData.labourPrice);
 
   form.append(
     "extraCharacteristics",

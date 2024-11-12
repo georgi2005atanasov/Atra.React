@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { useLoading, useResendTotp, useTotp } from "../../../utils/hooks.js";
+import { useResendTotp, useTotp } from "../../../utils/hooks.js";
+import { useLoading } from "../../../context/LoadingContext.jsx";
 import { CryptographyApi } from "../../../services/Cryptography/Api.js";
 import { IdentityApi } from "../../../services/Identity/Api.js";
 import { generateUID } from "../../../utils/commonUtils.js";

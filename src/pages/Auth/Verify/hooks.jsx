@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { DeviceApi } from "../../../services/Device/Api";
 import { DeviceAlreadyVerified, MESSAGE_TYPE, SUCCESSFULL_VERIFICATION } from "../../../utils/appConstants";
-import { useLoading, useTotp } from "../../../utils/hooks";
+import { useTotp } from "../../../utils/hooks";
+import { useLoading } from "../../../context/LoadingContext";
 import { useNavigate } from "react-router-dom";
 import Storage from "../../../utils/storage/Storage";
 

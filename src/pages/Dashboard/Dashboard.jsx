@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoading } from "../../utils/hooks";
+import { useLoading } from "../../context/LoadingContext";
 import { Button, ClickAwayListener } from "@mui/material";
 import { useHandlers } from "./hooks";
 import LoadingSpinner from "../../components/Common/LoadingSpinner";
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
-  const { loading, setLoading } = useLoading();
+  const { setLoading } = useLoading();
   const {
     menuAnchors,
     handleClickAway,
@@ -23,7 +23,6 @@ const Dashboard = () => {
 
   return (
     <>
-      {loading && <LoadingSpinner />}
       <div className="container-fluid p-0 w-100">
         <TopBarGA setLoading={setLoading} setError={setError} />
         {/* Menu */}
