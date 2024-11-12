@@ -7,7 +7,7 @@ import { useLoading } from "../../../utils/hooks";
 const PAGE_SIZE = 10;
 
 export const useHandlers = () => {
-  let { suppliers } = useLoaderData();
+  let { suppliers, category: passedCategory } = useLoaderData();
   suppliers = [{ id: null, name: "Всички" }, ...suppliers];
 
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ export const useHandlers = () => {
   });
 
   const [supplierId, setSupplierId] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(passedCategory || "");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [orderByNameAscending, setOrderByNameAscending] = useState(false);
@@ -81,13 +81,9 @@ export const useHandlers = () => {
     setCategory(value);
   };
 
-  const goToUpdateDetail = (id) => {
-    navigate(`/private/details/update/${id}`);
-  };
-
-  const goToAddDetail = () => {
-    navigate(`/private/details/add`);
-  };
+  const goToUpdateDetail = (id) => navigate(`/private/details/update/${id}`);
+  const goToAddDetail = () => navigate(`/private/details/add`);
+  const goToDetailInfo = (id) => navigate(`/private/details/info/${id}`);
 
   const handleDelete = async (id) => {
     try {
@@ -129,6 +125,7 @@ export const useHandlers = () => {
     handleFilterReset,
     goToAddDetail,
     goToUpdateDetail,
+    goToDetailInfo,
     handleCategoryChange,
     handleDelete,
     fetchDetails,

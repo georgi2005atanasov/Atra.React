@@ -42,6 +42,7 @@ const All = () => {
     handleFilterReset,
     goToAddDetail,
     goToUpdateDetail,
+    goToDetailInfo,
     handleDelete,
     fetchDetails,
   } = useHandlers();
@@ -219,7 +220,7 @@ const All = () => {
                           <div className="d-flex justify-content-center gap-2">
                             <button
                               className="btn btn-primary btn-sm px-3 py-2"
-                              onClick={() => goToUpdateDetail(detail.id)}
+                              onClick={() => goToDetailInfo(detail.id)}
                             >
                               Виж
                             </button>
@@ -308,12 +309,12 @@ const All = () => {
 
 export async function loader({ request }) {
   try {
-    // const url = new URL(request.url);
-    // const category = url.searchParams.get("category");
+    const url = new URL(request.url);
+    const category = url.searchParams.get("category");
     const response = await CompaniesApi.get().all();
 
     return {
-      // category,
+      category: category && CATEGORY_LABELS[parseInt(category)],
       suppliers: response.data.items,
     };
   } catch {

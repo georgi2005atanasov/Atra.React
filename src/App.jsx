@@ -30,6 +30,7 @@ import DetailInfo, {
 import UpdateDetail, {
   loader as detailUpdateLoader
 } from "./pages/Details/Update/Update.jsx";
+import Info from "./pages/Details/Info/Info.jsx";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,11 @@ const router = createBrowserRouter([
         path: "details/update/:id",
         element: <UpdateDetail />,
         loader: detailUpdateLoader,
+      },
+      {
+        path: "details/info/:id",
+        element: <DetailInfo />,
+        loader: detailInfoLoader,
       },
       {
         path: "details/all",

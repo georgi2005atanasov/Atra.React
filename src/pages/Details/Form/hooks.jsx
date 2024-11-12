@@ -11,6 +11,7 @@ import {
 } from "./constants";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { DetailsApi } from "../../../services/Detail/Api";
+import { base64ToFile } from "../../../utils/commonUtils";
 
 export const useHandlers = () => {
   const navigate = useNavigate();
@@ -258,8 +259,9 @@ export const useHandlers = () => {
               formData.extraCharacteristics.material
             ),
           },
-          supplierId: suppliers.filter((x) => x.name === formData.supplierName)[0]
-            .id,
+          supplierId: suppliers.filter(
+            (x) => x.name === formData.supplierName
+          )[0].id,
         })
       );
 
@@ -285,8 +287,9 @@ export const useHandlers = () => {
               formData.extraCharacteristics.material
             ),
           },
-          supplierId: suppliers.filter((x) => x.name === formData.supplierName)[0]
-            .id,
+          supplierId: suppliers.filter(
+            (x) => x.name === formData.supplierName
+          )[0].id,
         })
       );
 
@@ -340,7 +343,11 @@ const convertToFormData = (formData) => {
   form.append("detailWeights", JSON.stringify(formData.detailWeights));
 
   if (formData.image) {
-    form.append("image", formData.image);
+    if (typeof formData.image === "string") {
+      form.append("image", base64ToFile(formData.image, "DEFAULT_IMAGE.png"));
+    } else {
+      form.append("image", formData.image);
+    }
   }
 
   form.append(
