@@ -98,6 +98,7 @@ const All = () => {
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      color="error"
                       placeholder="Всички"
                       variant="outlined"
                     />

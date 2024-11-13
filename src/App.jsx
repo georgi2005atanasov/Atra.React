@@ -30,6 +30,7 @@ import DetailInfo, {
 import UpdateDetail, {
   loader as detailUpdateLoader
 } from "./pages/Details/Update/Update.jsx";
+import AddComponent from "./pages/Components/Add/Add.jsx";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
         element: <CompanyForm />,
       },
       { path: "companies/all", element: <AllCompanies /> },
+      {
+        path: "components/add",
+        element: <AddComponent />,
+      },
     ],
   },
   {

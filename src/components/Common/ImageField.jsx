@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Image, X } from "@mui/icons-material";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
-import { renderBase64Image } from "../../../utils/renderers";
+import { renderBase64Image } from "../../utils/renderers";
 
 const ImageField = ({
   fileInputRef,

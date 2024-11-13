@@ -5,7 +5,7 @@ import FastenerFields from "../../../components/Details/Form/FastenerFields";
 import AtraFields from "../../../components/Details/Form/AtraFields";
 import LakiFields from "../../../components/Details/Form/LakiFields";
 import MetalFields from "../../../components/Details/Form/MetalFields";
-import ImageField from "../../../components/Details/Form/ImageField";
+import ImageField from "../../../components/Common/ImageField";
 import { Category, CATEGORY_LABELS } from "./constants";
 import GlassFields from "../../../components/Details/Form/GlassFields";
 import PriceSection from "../../../components/Details/Form/PriceSection";
