@@ -12,7 +12,7 @@ import {
 import Storage from "../../utils/storage/Storage";
 
 // eslint-disable-next-line react/prop-types
-const TopBarGA = ({ setLoading, setError }) => {
+const TopBarGA = ({ setLoading, setError, handleSearch }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -36,10 +36,6 @@ const TopBarGA = ({ setLoading, setError }) => {
       // TODO: UtilsApi to handle errors
       setError(ex.message);
     }
-  };
-
-  const handleSearch = (event) => {
-    event.preventDefault();
   };
 
   return (

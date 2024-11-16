@@ -3,14 +3,16 @@ export enum PriceUnit {
   PerOne = 1,
   PerSheet = 2,
   PerKg = 3,
-  PerSquareMeter = 4,
-  ScrapWeight = 5,
+  PerGram = 4,
+  PerSquareMeter = 5,
+  ScrapWeight = 6,
 }
 export const PRICE_UNIT_LABELS: Record<PriceUnit, string> = {
   [PriceUnit.Other]: "Друга",
   [PriceUnit.PerOne]: "За брой",
   [PriceUnit.PerSheet]: "За лист",
-  [PriceUnit.PerKg]: "За килограм",
+  [PriceUnit.PerKg]: "килограм",
+  [PriceUnit.PerGram]: "грам",
   [PriceUnit.PerSquareMeter]: "кв.м",
   [PriceUnit.ScrapWeight]: "Отпадък",
 };
@@ -63,13 +65,17 @@ export type EnumLabels<T extends { [key: number]: string }> = {
   [K in keyof T]: string;
 };
 export const getMaterialKeyByValue = (value: string) => {
-  const entry = Object.entries(MATERIAL_LABELS).find(([_, label]) => label === value);
+  const entry = Object.entries(MATERIAL_LABELS).find(
+    ([_, label]) => label === value
+  );
   return entry ? (entry[0] as unknown as Material) : undefined;
-}
+};
 export const getCategoryKeyByValue = (value: string) => {
-  const entry = Object.entries(CATEGORY_LABELS).find(([_, label]) => label === value);
+  const entry = Object.entries(CATEGORY_LABELS).find(
+    ([_, label]) => label === value
+  );
   return entry ? (entry[0] as unknown as Category) : undefined;
-}
+};
 export const getLabelByEnum = <T extends number>(
   enumObj: Record<T, string>,
   value: T

@@ -13,7 +13,7 @@ const Add = () => {
           Добави Компонент
         </h2>
       </div>
-      <ComponentForm />;
+      <ComponentForm />
     </div>
   );
 };

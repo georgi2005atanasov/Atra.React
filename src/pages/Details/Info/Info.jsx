@@ -179,7 +179,7 @@ const Info = () => {
                           dieNumber: "Номер щанца",
                           benderNumber: "Номер огъвач",
                           step: "Стъпка",
-                          layout: "Разположение",
+                          layout: "Разкрой",
                           detailsPerHit: "Детайли на удар",
                           detailsPerSheet: "Детайли на лист",
                           din: "DIN",

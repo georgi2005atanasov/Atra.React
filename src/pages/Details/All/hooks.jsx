@@ -47,7 +47,7 @@ export const useHandlers = () => {
       const response = await DetailsApi.get().all(params);
 
       if (response.data) {
-        const paginatedData = response.data.paginatedDetails;
+        const paginatedData = response.data;
         setDetails(paginatedData.items);
         setTotalPages(paginatedData.totalPages);
       }
@@ -101,6 +101,10 @@ export const useHandlers = () => {
     }
   };
 
+  const handleSearch = (event) => {
+    event.preventDefault();
+  };
+
   return {
     suppliers,
     details,
@@ -129,5 +133,6 @@ export const useHandlers = () => {
     handleCategoryChange,
     handleDelete,
     fetchDetails,
+    handleSearch,
   };
 };

@@ -19,9 +19,22 @@ class Api extends ApiAbstract {
     params
   });
 
+  allEssentials = async (params) => 
+    this.execute({
+    endpoint: "AllEssentials",
+    method: METHOD.GET,
+    params,
+  });
+
   getById = async (id) => 
     this.execute({
     endpoint: `GetById/${id}`,
+    method: METHOD.GET,
+  });
+
+  getPricesById = async (id) => 
+    this.execute({
+    endpoint: `GetPricesById/${id}`,
     method: METHOD.GET,
   });
 

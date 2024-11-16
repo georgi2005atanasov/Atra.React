@@ -23,6 +23,7 @@ const PriceSection = ({
   handleMetalDimensionsChange,
   handlePriceRemove,
   handlePriceAdd,
+  onPriceSelect, // New prop for handling price selection
 }) => {
   if (!formData?.prices || !Array.isArray(formData.prices)) {
     return null;
@@ -30,15 +31,35 @@ const PriceSection = ({
 
   const isMetal = category === CATEGORY_LABELS[Category.Metal];
 
+  const handlePriceSelect = (index, isSelected) => {
+    const selectedPrice = formData.prices[index];
+    if (selectedPrice && selectedPrice.id) {
+      onPriceSelect(selectedPrice.id, isSelected);
+    }
+  };
+
   const onValueChange = (index, field, value) => {
     const numberValue = value !== "" ? Number(value) : null;
     handlePriceChange(index, field, numberValue);
+    
+    // When price value changes, consider it as selected
+    if (field === "price" && numberValue !== null) {
+      handlePriceSelect(index, true);
+    }
   };
 
   const onDimensionsChange = (index, field, value) => {
     const numberValue =
-      field === "thickness" || field === "width" || field === "height" ? (value !== "" ? Number(value) : null) : value;
+      field === "thickness" || field === "width" || field === "height" 
+        ? (value !== "" ? Number(value) : null) 
+        : value;
     handleMetalDimensionsChange(index, field, numberValue);
+  };
+
+  // Enhanced price remove handler to update selection
+  const handlePriceRemoveWithSelection = (index) => {
+    handlePriceSelect(index, false); // Deselect the price before removing
+    handlePriceRemove(index);
   };
 
   return (
@@ -58,6 +79,9 @@ const PriceSection = ({
               value={price.price ?? ""}
               onChange={(e) => onValueChange(index, "price", e.target.value)}
               color="error"
+              InputProps={{
+                readOnly: true, // Make it read-only since data is loaded
+              }}
             />
           </div>
 
@@ -69,6 +93,9 @@ const PriceSection = ({
               value={price.weight ?? ""}
               onChange={(e) => onValueChange(index, "weight", e.target.value)}
               color="error"
+              InputProps={{
+                readOnly: true, // Make it read-only since data is loaded
+              }}
             />
           </div>
 
@@ -79,6 +106,7 @@ const PriceSection = ({
                   fullWidth
                   label="Дебелина (мм)"
                   type="number"
+                  value={price.metalDimensions?.thickness ?? ""}
                   onChange={(e) =>
                     onDimensionsChange(index, "thickness", e.target.value)
                   }
@@ -102,7 +130,6 @@ const PriceSection = ({
                   fullWidth
                   label="Височина (мм)"
                   value={price.metalDimensions?.height ?? ""}
-                  required={formData.prices.length === 1}
                   type="number"
                   onChange={(e) =>
                     onDimensionsChange(index, "height", e.target.value)
@@ -122,6 +149,7 @@ const PriceSection = ({
                 onChange={(e) =>
                   handlePriceChange(index, "unit", Number(e.target.value))
                 }
+                disabled={true} // Disable since data is loaded
               >
                 {Object.entries(PRICE_UNIT_LABELS).map(([value, label]) => (
                   <MenuItem key={`unit-${value}`} value={Number(value)}>
@@ -134,26 +162,17 @@ const PriceSection = ({
 
           <div className="col-md-1 d-flex align-items-center justify-content-center">
             <IconButton
-              onClick={() => handlePriceRemove(index)}
+              onClick={() => handlePriceSelect(index, true)}
               color="error"
-              disabled={formData.prices.length <= 1}
+              sx={{
+                backgroundColor: price.selected ? 'rgba(211, 47, 47, 0.1)' : 'transparent',
+              }}
             >
-              <X />
+              <Add />
             </IconButton>
           </div>
         </div>
       ))}
-
-      <Button
-        onClick={handlePriceAdd}
-        variant="outlined"
-        color="error"
-        size="small"
-        sx={{ mt: 1 }}
-        startIcon={<Add />}
-      >
-        Добави цена и тегло
-      </Button>
     </div>
   );
 };
