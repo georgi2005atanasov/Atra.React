@@ -31,6 +31,7 @@ import UpdateDetail, {
   loader as detailUpdateLoader
 } from "./pages/Details/Update/Update.jsx";
 import AddComponent from "./pages/Components/Add/Add.jsx";
+import AllComponents from "./pages/Components/All/All.jsx";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "components/add",
         element: <AddComponent />,
+      },
+      {
+        path: "components/all",
+        element: <AllComponents />,
       },
     ],
   },

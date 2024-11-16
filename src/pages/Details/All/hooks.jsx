@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DetailsApi } from "../../../services/Detail/Api";
 import { getCategoryKeyByValue } from "../Form/constants";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { useLoading } from "../../../context/LoadingContext";
 
 const PAGE_SIZE = 10;
@@ -28,7 +28,7 @@ export const useHandlers = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [orderByNameAscending, setOrderByNameAscending] = useState(false);
-
+  
   const fetchDetails = async () => {
     try {
       setLoading(true);

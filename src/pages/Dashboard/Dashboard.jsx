@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLoading } from "../../context/LoadingContext";
 import { Button, ClickAwayListener } from "@mui/material";
 import { useHandlers } from "./hooks";
-import LoadingSpinner from "../../components/Common/LoadingSpinner";
 import TopBarGA from "../../components/Dashboard/TopBarGA";
 import MenuButtonGA from "../../components/Dashboard/MenuButtonGA";
 import MenuSectionGA from "../../components/Dashboard/MenuSectionGA";

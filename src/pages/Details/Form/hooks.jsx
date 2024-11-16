@@ -266,7 +266,9 @@ export const useHandlers = () => {
         })
       );
 
-      navigate("/private/details/all", { replace: true });
+      navigate("/private/details/all", {
+        replace: true,
+      });
     } catch (ex) {
       console.log(ex);
     }
@@ -295,7 +297,9 @@ export const useHandlers = () => {
         })
       );
 
-      navigate("/private/details/all", { replace: true });
+      navigate("/private/details/all", {
+        replace: true,
+      });
     } catch (ex) {
       console.log(ex);
     }

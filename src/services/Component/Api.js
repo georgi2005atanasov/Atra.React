@@ -12,12 +12,12 @@ class Api extends ApiAbstract {
     body: formData,
   });
 
-//   all = async (params) => 
-//     this.execute({
-//     endpoint: "All",
-//     method: METHOD.GET,
-//     params
-//   });
+  all = async (params) => 
+    this.execute({
+    endpoint: "All",
+    method: METHOD.GET,
+    params,
+  });
 
 //   allEssentials = async (params) => 
 //     this.execute({

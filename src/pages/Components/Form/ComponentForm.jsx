@@ -15,6 +15,7 @@ import { DetailsApi } from "../../../services/Detail/Api";
 import { PRICE_UNIT_LABELS } from "../../Details/Form/constants";
 import { convertToFormData } from "./hooks";
 import { ComponentApi } from "../../../services/Component/Api";
+import { useNavigate } from "react-router-dom";
 
 const ComponentForm = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +25,7 @@ const ComponentForm = () => {
     detailsPrices: [],
   });
 
+  const navigate = useNavigate();
   const [selectedDetail, setSelectedDetail] = useState(null);
   const [detailOptions, setDetailOptions] = useState([]);
   const [detailPrices, setDetailPrices] = useState([]);
@@ -131,7 +133,7 @@ const ComponentForm = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const r = await ComponentApi.get().create(
+      await ComponentApi.get().create(
         convertToFormData({
           ...formData,
           detailsPrices: formData.detailsPrices.map((x) => ({
@@ -140,6 +142,8 @@ const ComponentForm = () => {
           })),
         })
       );
+
+      navigate("/private/components/all", { replace: true });
     } catch (ex) {
       console.log(ex);
     }
@@ -344,7 +348,7 @@ const ComponentForm = () => {
               <div className="d-flex align-items-center gap-3">
                 <TextField
                   type="number"
-                  label="Count"
+                  label="Брой"
                   value={detail.count}
                   onChange={(e) => handleCountChange(index, e.target.value)}
                   style={{ width: "100px" }}
