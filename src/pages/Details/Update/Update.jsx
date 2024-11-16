@@ -29,6 +29,9 @@ export async function loader({ params }) {
     const resCompanies = await CompaniesApi.get().all();
     const resDetail = await DetailsApi.get().getById(detailId);
 
+    console.log(resDetail);
+    
+
     return {
       category: resDetail.data.detail.category,
       suppliers: resCompanies.data.items,

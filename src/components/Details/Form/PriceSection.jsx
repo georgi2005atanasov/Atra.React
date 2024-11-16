@@ -79,6 +79,7 @@ const PriceSection = ({
                   fullWidth
                   label="Дебелина (мм)"
                   type="number"
+                  value={price.metalDimensions?.thickness ?? ""}
                   onChange={(e) =>
                     onDimensionsChange(index, "thickness", e.target.value)
                   }

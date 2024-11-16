@@ -30,15 +30,15 @@ const ComponentForm = () => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
-  console.log(detailPrices);
+  console.log(formData.detailsPrices);
 
   const isPriceAdded = (price) => {
     return formData.detailsPrices.some(
-      (detailPrice) => detailPrice.id === price.id // Only check the price ID since it's unique
+      (detailPrice) => detailPrice.priceId === price.id // Only check the price ID since it's unique
     );
   };
 
-  const handleQuantityChange = (index, value) => {
+  const handleCountChange = (index, value) => {
     if (value === "" || Number(value) > 0) {
       setFormData((prev) => ({
         ...prev,
@@ -46,7 +46,7 @@ const ComponentForm = () => {
           i === index
             ? {
                 ...price,
-                quantity: value === "" ? "" : Number(value), // Keep empty string or convert to number
+                count: value === "" ? "" : Number(value), // Keep empty string or convert to number
               }
             : price
         ),
@@ -107,12 +107,12 @@ const ComponentForm = () => {
         detailsPrices: [
           ...prev.detailsPrices,
           {
-            id: price.id,
+            priceId: price.id,
             detailName: selectedDetail.name,
             price: price.price,
             unit: price.unit,
             weight: price.weight || 0,
-            quantity: 1,
+            count: 1,
             supplierName: selectedDetail.supplierName,
             image: selectedDetail.image,
           },
@@ -131,7 +131,15 @@ const ComponentForm = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const r = await ComponentApi.get().create(convertToFormData(formData));
+      const r = await ComponentApi.get().create(
+        convertToFormData({
+          ...formData,
+          detailsPrices: formData.detailsPrices.map((x) => ({
+            priceId: x.priceId,
+            count: x.count,
+          })),
+        })
+      );
     } catch (ex) {
       console.log(ex);
     }
@@ -149,6 +157,7 @@ const ComponentForm = () => {
           fullWidth
           label="Име"
           color="error"
+          required
           value={formData.name}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, name: e.target.value }))
@@ -335,9 +344,9 @@ const ComponentForm = () => {
               <div className="d-flex align-items-center gap-3">
                 <TextField
                   type="number"
-                  label="Quantity"
-                  value={detail.quantity}
-                  onChange={(e) => handleQuantityChange(index, e.target.value)}
+                  label="Count"
+                  value={detail.count}
+                  onChange={(e) => handleCountChange(index, e.target.value)}
                   style={{ width: "100px" }}
                   color="error"
                 />
