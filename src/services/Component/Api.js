@@ -32,6 +32,12 @@ class Api extends ApiAbstract {
       method: METHOD.GET,
     });
 
+  delete = async (id) =>
+    this.execute({
+      endpoint: `Delete/${id}`,
+      method: METHOD.DELETE,
+    });
+
   //   allEssentials = async (params) =>
   //     this.execute({
   //     endpoint: "AllEssentials",
@@ -43,12 +49,6 @@ class Api extends ApiAbstract {
   //     this.execute({
   //     endpoint: `GetPricesById/${id}`,
   //     method: METHOD.GET,
-  //   });
-
-  //   delete = async (id) =>
-  //     this.execute({
-  //     endpoint: `Delete/${id}`,
-  //     method: METHOD.DELETE,
   //   });
 }
 

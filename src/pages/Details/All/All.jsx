@@ -16,6 +16,7 @@ import AddButtonGA from "../../../components/Common/AddButtonGA";
 import DeleteModal from "../../../components/Common/DeleteModal";
 import { CATEGORY_LABELS } from "../Form/constants";
 import { useHandlers } from "./hooks";
+import Unauthorized from "../../Errors/Unauthorized";
 
 const All = () => {
   const {
@@ -48,13 +49,8 @@ const All = () => {
     handleSearch,
   } = useHandlers();
 
-  if (error) {
-    return (
-      <div className="alert alert-danger m-0" role="alert">
-        {error}
-      </div>
-    );
-  }
+  if (error)
+    return <Unauthorized />;
 
   return (
     <>
@@ -278,16 +274,14 @@ const All = () => {
                 {[...Array(totalPages)].map((_, index) => (
                   <li
                     key={index + 1}
-                    className={`page-item ${
-                      currentPage === index + 1 ? "active" : ""
-                    }`}
+                    className={`page-item ${currentPage === index + 1 ? "active" : ""
+                      }`}
                   >
                     <button
-                      className={`page-link ${
-                        currentPage === index + 1
+                      className={`page-link ${currentPage === index + 1
                           ? "bg-danger border-danger text-white"
                           : "border-danger text-danger"
-                      }`}
+                        }`}
                       onClick={() => handlePageChange(index + 1)}
                     >
                       {index + 1}
@@ -296,9 +290,8 @@ const All = () => {
                 ))}
 
                 <li
-                  className={`page-item ${
-                    currentPage === totalPages ? "disabled" : ""
-                  }`}
+                  className={`page-item ${currentPage === totalPages ? "disabled" : ""
+                    }`}
                 >
                   <button
                     className="page-link border-danger text-danger"

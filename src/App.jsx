@@ -37,6 +37,9 @@ import AllComponents from "./pages/Components/All/All.jsx";
 import UpdateComponent, {
   loader as updateComponentLoader
 } from "./pages/Components/Update/Update.jsx";
+import ComponentInfo, {
+  loader as componentInfoLoader
+} from "./pages/Components/Info/Info.jsx";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +96,11 @@ const router = createBrowserRouter([
         path: "components/update/:id",
         element: <UpdateComponent />,
         loader: updateComponentLoader,
+      },
+      {
+        path: "components/info/:id",
+        element: <ComponentInfo />,
+        loader: componentInfoLoader,
       },
       {
         path: "components/all",
