@@ -29,7 +29,6 @@ const All = () => {
   } = useHandlers();
 
   console.log(components);
-  
 
   if (error) {
     return (
@@ -50,7 +49,11 @@ const All = () => {
       )}
 
       <div className="container-fluid m-0 p-0">
-        <TopBarGA setLoading={setLoading} setError={setError} />
+        <TopBarGA
+          setLoading={setLoading}
+          setError={setError}
+          handleSearch={handleSearch}
+        />
         <div className="card p-0">
           <div className="row">
             <div className="col-md-3">
@@ -117,28 +120,36 @@ const All = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {components.map((detail) => (
-                      <tr key={detail.id}>
-                        <td>{detail.name || "-"}</td>
-                        <td>{detail.labourPrice?.toFixed(2) ? detail.labourPrice?.toFixed(2) + 'лв.' : "-"}</td>
-                        <td>{detail.priceWithoutLabour?.toFixed(2) ? detail.priceWithoutLabour?.toFixed(2) + 'лв.' : "-"}</td>
-                        <td>{detail.createdOn || "-"}</td>
+                    {components.map((component) => (
+                      <tr key={component.id}>
+                        <td>{component.name || "-"}</td>
+                        <td>
+                          {component.labourPrice?.toFixed(2)
+                            ? component.labourPrice?.toFixed(2) + "лв."
+                            : "-"}
+                        </td>
+                        <td>
+                          {component.priceWithoutLabour?.toFixed(2)
+                            ? component.priceWithoutLabour?.toFixed(2) + "лв."
+                            : "-"}
+                        </td>
+                        <td>{component.createdOn || "-"}</td>
                         <ImageCell
-                          base64Image={detail.image}
-                          modalImage={detail.modalImage}
-                          name={detail.name}
+                          base64Image={component.image}
+                          modalImage={component.image}
+                          name={component.name}
                         />
                         <td>
                           <div className="d-flex justify-content-center gap-2">
                             <button
                               className="btn btn-primary btn-sm px-3 py-2"
-                              onClick={() => goToComponentInfo(detail.id)}
+                              onClick={() => goToComponentInfo(component.id)}
                             >
                               Виж
                             </button>
                             <button
                               className="btn btn-warning btn-sm px-3 py-2"
-                              onClick={() => goToUpdateComponent(detail.id)}
+                              onClick={() => goToUpdateComponent(component.id)}
                             >
                               Обнови
                             </button>
@@ -147,8 +158,8 @@ const All = () => {
                               onClick={() =>
                                 setDeleteModal({
                                   isOpen: true,
-                                  detailName: detail.name,
-                                  detailId: detail.id,
+                                  detailName: component.name,
+                                  detailId: component.id,
                                 })
                               }
                             >

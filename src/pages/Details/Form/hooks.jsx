@@ -22,8 +22,6 @@ export const useHandlers = () => {
     detailId,
   } = useLoaderData();
 
-  console.log(detailData);
-
   const [category, setCategory] = useState(CATEGORY_LABELS[passedCategory]);
   const [formData, setFormData] = useState({
     ...detailData,

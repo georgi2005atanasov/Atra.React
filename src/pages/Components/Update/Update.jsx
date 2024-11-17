@@ -2,8 +2,9 @@ import { redirect } from "react-router-dom";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
 import ComponentForm from "../Form/ComponentForm";
 import { INITIAL_FORM_STATE } from "../Form/constants";
+import { ComponentApi } from "../../../services/Component/Api";
 
-const Add = () => {
+const Update = () => {
   return (
     <div className="detail-form-wrapper container-fluid bg-white p-4 m-3">
       <div className="row d-flex">
@@ -12,7 +13,7 @@ const Add = () => {
         </div>
         <div className="offset-md-2"></div>
         <h2 className="col-12 d-flex text-center my-3 pb-2 border-bottom border-1 border-danger">
-          Добави Компонент
+          Обнови Компонент
         </h2>
       </div>
       <ComponentForm />
@@ -21,17 +22,18 @@ const Add = () => {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export async function loader() {
+export async function loader({ params }) {
   try {
-    const formData = INITIAL_FORM_STATE;
+    const componentId = parseInt(params.id);
+    const resComponent = await ComponentApi.get().getById(componentId);
 
     return {
-      formData,
-      componentId: undefined,
+      formData: resComponent.data,
+      componentId,
     };
   } catch {
     return redirect("/");
   }
 }
 
-export default Add;
+export default Update;

@@ -30,8 +30,13 @@ import DetailInfo, {
 import UpdateDetail, {
   loader as detailUpdateLoader
 } from "./pages/Details/Update/Update.jsx";
-import AddComponent from "./pages/Components/Add/Add.jsx";
+import AddComponent, {
+  loader as addComponentLoader
+} from "./pages/Components/Add/Add.jsx";
 import AllComponents from "./pages/Components/All/All.jsx";
+import UpdateComponent, {
+  loader as updateComponentLoader
+} from "./pages/Components/Update/Update.jsx";
 
 const router = createBrowserRouter([
   {
@@ -82,6 +87,12 @@ const router = createBrowserRouter([
       {
         path: "components/add",
         element: <AddComponent />,
+        loader: addComponentLoader,
+      },
+      {
+        path: "components/update/:id",
+        element: <UpdateComponent />,
+        loader: updateComponentLoader,
       },
       {
         path: "components/all",

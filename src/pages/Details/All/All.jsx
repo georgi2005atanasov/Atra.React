@@ -45,6 +45,7 @@ const All = () => {
     goToDetailInfo,
     handleDelete,
     fetchDetails,
+    handleSearch,
   } = useHandlers();
 
   if (error) {
@@ -66,7 +67,11 @@ const All = () => {
       )}
 
       <div className="container-fluid m-0 p-0">
-        <TopBarGA setLoading={setLoading} setError={setError} />
+        <TopBarGA
+          setLoading={setLoading}
+          setError={setError}
+          handleSearch={handleSearch}
+        />
         <div className="card p-0">
           <div className="row">
             <div className="col-md-3">
@@ -210,7 +215,11 @@ const All = () => {
                         <td>{detail.detailNumber || "-"}</td>
                         <td>{detail.atraNumber || "-"}</td>
                         <td>{detail.supplierName || "-"}</td>
-                        <td>{detail.labourPrice?.toFixed(2) ? detail.labourPrice?.toFixed(2) + 'лв.' : "-"}</td>
+                        <td>
+                          {detail.labourPrice?.toFixed(2)
+                            ? detail.labourPrice?.toFixed(2) + "лв."
+                            : "-"}
+                        </td>
                         <td>{detail.createdOn || "-"}</td>
                         <ImageCell
                           base64Image={detail.image}
