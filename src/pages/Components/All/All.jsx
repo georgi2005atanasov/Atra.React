@@ -99,7 +99,7 @@ const All = () => {
             <div className="table-responsive">
               {components.length === 0 ? (
                 <h5 className="w-100 text-center mt-2">
-                  Няма намерени детайли
+                  Няма намерени компоненти
                 </h5>
               ) : (
                 <table className="table align-middle">
@@ -108,6 +108,7 @@ const All = () => {
                       <th>Име</th>
                       <th>Цена за труд</th>
                       <th>Цена без труд</th>
+                      <th>Общо</th>
                       <th>Добавен на</th>
                       <th>Снимка</th>
                       <th className="text-center">Действия</th>
@@ -125,6 +126,11 @@ const All = () => {
                         <td>
                           {component.priceWithoutLabour?.toFixed(2)
                             ? component.priceWithoutLabour?.toFixed(2) + "лв."
+                            : "-"}
+                        </td>
+                        <td>
+                          {component.priceWithoutLabour?.toFixed(2)
+                            ? (component.priceWithoutLabour + component.labourPrice).toFixed(2) + "лв."
                             : "-"}
                         </td>
                         <td>{component.createdOn || "-"}</td>

@@ -28,7 +28,7 @@ export async function loader({ params }) {
     const resComponent = await ComponentApi.get().getById(componentId);
 
     return {
-      formData: resComponent.data,
+      formData: resComponent.data.component,
       componentId,
     };
   } catch {

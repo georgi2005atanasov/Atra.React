@@ -7,7 +7,6 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 export const useHandlers = () => {
   const navigate = useNavigate();
   const { componentId, formData: passedFormData } = useLoaderData();
-  console.log(passedFormData)
   const [formData, setFormData] = useState(passedFormData);
   const [selectedDetail, setSelectedDetail] = useState(null);
   const [detailOptions, setDetailOptions] = useState([]);
@@ -114,6 +113,9 @@ export const useHandlers = () => {
   const createComponent = async (e) => {
     try {
       e.preventDefault();
+
+      setLoading(true);
+
       await ComponentApi.get().create(
         convertToFormData({
           ...formData,
@@ -127,13 +129,19 @@ export const useHandlers = () => {
       navigate("/private/components/all", { replace: true });
     } catch (ex) {
       console.log(ex);
+    } finally {
+      setLoading(false);
     }
   };
 
   const updateComponent = async (e) => {
     try {
       e.preventDefault();
-      await ComponentApi.get().update(componentId,
+
+      setLoading(true);
+
+      await ComponentApi.get().update(
+        componentId,
         convertToFormData({
           ...formData,
           detailsPrices: formData.detailsPrices.map((x) => ({
@@ -146,6 +154,8 @@ export const useHandlers = () => {
       navigate("/private/components/all", { replace: true });
     } catch (ex) {
       console.log(ex);
+    } finally {
+      setLoading(false);
     }
   };
 
