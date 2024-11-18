@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IdentityApi } from "../../services/Identity/Api";
 import { useNavigate } from "react-router-dom";
 import { Search } from "@mui/icons-material";
@@ -12,9 +11,8 @@ import {
 import Storage from "../../utils/storage/Storage";
 
 // eslint-disable-next-line react/prop-types
-const TopBarGA = ({ setLoading, setError, handleSearch }) => {
+const TopBarGA = ({ setLoading, setError, search, setSearch, handleSearch }) => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState("");
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -50,16 +48,16 @@ const TopBarGA = ({ setLoading, setError, handleSearch }) => {
 
           <div className="d-flex justify-content-between align-items-center">
             <div className="position-relative d-flex align-items-center flex-grow-1 me-5">
-              <form onSubmit={handleSearch} className="w-100">
+              <form onSubmit={(e) => handleSearch(e, search)} className="w-100">
                 <FormControl variant="outlined" fullWidth color="error">
                   <InputLabel htmlFor="outlined-search">Търсене</InputLabel>
                   <OutlinedInput
                     id="outlined-search"
                     type="text"
                     label="Търсене"
-                    value={searchQuery}
-                    onSubmit={handleSearch}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={search}
+                    onSubmit={(e) => handleSearch(e, search)}
+                    onChange={(e) => setSearch(e.target.value)}
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton onClick={handleSearch} edge="end">

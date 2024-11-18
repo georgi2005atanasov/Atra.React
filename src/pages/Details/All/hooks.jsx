@@ -28,20 +28,28 @@ export const useHandlers = () => {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [orderByNameAscending, setOrderByNameAscending] = useState(false);
-  
+  const [search, setSearch] = useState('');
+
+  // go to the first page after filtering
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [supplierId, category, minPrice, maxPrice, orderByNameAscending, search]);
+
   const fetchDetails = async () => {
     try {
       setLoading(true);
       setError(null);
 
+      // if the search is not null, the current page must be reset
       const params = {
-        page: currentPage,
+        page: search ? 1 : currentPage,
         pageSize,
         ...(supplierId && { supplierId: parseInt(supplierId) }),
         ...(minPrice && { minPrice: Number(minPrice) }),
         ...(maxPrice && { maxPrice: Number(maxPrice) }),
         ...(category && { category: getCategoryKeyByValue(category) }),
         orderByNameAscending,
+        ...(search && { search: search }),
       };
 
       const response = await DetailsApi.get().all(params);
@@ -101,8 +109,9 @@ export const useHandlers = () => {
     }
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
+    await fetchDetails();
   };
 
   return {
@@ -118,6 +127,8 @@ export const useHandlers = () => {
     setMaxPrice,
     orderByNameAscending,
     setOrderByNameAscending,
+    search,
+    setSearch,
     currentPage,
     totalPages,
     error,

@@ -20,6 +20,11 @@ export const useHandlers = () => {
   });
 
   const [orderByNameAscending, setOrderByNameAscending] = useState(false);
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
   
   const fetchComponents = async () => {
     try {
@@ -30,6 +35,7 @@ export const useHandlers = () => {
         page: currentPage,
         pageSize,
         orderByNameAscending,
+        search: search
       };
 
       const response = await ComponentApi.get().all(params);
@@ -79,8 +85,9 @@ export const useHandlers = () => {
     }
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = async (event) => {
     event.preventDefault();
+    await fetchComponents();
   };
 
   return {
@@ -101,6 +108,8 @@ export const useHandlers = () => {
     goToComponentInfo,
     handleDelete,
     fetchComponents,
+    search,
+    setSearch,
     handleSearch,
   };
 };

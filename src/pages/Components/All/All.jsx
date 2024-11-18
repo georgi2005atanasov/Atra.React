@@ -6,12 +6,15 @@ import AddButtonGA from "../../../components/Common/AddButtonGA";
 import DeleteModal from "../../../components/Common/DeleteModal";
 import { useHandlers } from "./hooks";
 import Unauthorized from "../../Errors/Unauthorized";
+import NavigationGA from "../../../components/Common/NavigationGA";
 
 const All = () => {
   const {
     components,
     orderByNameAscending,
     setOrderByNameAscending,
+    search,
+    setSearch,
     currentPage,
     totalPages,
     error,
@@ -46,8 +49,11 @@ const All = () => {
         <TopBarGA
           setLoading={setLoading}
           setError={setError}
+          search={search}
+          setSearch={setSearch}
           handleSearch={handleSearch}
         />
+        <NavigationGA />
         <div className="card p-0">
           <div className="row">
             <div className="col-md-3">

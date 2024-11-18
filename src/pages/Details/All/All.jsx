@@ -17,6 +17,7 @@ import DeleteModal from "../../../components/Common/DeleteModal";
 import { CATEGORY_LABELS } from "../Form/constants";
 import { useHandlers } from "./hooks";
 import Unauthorized from "../../Errors/Unauthorized";
+import NavigationGA from "../../../components/Common/NavigationGA";
 
 const All = () => {
   const {
@@ -32,6 +33,8 @@ const All = () => {
     setMaxPrice,
     orderByNameAscending,
     setOrderByNameAscending,
+    search,
+    setSearch,
     currentPage,
     totalPages,
     error,
@@ -66,8 +69,11 @@ const All = () => {
         <TopBarGA
           setLoading={setLoading}
           setError={setError}
+          search={search}
+          setSearch={setSearch}
           handleSearch={handleSearch}
         />
+        <NavigationGA />
         <div className="card p-0">
           <div className="row">
             <div className="col-md-3">
@@ -168,7 +174,7 @@ const All = () => {
               <div className="col-xl-1 d-flex align-items-end">
                 <button
                   className="btn btn-secondary w-100 p-3"
-                  onClick={fetchDetails}
+                  onClick={() => fetchDetails()}
                 >
                   Търси
                 </button>

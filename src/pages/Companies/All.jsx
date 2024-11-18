@@ -6,6 +6,7 @@ import BackButtonGA from "../../components/Common/BackButtonGA";
 import AddButtonGA from "../../components/Common/AddButtonGA";
 import DeleteModal from "../../components/Companies/DeleteModal";
 import { useHandlers } from "./hooks";
+import NavigationGA from "../../components/Common/NavigationGA";
 
 const All = () => {
   const {
@@ -33,16 +34,14 @@ const All = () => {
         />
       )}
 
-      <div className="container-fluid p-0 m-0 vh-100">
-        <TopBarGA setLoading={setLoading} setError={setError} />
-
+      <div className="container-fluid p-0 m-0">
         <div className="card shadow-sm">
           <div className="row">
             <div className="col-md-3">
               <BackButtonGA />
             </div>
             <div className="col-md-6 card-header">
-              <h3 className="card-title mb-0 text-center">Компании</h3>
+              <h2 className="card-title mb-0 text-center">Компании</h2>
             </div>
             <div className="col-md-3 d-flex justify-content-md-end justify-content-center align-items-center">
               <AddButtonGA handler={goToAddCompany} />
