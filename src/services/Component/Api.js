@@ -38,18 +38,12 @@ class Api extends ApiAbstract {
       method: METHOD.DELETE,
     });
 
-  //   allEssentials = async (params) =>
-  //     this.execute({
-  //     endpoint: "AllEssentials",
-  //     method: METHOD.GET,
-  //     params,
-  //   });
-
-  //   getPricesById = async (id) =>
-  //     this.execute({
-  //     endpoint: `GetPricesById/${id}`,
-  //     method: METHOD.GET,
-  //   });
+  allEssentials = async (params) =>
+    this.execute({
+      endpoint: "AllEssentials",
+      method: METHOD.GET,
+      params,
+    });
 }
 
 export { Api as ComponentApi };

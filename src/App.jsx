@@ -40,6 +40,10 @@ import UpdateComponent, {
 import ComponentInfo, {
   loader as componentInfoLoader
 } from "./pages/Components/Info/Info.jsx";
+import AllProducts from "./pages/Products/All/All.jsx";
+import ProductInfo from "./pages/Products/Info/Info.jsx";
+import AddProduct from "./pages/Products/Add/Add.jsx";
+import UpdateProduct from "./pages/Products/Update/Update.jsx";
 
 const router = createBrowserRouter([
   {
@@ -105,6 +109,24 @@ const router = createBrowserRouter([
       {
         path: "components/all",
         element: <AllComponents />,
+      },
+
+      // not implemented
+      {
+        path: "products/add",
+        element: <AddProduct />,
+      },
+      {
+        path: "products/update/:id",
+        element: <UpdateProduct />,
+      },
+      {
+        path: "products/info/:id",
+        element: <ProductInfo />,
+      },
+      {
+        path: "products/all",
+        element: <AllProducts />,
       },
     ],
   },

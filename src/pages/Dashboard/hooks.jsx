@@ -84,6 +84,11 @@ export const useHandlers = () => {
       basePath: "/private/products/",
       options: [
         {
+          allPath: "all",
+          addPath: "add",
+          label: "Всички",
+        },
+        {
           allPath: "all?category=lighting",
           addPath: "add?category=lighting",
           label: "Осветителни тела",
