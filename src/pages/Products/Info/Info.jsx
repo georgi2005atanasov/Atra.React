@@ -1,76 +1,21 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { PRODUCT_CATEGORY_LABELS } from "../Form/constants";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { ProductsApi } from "../../../services/Product/Api";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
 
-// const dummyProduct = {
-//     id: 1,
-//     name: "Метална врата Classic",
-//     category: 0, // Assuming 0 is for Metal category
-//     labourPrice: 250.00,
-//     priceWithoutLabour: 1200.50,
-//     totalPrice: 1450.50,
-//     createdOn: "19.11.2024",
-//     image: "base64String...",
-//     detailsPrices: [
-//       {
-//         detailName: "Метален лист 2мм",
-//         detailId: 1,
-//         priceId: 1,
-//         unit: "м2",
-//         price: 45.50,
-//         weight: 15.7,
-//         count: 4
-//       },
-//       {
-//         detailName: "Панта усилена",
-//         detailId: 2,
-//         priceId: 2,
-//         unit: "бр",
-//         price: 12.30,
-//         count: 3
-//       }
-//     ],
-//     components: [
-//       {
-//         id: 1,
-//         name: "Брава комплект",
-//         count: 1,
-//         labourPrice: 50.00,
-//         priceWithoutLabour: 180.00,
-//         totalPrice: 230.00
-//       },
-//       {
-//         id: 2,
-//         name: "Каса",
-//         count: 1,
-//         labourPrice: 100.00,
-//         priceWithoutLabour: 320.00,
-//         totalPrice: 420.00
-//       }
-//     ]
-//   };
-
 const Info = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
   const [openDialog, setOpenDialog] = useState(false);
-  const [product, setProduct] = useState(dummyProduct);
-
-  useEffect(() => {
-    // const fetchProduct = async () => {
-    //   try {
-    //     const response = await ProductsApi.get().getById(id);
-    //     setProduct(response.data);
-    //   } catch (ex) {
-    //     console.log(ex);
-    //     navigate("/");
-    //   }
-    // };
-    // fetchProduct();
-  }, []);
+  const { product } = useLoaderData();
 
   if (!product) return null;
 
@@ -157,8 +102,12 @@ const Info = () => {
                           <td>{detail.detailName}</td>
                           <td>{detail.unit}</td>
                           <td className="text-end">{detail.count}</td>
-                          <td className="text-end">{detail.price?.toFixed(2)} лв.</td>
-                          <td className="text-end">{(detail.price * detail.count)?.toFixed(2)} лв.</td>
+                          <td className="text-end">
+                            {detail.price?.toFixed(2)} лв.
+                          </td>
+                          <td className="text-end">
+                            {(detail.price * detail.count)?.toFixed(2)} лв.
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -190,9 +139,15 @@ const Info = () => {
                         <tr key={index}>
                           <td>{component.name}</td>
                           <td className="text-end">{component.count}</td>
-                          <td className="text-end">{component.labourPrice?.toFixed(2)} лв.</td>
-                          <td className="text-end">{component.priceWithoutLabour?.toFixed(2)} лв.</td>
-                          <td className="text-end">{component.totalPrice?.toFixed(2)} лв.</td>
+                          <td className="text-end">
+                            {component.labourPrice?.toFixed(2)} лв.
+                          </td>
+                          <td className="text-end">
+                            {component.priceWithoutLabour?.toFixed(2)} лв.
+                          </td>
+                          <td className="text-end">
+                            {component.totalPrice?.toFixed(2)} лв.
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -221,9 +176,9 @@ const Info = () => {
       )}
 
       <div className="d-flex justify-content-end gap-3 mt-4">
-        <Button 
-          variant="contained" 
-          color="warning" 
+        <Button
+          variant="contained"
+          color="warning"
           onClick={() => navigate(`/private/products/update/${product.id}`)}
         >
           Обнови
@@ -256,5 +211,19 @@ const Info = () => {
     </div>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ params }) {
+  try {
+    const productId = params.id;
+    const resDetail = await ProductsApi.get().getById(productId);
+
+    return {
+      product: resDetail.data.product,
+    };
+  } catch {
+    return redirect("/");
+  }
+}
 
 export default Info;

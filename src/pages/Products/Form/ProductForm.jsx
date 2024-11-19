@@ -32,12 +32,6 @@ const ProductForm = () => {
     handleDetailSearch,
     handleComponentSearch,
     loading,
-    selectedDetail,
-    selectedComponent,
-    detailPrices,
-    isPriceAdded,
-    handleAddPrice,
-    handleAddComponent,
     handleDetailCountChange,
     handleComponentCountChange,
     handleRemovePrice,
@@ -61,7 +55,7 @@ const ProductForm = () => {
           label="Име"
           color="error"
           required
-          value={formData.name}
+          value={formData.name || ""}
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, name: e.target.value }))
           }
@@ -69,15 +63,14 @@ const ProductForm = () => {
       </div>
 
       <div className="col-md-2">
-        <FormControl fullWidth color="error">
+        <FormControl fullWidth color="error" required>
           <InputLabel>Категория</InputLabel>
           <Select
-            value={formData.category}
+            value={formData.category || ""}
             label="Категория"
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, category: e.target.value }))
             }
-            required
           >
             {Object.entries(PRODUCT_CATEGORY_LABELS).map(([key, value]) => (
               <MenuItem key={key} value={key}>
@@ -93,14 +86,16 @@ const ProductForm = () => {
           fullWidth
           label="Цена за труд (лв.)"
           color="error"
-          type="number"
-          value={formData.labourPrice}
-          onChange={(e) =>
+          type="text"
+          inputMode="decimal"
+          value={formData.labourPrice ?? ""}
+          onChange={(e) => {
+            const value = e.target.value;
             setFormData((prev) => ({
               ...prev,
-              labourPrice: e.target.value !== "" ? Number(e.target.value) : "",
-            }))
-          }
+              labourPrice: value === "" ? "" : Number(value),
+            }));
+          }}
         />
       </div>
 
@@ -113,6 +108,7 @@ const ProductForm = () => {
           onChange={(_, value) => handleDetailSelect(value)}
           onInputChange={(_, value) => handleDetailSearch(value)}
           loading={loading}
+          value={null}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -158,6 +154,62 @@ const ProductForm = () => {
             </div>
           )}
         />
+      </div>
+
+      {/* Selected Details Section */}
+      <div className="col-12">
+        <Typography variant="h6" className="mb-3">
+          Избрани детайли
+        </Typography>
+        {formData.detailsPrices?.length > 0 ? (
+          formData.detailsPrices.map((detail, index) => (
+            <Paper key={`${detail.detailId}-${detail.priceId}`} className="p-3 mb-3">
+              <div className="d-flex align-items-center">
+                {detail.image && (
+                  <div style={{ width: "100px", marginRight: "1rem" }}>
+                    <img
+                      src={renderBase64Image(detail.image)}
+                      alt={detail.detailName}
+                      className="img-fluid"
+                    />
+                  </div>
+                )}
+                <div className="flex-grow-1">
+                  <Typography variant="subtitle1">{detail.detailName}</Typography>
+                  <div className="d-flex gap-2 mt-2">
+                    <Chip
+                      label={`${detail.price}лв. / ${
+                        PRICE_UNIT_LABELS[detail.unit] || ""
+                      }`}
+                      color="error"
+                    />
+                  </div>
+                </div>
+                <div className="d-flex align-items-center gap-3">
+                  <TextField
+                    type="number"
+                    label="Брой"
+                    value={detail.count === 0 ? "" : detail.count}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      handleDetailCountChange(index, value);
+                    }}
+                    style={{ width: "100px" }}
+                    color="error"
+                  />
+                  <IconButton
+                    color="error"
+                    onClick={() => handleRemovePrice(index)}
+                  >
+                    <Delete />
+                  </IconButton>
+                </div>
+              </div>
+            </Paper>
+          ))
+        ) : (
+          <Typography color="text.secondary">Няма избрани детайли</Typography>
+        )}
       </div>
 
       {/* Component Search Section */}
@@ -218,104 +270,59 @@ const ProductForm = () => {
         />
       </div>
 
-      {/* Selected Details Section */}
-      <div className="col-12">
-        <Typography variant="h6" className="mb-3">
-          Избрани детайли
-        </Typography>
-        {formData.detailsPrices?.map((detail, index) => (
-          <Paper key={index} className="p-3 mb-3">
-            <div className="d-flex align-items-center">
-              {detail.image && (
-                <div style={{ width: "100px", marginRight: "1rem" }}>
-                  <img
-                    src={renderBase64Image(detail.image)}
-                    alt={detail.detailName}
-                    className="img-fluid"
-                  />
-                </div>
-              )}
-              <div className="flex-grow-1">
-                <Typography variant="subtitle1">{detail.detailName}</Typography>
-                <div className="d-flex gap-2 mt-2">
-                  <Chip
-                    label={`${detail.price}лв. / ${
-                      PRICE_UNIT_LABELS[detail.unit] || ""
-                    }`}
-                    color="error"
-                  />
-                </div>
-              </div>
-              <div className="d-flex align-items-center gap-3">
-                <TextField
-                  type="number"
-                  label="Брой"
-                  value={detail.count}
-                  onChange={(e) =>
-                    handleDetailCountChange(index, e.target.value)
-                  }
-                  style={{ width: "100px" }}
-                  color="error"
-                />
-                <IconButton
-                  color="error"
-                  onClick={() => handleRemovePrice(index)}
-                >
-                  <Delete />
-                </IconButton>
-              </div>
-            </div>
-          </Paper>
-        ))}
-      </div>
-
       {/* Selected Components Section */}
       <div className="col-12">
         <Typography variant="h6" className="mb-3">
           Избрани компоненти
         </Typography>
-        {formData.components?.map((component, index) => (
-          <Paper key={index} className="p-3 mb-3">
-            <div className="d-flex align-items-center">
-              {component.image && (
-                <div style={{ width: "100px", marginRight: "1rem" }}>
-                  <img
-                    src={renderBase64Image(component.image)}
-                    alt={component.name}
-                    className="img-fluid"
-                  />
+        {formData.components && formData.components.length > 0 ? (
+          formData.components.map((component, index) => (
+            <Paper key={index} className="p-3 mb-3">
+              <div className="d-flex align-items-center">
+                {component.image && (
+                  <div style={{ width: "100px", marginRight: "1rem" }}>
+                    <img
+                      src={renderBase64Image(component.image)}
+                      alt={component.name}
+                      className="img-fluid"
+                    />
+                  </div>
+                )}
+                <div className="flex-grow-1">
+                  <Typography variant="subtitle1">{component.name}</Typography>
+                  <div className="d-flex gap-2 mt-2">
+                    <Chip
+                      label={`${component.totalPrice?.toFixed(2)}лв.`}
+                      color="error"
+                    />
+                  </div>
                 </div>
-              )}
-              <div className="flex-grow-1">
-                <Typography variant="subtitle1">{component.name}</Typography>
-                <div className="d-flex gap-2 mt-2">
-                  <Chip
-                    label={`${component.totalPrice?.toFixed(2)}лв.`}
+                <div className="d-flex align-items-center gap-3">
+                  <TextField
+                    type="number"
+                    label="Брой"
+                    value={component.count === 0 ? "" : component.count}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const numValue = value === "" ? "" : Number(value);
+                      handleComponentCountChange(index, numValue);
+                    }}
+                    style={{ width: "100px" }}
                     color="error"
                   />
+                  <IconButton
+                    color="error"
+                    onClick={() => handleRemoveComponent(index)}
+                  >
+                    <Delete />
+                  </IconButton>
                 </div>
               </div>
-              <div className="d-flex align-items-center gap-3">
-                <TextField
-                  type="number"
-                  label="Брой"
-                  value={component.count}
-                  onChange={(e) =>
-                    handleComponentCountChange(index, e.target.value)
-                  }
-                  style={{ width: "100px" }}
-                  color="error"
-                />
-                <IconButton
-                  color="error"
-                  onClick={() => handleRemoveComponent(index)}
-                >
-                  <Delete />
-                </IconButton>
-              </div>
-            </div>
-          </Paper>
-        ))}
+            </Paper>
+          ))
+        ) : (
+          <Typography color="text.secondary">Няма избрани компоненти</Typography>
+        )}
       </div>
 
       <div className="row">

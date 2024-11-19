@@ -13,6 +13,7 @@ export const useHandlers = () => {
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
     companyName: "",
+    companyId: null
   });
   const [error, setError] = useState(null);
   const { setLoading } = useLoading(true);
@@ -43,6 +44,7 @@ export const useHandlers = () => {
       setDeleteModal({
         isOpen: false,
         companyName: "",
+        companyId: null,
       });
       navigate(0);
     } catch (error) {

@@ -1,21 +1,17 @@
 import { Trash2 } from "lucide-react";
 import { Alert, Button } from "@mui/material";
 import "./All.css";
-import TopBarGA from "../../components/Dashboard/TopBarGA";
 import BackButtonGA from "../../components/Common/BackButtonGA";
 import AddButtonGA from "../../components/Common/AddButtonGA";
 import DeleteModal from "../../components/Companies/DeleteModal";
 import { useHandlers } from "./hooks";
-import NavigationGA from "../../components/Common/NavigationGA";
 
 const All = () => {
   const {
     deleteModal,
     setDeleteModal,
     handleDelete,
-    setLoading,
     error,
-    setError,
     goToAddCompany,
     fetchCompanies,
     companies,
@@ -87,7 +83,8 @@ const All = () => {
                                 onClick={() =>
                                   setDeleteModal({
                                     isOpen: true,
-                                    companyName: company.id,
+                                    companyName: company.name,
+                                    companyId: company.id
                                   })
                                 }
                               >

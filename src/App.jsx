@@ -41,9 +41,15 @@ import ComponentInfo, {
   loader as componentInfoLoader
 } from "./pages/Components/Info/Info.jsx";
 import AllProducts from "./pages/Products/All/All.jsx";
-import ProductInfo from "./pages/Products/Info/Info.jsx";
-import AddProduct from "./pages/Products/Add/Add.jsx";
-import UpdateProduct from "./pages/Products/Update/Update.jsx";
+import ProductInfo, {
+  loader as productInfoLoader
+} from "./pages/Products/Info/Info.jsx";
+import AddProduct, {
+  loader as addProductLoader
+} from "./pages/Products/Add/Add.jsx";
+import UpdateProduct, {
+  loader as updateProductLoader
+} from "./pages/Products/Update/Update.jsx";
 
 const router = createBrowserRouter([
   {
@@ -115,14 +121,17 @@ const router = createBrowserRouter([
       {
         path: "products/add",
         element: <AddProduct />,
+        loader: addProductLoader,
       },
       {
         path: "products/update/:id",
         element: <UpdateProduct />,
+        loader: updateProductLoader,
       },
       {
         path: "products/info/:id",
         element: <ProductInfo />,
+        loader: productInfoLoader,
       },
       {
         path: "products/all",

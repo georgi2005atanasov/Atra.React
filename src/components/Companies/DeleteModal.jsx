@@ -25,14 +25,14 @@ const DeleteModal = ({ handleDelete, setDeleteModal, deleteModal }) => {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() => setDeleteModal({ isOpen: false, companyName: "" })}
+                                onClick={() => setDeleteModal({ isOpen: false, companyName: "", companyId: null })}
                             >
                                 Отказ
                             </button>
                             <button
                                 type="button"
                                 className="btn btn-danger"
-                                onClick={() => handleDelete(deleteModal.companyName)}
+                                onClick={() => handleDelete(deleteModal.companyId)}
                             >
                                 Изтрий
                             </button>

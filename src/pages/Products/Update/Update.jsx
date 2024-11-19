@@ -1,5 +1,7 @@
+import { redirect } from "react-router-dom";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
 import ProductForm from "../Form/ProductForm";
+import { ProductsApi } from "../../../services/Product/Api";
 
 const Update = () => {
   return (
@@ -18,5 +20,22 @@ const Update = () => {
     </div>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ params }) {
+  try {
+    const productId = parseInt(params.id);
+    const resProduct = await ProductsApi.get().getById(productId);
+
+    console.log(resProduct);
+    
+    return {
+      formData: resProduct.data.product,
+      productId,
+    };
+  } catch {
+    return redirect("/");
+  }
+}
 
 export default Update;

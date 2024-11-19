@@ -1,60 +1,62 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useRef } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { ProductsApi } from "../../../services/Product/Api";
 import { DetailsApi } from "../../../services/Detail/Api";
 import { ComponentApi } from "../../../services/Component/Api";
 import { useLoading } from "../../../context/LoadingContext";
-import { INITIAL_FORM_STATE } from "./constants";
+import { base64ToFile } from "../../../utils/commonUtils";
 
 export const useHandlers = () => {
   const navigate = useNavigate();
-  const { id: productId } = useParams();
   const { setLoading } = useLoading();
   const fileInputRef = useRef(null);
-
-  // Form state
-  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
+  const { formData: passedFormData, productId } = useLoaderData();
+  const [formData, setFormData] = useState(passedFormData);
 
   // Search and selection states
   const [detailOptions, setDetailOptions] = useState([]);
   const [componentOptions, setComponentOptions] = useState([]);
   const [loading, setSearchLoading] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
-  const [selectedComponent, setSelectedComponent] = useState(null);
   const [detailPrices, setDetailPrices] = useState([]);
 
-  // Load existing product data if updating
-  useEffect(() => {
-    const fetchProduct = async () => {
-      if (productId) {
-        try {
-          setLoading(true);
-          const response = await ProductsApi.get().getById(productId);
-          setFormData({
-            name: response.data.name,
-            category: response.data.category,
-            labourPrice: response.data.labourPrice,
-            detailsPrices: response.data.detailsPrices,
-            components: response.data.components,
-            image: response.data.image
-          });
-        } catch (error) {
-          console.error("Error fetching product:", error);
-        } finally {
-          setLoading(false);
-        }
+  const createFormData = (data) => {
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", data.name);
+    formDataToSend.append("category", data.category);
+    formDataToSend.append("labourPrice", data.labourPrice || 0);
+    formDataToSend.append("detailsPrices", JSON.stringify(data.detailsPrices.map(x => ({
+      priceId: x.priceId,
+      count: x.count,
+    }))) || []);
+    formDataToSend.append("components", JSON.stringify(data.components.map(x => ({
+      priceId: x.id,
+      count: x.count,
+    })) || []));
+    
+    if (formData.image) {
+      if (typeof formData.image === "string") {
+        formDataToSend.append("image", base64ToFile(formData.image, "DEFAULT_IMAGE.png"));
+      } else {
+        formDataToSend.append("image", formData.image);
       }
-    };
-    fetchProduct();
-  }, [productId]);
+    }
+    
+    return formDataToSend;
+  };
 
   const handleDetailSearch = async (searchTerm) => {
+    if (!searchTerm) {
+      setDetailOptions([]);
+      return;
+    }
+    
     try {
       setSearchLoading(true);
       const response = await DetailsApi.get().allEssentials({
         page: 1,
         pageSize: 10,
-        search: searchTerm
+        search: searchTerm,
       });
       setDetailOptions(response.data.items);
     } catch (error) {
@@ -65,12 +67,17 @@ export const useHandlers = () => {
   };
 
   const handleComponentSearch = async (searchTerm) => {
+    if (!searchTerm) {
+      setComponentOptions([]);
+      return;
+    }
+
     try {
       setSearchLoading(true);
       const response = await ComponentApi.get().allEssentials({
         page: 1,
         pageSize: 10,
-        search: searchTerm
+        search: searchTerm,
       });
       setComponentOptions(response.data.items);
     } catch (error) {
@@ -81,13 +88,39 @@ export const useHandlers = () => {
   };
 
   const handleDetailSelect = async (detail) => {
-    if (!detail) return;
+    if (!detail) {
+      setSelectedDetail(null);
+      setDetailPrices([]);
+      return;
+    }
 
     try {
       setSearchLoading(true);
       const response = await DetailsApi.get().getById(detail.id);
-      setSelectedDetail(response.data.detail);
-      setDetailPrices(response.data.detail.prices);
+      const detailData = response.data.detail;
+      
+      if (detailData.prices && detailData.prices.length > 0) {
+        // Add the first price by default
+        const firstPrice = detailData.prices[0];
+        const newPrice = {
+          detailName: detailData.name,
+          detailId: detailData.id,
+          priceId: firstPrice.id,
+          unit: firstPrice.unit,
+          price: firstPrice.price,
+          weight: firstPrice.weight,
+          count: 1,
+          image: detailData.image,
+        };
+
+        setFormData((prev) => ({
+          ...prev,
+          detailsPrices: [...(prev.detailsPrices || []), newPrice],
+        }));
+      }
+
+      setSelectedDetail(detailData);
+      setDetailPrices(detailData.prices);
     } catch (error) {
       console.error("Error fetching detail:", error);
     } finally {
@@ -95,10 +128,9 @@ export const useHandlers = () => {
     }
   };
 
-  // Component selection handling
   const handleComponentSelect = (component) => {
     if (!component) return;
-    
+
     const newComponent = {
       id: component.id,
       name: component.name,
@@ -106,71 +138,61 @@ export const useHandlers = () => {
       image: component.image,
       labourPrice: component.labourPrice,
       priceWithoutLabour: component.priceWithoutLabour,
-      totalPrice: component.totalPrice
+      totalPrice: component.totalPrice,
     };
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      components: [...prev.components, newComponent]
+      components: [...(prev.components || []), newComponent],
     }));
-  };
-
-  // Price handlers
-  const handleAddPrice = (price) => {
-    if (!selectedDetail) return;
-
-    const newPrice = {
-      detailName: selectedDetail.name,
-      detailId: selectedDetail.id,
-      priceId: price.id,
-      unit: price.unit,
-      price: price.price,
-      weight: price.weight,
-      count: 1,
-      image: selectedDetail.image
-    };
-
-    setFormData(prev => ({
-      ...prev,
-      detailsPrices: [...prev.detailsPrices, newPrice]
-    }));
-  };
-
-  const isPriceAdded = (price) => {
-    return formData.detailsPrices.some(p => p.priceId === price.id);
   };
 
   const handleDetailCountChange = (index, value) => {
-    const newDetailsPrices = [...formData.detailsPrices];
-    newDetailsPrices[index].count = Number(value);
-    setFormData(prev => ({ ...prev, detailsPrices: newDetailsPrices }));
+    setFormData((prev) => {
+      const newDetailsPrices = [...prev.detailsPrices];
+      newDetailsPrices[index] = {
+        ...newDetailsPrices[index],
+        count: value === "" ? "" : Number(value)
+      };
+      return {
+        ...prev,
+        detailsPrices: newDetailsPrices
+      };
+    });
   };
 
   const handleComponentCountChange = (index, value) => {
-    const newComponents = [...formData.components];
-    newComponents[index].count = Number(value);
-    setFormData(prev => ({ ...prev, components: newComponents }));
+    setFormData((prev) => {
+      const newComponents = [...prev.components];
+      newComponents[index] = {
+        ...newComponents[index],
+        count: value === "" ? "" : Number(value)
+      };
+      return {
+        ...prev,
+        components: newComponents
+      };
+    });
   };
 
   const handleRemovePrice = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      detailsPrices: prev.detailsPrices.filter((_, i) => i !== index)
+      detailsPrices: prev.detailsPrices.filter((_, i) => i !== index),
     }));
   };
 
   const handleRemoveComponent = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      components: prev.components.filter((_, i) => i !== index)
+      components: prev.components.filter((_, i) => i !== index),
     }));
   };
 
-  // Image handlers
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setFormData(prev => ({ ...prev, image: file }));
+      setFormData((prev) => ({ ...prev, image: file }));
     }
   };
 
@@ -179,27 +201,17 @@ export const useHandlers = () => {
   };
 
   const handleRemoveImage = () => {
-    setFormData(prev => ({ ...prev, image: null }));
+    setFormData((prev) => ({ ...prev, image: null }));
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
-  // Form submission
   const createProduct = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('category', formData.category);
-      formDataToSend.append('labourPrice', formData.labourPrice);
-      formDataToSend.append('detailsPrices', JSON.stringify(formData.detailsPrices));
-      formDataToSend.append('components', JSON.stringify(formData.components));
-      if (formData.image) {
-        formDataToSend.append('image', formData.image);
-      }
-
+      const formDataToSend = createFormData(formData);
       await ProductsApi.get().create(formDataToSend);
       navigate("/private/products/all");
     } catch (error) {
@@ -213,16 +225,7 @@ export const useHandlers = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const formDataToSend = new FormData();
-      formDataToSend.append('name', formData.name);
-      formDataToSend.append('category', formData.category);
-      formDataToSend.append('labourPrice', formData.labourPrice);
-      formDataToSend.append('detailsPrices', JSON.stringify(formData.detailsPrices));
-      formDataToSend.append('components', JSON.stringify(formData.components));
-      if (formData.image instanceof File) {
-        formDataToSend.append('image', formData.image);
-      }
-
+      const formDataToSend = createFormData(formData);
       await ProductsApi.get().update(productId, formDataToSend);
       navigate("/private/products/all");
     } catch (error) {
@@ -246,10 +249,7 @@ export const useHandlers = () => {
     handleComponentSearch,
     loading,
     selectedDetail,
-    selectedComponent,
     detailPrices,
-    isPriceAdded,
-    handleAddPrice,
     handleDetailCountChange,
     handleComponentCountChange,
     handleRemovePrice,

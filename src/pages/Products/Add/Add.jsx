@@ -1,4 +1,6 @@
+import { redirect } from "react-router-dom";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
+import { INITIAL_FORM_STATE } from "../Form/constants";
 import ProductForm from "../Form/ProductForm";
 
 const Add = () => {
@@ -18,5 +20,19 @@ const Add = () => {
     </div>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader() {
+  try {
+    const formData = INITIAL_FORM_STATE;
+
+    return {
+      formData,
+      productId: undefined,
+    };
+  } catch {
+    return redirect("/");
+  }
+}
 
 export default Add;

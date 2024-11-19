@@ -32,7 +32,7 @@ const All = () => {
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
     productName: "",
-    productId: null,
+    detailId: null, // for the purposes of the modal
   });
 
   const fetchProducts = async () => {
@@ -42,8 +42,8 @@ const All = () => {
         page: search ? 1 : currentPage,
         pageSize: 10,
         category: category,
-        minPrice: Number(minPrice),
-        maxPrice: Number(maxPrice),
+        minPrice: minPrice ? Number(minPrice) : null,
+        maxPrice: maxPrice ? Number(maxPrice) : null,
         orderByNameAscending,
         search,
       };
@@ -222,24 +222,24 @@ const All = () => {
                         <td>
                           <div className="d-flex justify-content-center gap-2">
                             <button
-                              className="btn btn-primary btn-sm"
+                              className="btn btn-primary btn-sm px-3 py-2"
                               onClick={() => navigate(`/private/products/info/${product.id}`)}
                             >
                               Виж
                             </button>
                             <button
-                              className="btn btn-warning btn-sm"
+                              className="btn btn-warning btn-sm px-3 py-2"
                               onClick={() => navigate(`/private/products/update/${product.id}`)}
                             >
                               Обнови
                             </button>
                             <button
-                              className="btn btn-danger btn-sm"
+                              className="btn btn-danger btn-sm px-3 py-2"
                               onClick={() =>
                                 setDeleteModal({
                                   isOpen: true,
-                                  productName: product.name,
-                                  productId: product.id,
+                                  productName: product.name || '-',
+                                  detailId: product.id,
                                 })
                               }
                             >
