@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DetailsApi } from "../../../services/Detail/Api";
 import { getCategoryKeyByValue } from "../Form/constants";
-import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { useLoading } from "../../../context/LoadingContext";
 
 const PAGE_SIZE = 10;

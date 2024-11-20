@@ -15,7 +15,6 @@ export enum ProductCategory {
   ExplosionProof = 4,
   Disinfection = 5,
 }
-
 export const PRODUCT_CATEGORY_LABELS: Record<ProductCategory, string> = {
   [ProductCategory.Others]: "Други",
   [ProductCategory.LightningFixtures]: "Осветителни тела",
@@ -23,4 +22,11 @@ export const PRODUCT_CATEGORY_LABELS: Record<ProductCategory, string> = {
   [ProductCategory.ElectricalInstallationMaterials]: "Електроинсталационни материали",
   [ProductCategory.ExplosionProof]: "Взривозащитени изделия",
   [ProductCategory.Disinfection]: "Дезинфекционни системи",
+};
+
+export const getProductCategoryKeyByValue = (value: string) => {
+  const entry = Object.entries(PRODUCT_CATEGORY_LABELS).find(
+    ([_, label]) => label === value
+  );
+  return entry ? (entry[0] as unknown as ProductCategory) : undefined;
 };

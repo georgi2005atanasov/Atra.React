@@ -14,7 +14,7 @@ import {
 import AddButtonGA from "../../../components/Common/AddButtonGA";
 import DeleteModal from "../../../components/Common/DeleteModal";
 import ImageCell from "../../../components/Common/ImageCell";
-import { PRODUCT_CATEGORY_LABELS } from "../Form/constants";
+import { getProductCategoryKeyByValue, PRODUCT_CATEGORY_LABELS } from "../Form/constants";
 import { ProductsApi } from "../../../services/Product/Api";
 
 const All = () => {
@@ -41,7 +41,7 @@ const All = () => {
       const params = {
         page: search ? 1 : currentPage,
         pageSize: 10,
-        category: category,
+        category: getProductCategoryKeyByValue(category),
         minPrice: minPrice ? Number(minPrice) : null,
         maxPrice: maxPrice ? Number(maxPrice) : null,
         orderByNameAscending,
@@ -143,6 +143,7 @@ const All = () => {
                   type="number"
                   value={minPrice}
                   onChange={(e) => setMinPrice(e.target.value)}
+                  color="error"
                 />
               </div>
 
@@ -153,11 +154,12 @@ const All = () => {
                   type="number"
                   value={maxPrice}
                   onChange={(e) => setMaxPrice(e.target.value)}
+                  color="error"
                 />
               </div>
 
               <div className="col-md-2">
-                <FormControl fullWidth>
+                <FormControl fullWidth color="error">
                   <InputLabel>Подреждане</InputLabel>
                   <Select
                     value={orderByNameAscending}
@@ -216,7 +218,7 @@ const All = () => {
                         <td>{product.createdOn}</td>
                         <ImageCell
                           base64Image={product.image}
-                          modalImage={product.modalImage}
+                          modalImage={product.image}
                           name={product.name}
                         />
                         <td>

@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import { ProductsApi } from "../../../services/Product/Api";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
+import { base64ToFile } from "../../../utils/commonUtils";
+import { renderBase64Image } from "../../../utils/renderers";
 
 const Info = () => {
   const navigate = useNavigate();
@@ -166,7 +168,7 @@ const Info = () => {
           </div>
           <div className="card-body text-center">
             <img
-              src={product.image}
+              src={renderBase64Image(product.image)}
               alt={product.name}
               className="img-fluid"
               style={{ maxHeight: "300px" }}
