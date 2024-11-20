@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { Link, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { PRODUCT_CATEGORY_LABELS } from "../Form/constants";
 import {
   Button,
@@ -101,7 +101,14 @@ const Info = () => {
                     <tbody>
                       {product.detailsPrices.map((detail, index) => (
                         <tr key={index}>
-                          <td>{detail.detailName}</td>
+                          <td>
+                            <Link
+                              className="text-danger"
+                              to={`/private/details/info/${detail.detailId}`}
+                            >
+                              {detail.detailName}
+                            </Link>
+                          </td>
                           <td>{detail.unit}</td>
                           <td className="text-end">{detail.count}</td>
                           <td className="text-end">
@@ -139,7 +146,14 @@ const Info = () => {
                     <tbody>
                       {product.components.map((component, index) => (
                         <tr key={index}>
-                          <td>{component.name}</td>
+                          <td>
+                            <Link
+                              className="text-danger"
+                              to={`/private/components/info/${component.id}`}
+                            >
+                              {component.name}
+                            </Link>
+                          </td>
                           <td className="text-end">{component.count}</td>
                           <td className="text-end">
                             {component.labourPrice?.toFixed(2)} лв.

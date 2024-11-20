@@ -11,7 +11,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { Delete, Add } from "@mui/icons-material";
 import { renderBase64Image } from "../../../utils/renderers";
 import { PRODUCT_CATEGORY_LABELS } from "./constants";
 import { PRICE_UNIT_LABELS } from "../../Details/Form/constants";
@@ -40,6 +40,10 @@ const ProductForm = () => {
     handleImageUpload,
     handleUploadClick,
     handleRemoveImage,
+    selectedDetail,
+    detailPrices,
+    isPriceAdded,
+    handleAddPrice,
   } = useHandlers();
 
   return (
@@ -86,8 +90,7 @@ const ProductForm = () => {
           fullWidth
           label="Цена за труд (лв.)"
           color="error"
-          type="text"
-          inputMode="decimal"
+          type="number"
           value={formData.labourPrice ?? ""}
           onChange={(e) => {
             const value = e.target.value;
@@ -155,6 +158,51 @@ const ProductForm = () => {
           )}
         />
       </div>
+
+      {/* Available Prices Section for Details */}
+      {selectedDetail && (
+        <div className="col-12">
+          <Paper className="p-3 mt-2">
+            <Typography variant="h6" className="mb-3 d-flex">
+              Налични цени
+            </Typography>
+            <div className="row g-3">
+              {detailPrices &&
+                detailPrices.map((price, index) => {
+                  const isAdded = isPriceAdded(price);
+                  return (
+                    <div key={index} className="col-md-4">
+                      <Paper className="p-3">
+                        <div className="d-flex flex-column gap-2">
+                          <Typography variant="h6" color="error">
+                            {price.price} лв. / {price.unit}
+                          </Typography>
+                          {price.weight && (
+                            <Typography variant="body2" color="text.secondary">
+                              Тегло: {price.weight}г
+                            </Typography>
+                          )}
+                        </div>
+                        <Button
+                          variant="contained"
+                          color="error"
+                          startIcon={<Add />}
+                          onClick={() => handleAddPrice(price)}
+                          fullWidth
+                          className="mt-2"
+                          disabled={isAdded}
+                          sx={{ opacity: isAdded ? 0.5 : 1 }}
+                        >
+                          {isAdded ? "Вече е добавено" : "Добави цена"}
+                        </Button>
+                      </Paper>
+                    </div>
+                  );
+                })}
+            </div>
+          </Paper>
+        </div>
+      )}
 
       {/* Selected Details Section */}
       <div className="col-12">

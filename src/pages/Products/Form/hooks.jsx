@@ -10,8 +10,11 @@ export const useHandlers = () => {
   const navigate = useNavigate();
   const { setLoading } = useLoading();
   const fileInputRef = useRef(null);
-  const { formData: passedFormData, productId } = useLoaderData();
+  const { formData: passedFormData, productId, category } = useLoaderData();
   const [formData, setFormData] = useState(passedFormData);
+
+  if (category !== undefined)
+    formData.category = category;
 
   // Search and selection states
   const [detailOptions, setDetailOptions] = useState([]);
@@ -25,23 +28,36 @@ export const useHandlers = () => {
     formDataToSend.append("name", data.name);
     formDataToSend.append("category", data.category);
     formDataToSend.append("labourPrice", data.labourPrice || 0);
-    formDataToSend.append("detailsPrices", JSON.stringify(data.detailsPrices.map(x => ({
-      priceId: x.priceId,
-      count: x.count,
-    }))) || []);
-    formDataToSend.append("components", JSON.stringify(data.components.map(x => ({
-      priceId: x.id,
-      count: x.count,
-    })) || []));
-    
+    formDataToSend.append(
+      "detailsPrices",
+      JSON.stringify(
+        data.detailsPrices.map((x) => ({
+          priceId: x.priceId,
+          count: x.count,
+        }))
+      ) || []
+    );
+    formDataToSend.append(
+      "components",
+      JSON.stringify(
+        data.components.map((x) => ({
+          priceId: x.id,
+          count: x.count,
+        })) || []
+      )
+    );
+
     if (formData.image) {
       if (typeof formData.image === "string") {
-        formDataToSend.append("image", base64ToFile(formData.image, "DEFAULT_IMAGE.png"));
+        formDataToSend.append(
+          "image",
+          base64ToFile(formData.image, "DEFAULT_IMAGE.png")
+        );
       } else {
         formDataToSend.append("image", formData.image);
       }
     }
-    
+
     return formDataToSend;
   };
 
@@ -50,7 +66,7 @@ export const useHandlers = () => {
       setDetailOptions([]);
       return;
     }
-    
+
     try {
       setSearchLoading(true);
       const response = await DetailsApi.get().allEssentials({
@@ -98,27 +114,6 @@ export const useHandlers = () => {
       setSearchLoading(true);
       const response = await DetailsApi.get().getById(detail.id);
       const detailData = response.data.detail;
-      
-      if (detailData.prices && detailData.prices.length > 0) {
-        // Add the first price by default
-        const firstPrice = detailData.prices[0];
-        const newPrice = {
-          detailName: detailData.name,
-          detailId: detailData.id,
-          priceId: firstPrice.id,
-          unit: firstPrice.unit,
-          price: firstPrice.price,
-          weight: firstPrice.weight,
-          count: 1,
-          image: detailData.image,
-        };
-
-        setFormData((prev) => ({
-          ...prev,
-          detailsPrices: [...(prev.detailsPrices || []), newPrice],
-        }));
-      }
-
       setSelectedDetail(detailData);
       setDetailPrices(detailData.prices);
     } catch (error) {
@@ -126,6 +121,33 @@ export const useHandlers = () => {
     } finally {
       setSearchLoading(false);
     }
+  };
+
+  const handleAddPrice = (price) => {
+    if (!selectedDetail) return;
+
+    const newDetailPrice = {
+      detailId: selectedDetail.id,
+      detailName: selectedDetail.name,
+      priceId: price.id,
+      price: price.price,
+      unit: price.unit,
+      weight: price.weight,
+      count: 1,
+      image: selectedDetail.image,
+    };
+
+    setFormData((prev) => ({
+      ...prev,
+      detailsPrices: [...(prev.detailsPrices || []), newDetailPrice],
+    }));
+  };
+
+  const isPriceAdded = (price) => {
+    return formData.detailsPrices?.some(
+      (detail) =>
+        detail.priceId === price.id && detail.detailId === selectedDetail?.id
+    );
   };
 
   const handleComponentSelect = (component) => {
@@ -152,11 +174,11 @@ export const useHandlers = () => {
       const newDetailsPrices = [...prev.detailsPrices];
       newDetailsPrices[index] = {
         ...newDetailsPrices[index],
-        count: value === "" ? "" : Number(value)
+        count: value === "" ? "" : Number(value),
       };
       return {
         ...prev,
-        detailsPrices: newDetailsPrices
+        detailsPrices: newDetailsPrices,
       };
     });
   };
@@ -166,11 +188,11 @@ export const useHandlers = () => {
       const newComponents = [...prev.components];
       newComponents[index] = {
         ...newComponents[index],
-        count: value === "" ? "" : Number(value)
+        count: value === "" ? "" : Number(value),
       };
       return {
         ...prev,
-        components: newComponents
+        components: newComponents,
       };
     });
   };
@@ -258,5 +280,7 @@ export const useHandlers = () => {
     handleImageUpload,
     handleUploadClick,
     handleRemoveImage,
+    isPriceAdded,
+    handleAddPrice,
   };
 };

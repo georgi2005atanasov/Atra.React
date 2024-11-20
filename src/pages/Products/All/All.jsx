@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { useLoading } from "../../../context/LoadingContext";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
 import NavigationGA from "../../../components/Common/NavigationGA";
@@ -14,17 +14,21 @@ import {
 import AddButtonGA from "../../../components/Common/AddButtonGA";
 import DeleteModal from "../../../components/Common/DeleteModal";
 import ImageCell from "../../../components/Common/ImageCell";
-import { getProductCategoryKeyByValue, PRODUCT_CATEGORY_LABELS } from "../Form/constants";
+import {
+  getProductCategoryKeyByValue,
+  PRODUCT_CATEGORY_LABELS,
+} from "../Form/constants";
 import { ProductsApi } from "../../../services/Product/Api";
 
 const All = () => {
   const navigate = useNavigate();
+  const { category: passedCategory } = useLoaderData();
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const { setLoading } = useLoading(true);
   const [error, setError] = useState(null);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(passedCategory || "");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [orderByNameAscending, setOrderByNameAscending] = useState(false);
@@ -41,7 +45,7 @@ const All = () => {
       const params = {
         page: search ? 1 : currentPage,
         pageSize: 10,
-        category: getProductCategoryKeyByValue(category),
+        category: typeof category === 'string' ? getProductCategoryKeyByValue(category) : category,
         minPrice: minPrice ? Number(minPrice) : null,
         maxPrice: maxPrice ? Number(maxPrice) : null,
         orderByNameAscending,
@@ -123,7 +127,7 @@ const All = () => {
                 <FormControl fullWidth color="error">
                   <InputLabel>Категория</InputLabel>
                   <Select
-                    value={category}
+                    value={typeof category === 'string' ? category : PRODUCT_CATEGORY_LABELS[category]}
                     label="Категория"
                     onChange={(e) => setCategory(e.target.value)}
                   >
@@ -225,13 +229,19 @@ const All = () => {
                           <div className="d-flex justify-content-center gap-2">
                             <button
                               className="btn btn-primary btn-sm px-3 py-2"
-                              onClick={() => navigate(`/private/products/info/${product.id}`)}
+                              onClick={() =>
+                                navigate(`/private/products/info/${product.id}`)
+                              }
                             >
                               Виж
                             </button>
                             <button
                               className="btn btn-warning btn-sm px-3 py-2"
-                              onClick={() => navigate(`/private/products/update/${product.id}`)}
+                              onClick={() =>
+                                navigate(
+                                  `/private/products/update/${product.id}`
+                                )
+                              }
                             >
                               Обнови
                             </button>
@@ -240,7 +250,7 @@ const All = () => {
                               onClick={() =>
                                 setDeleteModal({
                                   isOpen: true,
-                                  productName: product.name || '-',
+                                  productName: product.name || "-",
                                   detailId: product.id,
                                 })
                               }
@@ -258,7 +268,9 @@ const All = () => {
 
             <nav className="mt-4">
               <ul className="pagination justify-content-center">
-                <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                <li
+                  className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                >
                   <button
                     className="page-link border-danger text-danger"
                     onClick={() => handlePageChange(currentPage - 1)}
@@ -309,5 +321,19 @@ const All = () => {
     </>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export async function loader({ request }) {
+  try {
+    const url = new URL(request.url);
+    const category = url.searchParams.get("category");
+
+    return {
+      category: category && parseInt(getProductCategoryKeyByValue(category)),
+    };
+  } catch {
+    return redirect("/");
+  }
+}
 
 export default All;

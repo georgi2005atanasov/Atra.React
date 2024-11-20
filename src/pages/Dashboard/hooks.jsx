@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Category } from "../Details/Form/constants";
+import { PRODUCT_CATEGORY_LABELS } from "../Products/Form/constants";
 
 export const useHandlers = () => {
   const [menuAnchors, setMenuAnchors] = useState({
@@ -84,33 +85,38 @@ export const useHandlers = () => {
       basePath: "/private/products/",
       options: [
         {
-          allPath: "all",
+          allPath: `all`,
           addPath: "add",
           label: "Всички",
         },
         {
-          allPath: "all?category=lighting",
-          addPath: "add?category=lighting",
+          allPath: `all?category=${PRODUCT_CATEGORY_LABELS[0]}`,
+          addPath: `add?category=${PRODUCT_CATEGORY_LABELS[0]}`,
+          label: "Други",
+        },
+        {
+          allPath: `all?category=${PRODUCT_CATEGORY_LABELS[1]}`,
+          addPath: `add?category=${PRODUCT_CATEGORY_LABELS[1]}`,
           label: "Осветителни тела",
         },
         {
-          allPath: "all?category=led",
-          addPath: "add?category=led",
+          allPath: `all?category=${PRODUCT_CATEGORY_LABELS[2]}`,
+          addPath: `add?category=${PRODUCT_CATEGORY_LABELS[2]}`,
           label: "Професионални LED осветителни тела",
         },
         {
-          allPath: "all?category=electrical",
-          addPath: "add?category=electrical",
+          allPath: `all?category=${PRODUCT_CATEGORY_LABELS[3]}`,
+          addPath: `add?category=${PRODUCT_CATEGORY_LABELS[3]}`,
           label: "Електроинсталационни материали",
         },
         {
-          allPath: "all?category=explosion-proof",
-          addPath: "add?category=explosion-proof",
+          allPath: `all?category=${PRODUCT_CATEGORY_LABELS[4]}`,
+          addPath: `add?category=${PRODUCT_CATEGORY_LABELS[4]}`,
           label: "Взривозащитени изделия",
         },
         {
-          allPath: "all?category=disinfection",
-          addPath: "add?category=disinfection",
+          allPath: `all?category=${PRODUCT_CATEGORY_LABELS[5]}`,
+          addPath: `add?category=${PRODUCT_CATEGORY_LABELS[5]}`,
           label: "Дезинфекционни системи",
         },
       ],

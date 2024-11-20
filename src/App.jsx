@@ -40,7 +40,9 @@ import UpdateComponent, {
 import ComponentInfo, {
   loader as componentInfoLoader
 } from "./pages/Components/Info/Info.jsx";
-import AllProducts from "./pages/Products/All/All.jsx";
+import AllProducts, {
+  loader as allProductsLoader
+} from "./pages/Products/All/All.jsx";
 import ProductInfo, {
   loader as productInfoLoader
 } from "./pages/Products/Info/Info.jsx";
@@ -136,6 +138,7 @@ const router = createBrowserRouter([
       {
         path: "products/all",
         element: <AllProducts />,
+        loader: allProductsLoader,
       },
     ],
   },

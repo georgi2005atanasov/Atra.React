@@ -1,7 +1,8 @@
 import { redirect } from "react-router-dom";
 import BackButtonGA from "../../../components/Common/BackButtonGA";
-import { INITIAL_FORM_STATE } from "../Form/constants";
+import { getProductCategoryKeyByValue, INITIAL_FORM_STATE } from "../Form/constants";
 import ProductForm from "../Form/ProductForm";
+import { getCategoryKeyByValue } from "../../Details/Form/constants";
 
 const Add = () => {
   return (
@@ -22,13 +23,16 @@ const Add = () => {
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
-export async function loader() {
+export async function loader({request}) {
   try {
+    const url = new URL(request.url);
     const formData = INITIAL_FORM_STATE;
+    const category = url.searchParams.get("category");
 
     return {
       formData,
       productId: undefined,
+      category: getProductCategoryKeyByValue(category),
     };
   } catch {
     return redirect("/");
