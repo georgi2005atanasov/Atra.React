@@ -25,32 +25,32 @@ import AddDetail, {
   loader as detailFormLoader,
 } from "./pages/Details/Add/Add.jsx";
 import DetailInfo, {
-  loader as detailInfoLoader
+  loader as detailInfoLoader,
 } from "./pages/Details/Info/Info.jsx";
 import UpdateDetail, {
-  loader as detailUpdateLoader
+  loader as detailUpdateLoader,
 } from "./pages/Details/Update/Update.jsx";
 import AddComponent, {
-  loader as addComponentLoader
+  loader as addComponentLoader,
 } from "./pages/Components/Add/Add.jsx";
 import AllComponents from "./pages/Components/All/All.jsx";
 import UpdateComponent, {
-  loader as updateComponentLoader
+  loader as updateComponentLoader,
 } from "./pages/Components/Update/Update.jsx";
 import ComponentInfo, {
-  loader as componentInfoLoader
+  loader as componentInfoLoader,
 } from "./pages/Components/Info/Info.jsx";
 import AllProducts, {
-  loader as allProductsLoader
+  loader as allProductsLoader,
 } from "./pages/Products/All/All.jsx";
 import ProductInfo, {
-  loader as productInfoLoader
+  loader as productInfoLoader,
 } from "./pages/Products/Info/Info.jsx";
 import AddProduct, {
-  loader as addProductLoader
+  loader as addProductLoader,
 } from "./pages/Products/Add/Add.jsx";
 import UpdateProduct, {
-  loader as updateProductLoader
+  loader as updateProductLoader,
 } from "./pages/Products/Update/Update.jsx";
 
 const router = createBrowserRouter([
@@ -73,7 +73,11 @@ const router = createBrowserRouter([
     path: "/private",
     element: <PrivateRoot />,
     children: [
-      { path: "dashboard", element: <Dashboard /> },
+      {
+        path: "dashboard",
+        element: <AllProducts />,
+        loader: allProductsLoader,
+      },
       {
         path: "details/add",
         element: <AddDetail />,

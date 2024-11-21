@@ -74,6 +74,18 @@ const Info = () => {
                     <th className="bg-light">Създаден на:</th>
                     <td>{product.createdOn}</td>
                   </tr>
+                  <tr>
+                    <th className="bg-light">Създаден от:</th>
+                    <td>{product.createdBy}</td>
+                  </tr>
+                  <tr>
+                    <th className="bg-light">Променен на:</th>
+                    <td>{product.modifiedOn}</td>
+                  </tr>
+                  <tr>
+                    <th className="bg-light">Променен от:</th>
+                    <td>{product.modifiedBy}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
