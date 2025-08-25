@@ -25,7 +25,7 @@ A key feature is **automatic price updates**: when material or component prices 
 ---
 
 ## ⚙️ Tech Stack
-- **Frontend:** React + Hooks  
+- **Frontend:** React  
 - **Backend:** [ASP.NET Core + EF Core](https://gitlab.com/g.v.atanasov.05/atra.app)  
 - **Database:** SQL Server  
 
